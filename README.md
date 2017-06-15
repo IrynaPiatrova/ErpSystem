@@ -1,1 +1,2 @@
-# ErpSystem
+# Thesis project 
+name: ErpSystem 
