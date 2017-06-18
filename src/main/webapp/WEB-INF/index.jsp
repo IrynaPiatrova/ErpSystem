@@ -32,15 +32,17 @@
 <br>
 <div class="login">
     <form class="form-inline" action="test" method="post">
+        <span style="float: right">
+             <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="10%" height="10%"></a>
+            <a href="?lang=ru"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg==" width="10%" height="10%"></a>
+        </span>
+        <br><br>
         <input type="text" placeholder="username" name="user"><br>
         <input type="password" placeholder="password" name="password"><br>
-<%--<spring:message code="label.registration"/>--%>
-        <input type="button" value="GO">
-        <span style="float: right">
-    <a href="?lang=en">en</a>
-    |
-    <a href="?lang=de">ru</a>
-</span>
+        <spring:message code="label.registration" var="labelRegistration" />
+        <input type="button" value="${labelRegistration}"/>
+
+
     </form>
 </div>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>

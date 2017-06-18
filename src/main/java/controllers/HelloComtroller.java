@@ -1,23 +1,19 @@
 package controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by John on 16.06.2017.
  */
 @Controller
 public class HelloComtroller {
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping ("/h")
     public String indexPage(){
         return "index";
     }
 
-    @RequestMapping(value = "/hello", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/hello", method = RequestMethod.POST)
     public String getIndexPage(){
 
         return "redirect:/";
@@ -40,6 +36,6 @@ public class HelloComtroller {
         int arg2 = Integer.valueOf(request.getParameter("arg2"));
         model.addAttribute("sum", arg1 + arg2);
         return "index";
-    }
+    }*/
 
 }
