@@ -25,7 +25,7 @@ public class HelloComtroller {
     }
 
 
-
+//test
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String getTestGETPage(){
         return "index";
