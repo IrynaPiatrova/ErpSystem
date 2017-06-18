@@ -12,6 +12,7 @@ public class HelloComtroller {
     public String indexPage(){
         return "index";
     }
+    //test
 
     /*@RequestMapping(value = "/hello", method = RequestMethod.POST)
     public String getIndexPage(){
