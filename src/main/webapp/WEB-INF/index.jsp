@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -15,6 +16,7 @@
     <link rel="shortcut icon" href="http://rylik.ru/uploads/posts/2010-08/1282727228_4.jpg" type="image/x-icon">
     <link rel="stylesheet" href="css/style_for_icon.css" media="screen" type="text/css"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
     <style>
         <%@include file='css/style_for_authorization.css' %>
     </style>
@@ -31,19 +33,24 @@
 </div>
 <br>
 <div class="login">
-    <form class="form-inline" action="test" method="post">
-        <span style="float: right">
-             <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="10%" height="10%"></a>
-            <a href="?lang=ru"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg==" width="10%" height="10%"></a>
+    <span style="float: right">
+             <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="10%"
+                                     height="10%"></a>
+            <a href="?lang=ru"><img
+                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
+                    width="10%" height="10%"></a>
         </span>
+    <br><br>
+    <form:form class="form-inline" action="authorization" method="post" modelAttribute="logPass">
+
+        <form:input type="text" path="login"/>
+        <form:input type="password" path="pussword"/>
+        <%--<input type="text" placeholder="username" name="username"><br>
+        <input type="password" placeholder="password" name="password"><br>--%>
+        <spring:message code="label.authorization" var="labelAuthorization"/>
         <br><br>
-        <input type="text" placeholder="username" name="user"><br>
-        <input type="password" placeholder="password" name="password"><br>
-        <spring:message code="label.registration" var="labelRegistration" />
-        <input type="button" value="${labelRegistration}"/>
-
-
-    </form>
+        <input type="submit" value="${labelAuthorization}"/>
+    </form:form>
 </div>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 </body>

@@ -1,42 +1,36 @@
 package controllers;
 
+import entity.LoginPassword;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Created by John on 16.06.2017.
  */
 @Controller
 public class HelloComtroller {
-    @RequestMapping ("/h")
-    public String indexPage(){
+
+    /**
+     * return start page 'index.jsp'
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = {"", "/", "/welcome"}, method = RequestMethod.GET)
+    public String indexPage(Model model) {
+        model.addAttribute("logPass", new LoginPassword());
         return "index";
     }
-    //test
 
-    /*@RequestMapping(value = "/hello", method = RequestMethod.POST)
-    public String getIndexPage(){
-
-        return "redirect:/";
+    @RequestMapping(value = "/authorization", method = RequestMethod.POST)
+    public String checkUserAuthorization(@ModelAttribute ("logPass") LoginPassword lp,Model model) {
+        /*, @RequestParam("username") String username,
+        @RequestParam("password") String password,*/
+        if((lp.getLogin() == null || lp.getPussword() == null)){
+            return "redirect:/welcome";
+        }
+        return "next";
     }
-    @RequestMapping(value = "/helloPost", method = RequestMethod.GET)
-    public String getIndexPost(){
-
-        return "redirect:/";
-    }
-
-
-//test
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String getTestGETPage(){
-        return "index";
-    }
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String getTestPage(HttpServletRequest request, Model model){
-        int arg1 = Integer.valueOf(request.getParameter("arg1"));
-        int arg2 = Integer.valueOf(request.getParameter("arg2"));
-        model.addAttribute("sum", arg1 + arg2);
-        return "index";
-    }*/
-
 }
