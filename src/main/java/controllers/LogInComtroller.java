@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by John on 16.06.2017.
  */
 @Controller
-public class HelloComtroller {
+public class LogInComtroller {
 
     /**
      * return start page 'index.jsp'
