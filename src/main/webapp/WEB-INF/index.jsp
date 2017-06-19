@@ -41,12 +41,9 @@
                     width="10%" height="10%"></a>
         </span>
     <br><br>
-    <form:form class="form-inline" action="authorization" method="post" modelAttribute="logPass">
-
-        <form:input type="text" path="login"/>
-        <form:input type="password" path="pussword"/>
-        <%--<input type="text" placeholder="username" name="username"><br>
-        <input type="password" placeholder="password" name="password"><br>--%>
+    <form:form class="form-inline" action="welcome" method="post" modelAttribute="logPass">
+        <form:input type="text" placeholder="username" autocomplete="off" path="login"/>
+        <form:input type="password" placeholder="password" autocomplete="off" path="pussword"/>
         <spring:message code="label.authorization" var="labelAuthorization"/>
         <br><br>
         <input type="submit" value="${labelAuthorization}"/>

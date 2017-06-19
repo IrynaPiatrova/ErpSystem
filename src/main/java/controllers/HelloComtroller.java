@@ -24,12 +24,12 @@ public class HelloComtroller {
         return "index";
     }
 
-    @RequestMapping(value = "/authorization", method = RequestMethod.POST)
+    @RequestMapping(value = "/welcome", method = RequestMethod.POST)
     public String checkUserAuthorization(@ModelAttribute ("logPass") LoginPassword lp,Model model) {
         /*, @RequestParam("username") String username,
         @RequestParam("password") String password,*/
-        if((lp.getLogin() == null || lp.getPussword() == null)){
-            return "redirect:/welcome";
+        if((lp.getLogin().equals("")|| lp.getPussword().equals(""))){
+            return "redirect:/";
         }
         return "next";
     }
