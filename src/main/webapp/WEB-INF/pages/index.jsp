@@ -14,11 +14,10 @@
     <title>Main Page</title>
     <link rel="icon" href="http://rylik.ru/uploads/posts/2010-08/1282727228_4.jpg" type="image/x-icon">
     <link rel="shortcut icon" href="http://rylik.ru/uploads/posts/2010-08/1282727228_4.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="css/style_for_icon.css" media="screen" type="text/css"/>
+    <link rel="stylesheet" href="../css/style_for_icon.css" media="screen" type="text/css"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-
     <style>
-        <%@include file='css/style_for_authorization.css' %>
+        <%@include file='../css/style_for_authorization.css' %>
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
@@ -44,10 +43,10 @@
     <form:form class="form-inline" action="welcome" method="post" modelAttribute="logPass">
         <spring:message code="username" var="username"/>
         <form:input type="text" placeholder="${username}" autocomplete="off" path="login"/>
-        <form:errors path="login"/>
+        <div><form:errors path="login" style="color:red"/></div>
         <spring:message code="password" var="password"/>
-        <form:input type="password" placeholder="${password}" autocomplete="off" path="pussword"/>
-        <form:errors path="pussword"/>
+        <form:input type="password" placeholder="${password}" path="password"/>
+        <div><form:errors path="password" style="color:red"/></div>
         <spring:message code="label.authorization" var="labelAuthorization"/>
         <br><br>
         <input type="submit" value="${labelAuthorization}"/>
