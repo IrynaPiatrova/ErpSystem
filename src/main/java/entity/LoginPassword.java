@@ -1,10 +1,15 @@
 package entity;
 
+
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Created by John on 16.06.2017.
  */
 public class LoginPassword {
+    @NotBlank(message = "NotBlank login")
     private String login;
+    @NotBlank(message = "NotBlank pussword")
     private String pussword;
 
     public LoginPassword() {

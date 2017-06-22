@@ -39,16 +39,19 @@
             <a href="?lang=ru"><img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
                     width="10%" height="10%"></a>
-        </span>
+    </span>
     <br><br>
     <form:form class="form-inline" action="welcome" method="post" modelAttribute="logPass">
-        <form:input type="text" placeholder="username" autocomplete="off" path="login"/>
-        <form:input type="password" placeholder="password" autocomplete="off" path="pussword"/>
+        <spring:message code="username" var="username"/>
+        <form:input type="text" placeholder="${username}" autocomplete="off" path="login"/>
+        <form:errors path="login"/>
+        <spring:message code="password" var="password"/>
+        <form:input type="password" placeholder="${password}" autocomplete="off" path="pussword"/>
+        <form:errors path="pussword"/>
         <spring:message code="label.authorization" var="labelAuthorization"/>
         <br><br>
         <input type="submit" value="${labelAuthorization}"/>
     </form:form>
 </div>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 </body>
 </html>
