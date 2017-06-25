@@ -1,5 +1,6 @@
-package com.erp.system.dao.worker;
+package com.erp.system.dao.worker.impl;
 
+import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.entity.Worker;
 import org.springframework.stereotype.Repository;
 

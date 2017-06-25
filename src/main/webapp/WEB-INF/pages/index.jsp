@@ -12,10 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Main Page</title>
-    <link rel="icon" href="http://rylik.ru/uploads/posts/2010-08/1282727228_4.jpg" type="image/x-icon">
-    <link rel="shortcut icon" href="http://rylik.ru/uploads/posts/2010-08/1282727228_4.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="../css/style_for_icon.css" media="screen" type="text/css"/>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <%@include file="head.jsp" %>
     <style>
         <%@include file='../css/style_for_authorization.css' %>
     </style>

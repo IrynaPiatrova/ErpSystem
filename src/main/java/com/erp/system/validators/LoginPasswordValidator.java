@@ -12,8 +12,6 @@ import org.springframework.validation.Validator;
 @Component
 public class LoginPasswordValidator implements Validator {
     private static final String ADMIN = "admin";
-    /*@Autowired
-    LoginPassword loginPassword;*/
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -21,15 +19,15 @@ public class LoginPasswordValidator implements Validator {
     }
 
     @Override
-    public void validate(Object o, Errors errors) {
+    public void validate(Object object, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "empty.login", "Please enter your login");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password", "Please enter your password");
-
+        LoginPassword loginPassword = (LoginPassword) object;
         //пока не работает проверка на admin
-        /*boolean isAdminLogin = loginPassword.getLogin().equals(ADMIN);
+        boolean isAdminLogin = loginPassword.getLogin().equals(ADMIN);
         boolean isAdminPassword = loginPassword.getPassword().equals(ADMIN);
         if (!isAdminLogin && !isAdminPassword) {
             errors.rejectValue("password", "err.login.password", "Please enter your password");
-        }*/
+        }
     }
 }
