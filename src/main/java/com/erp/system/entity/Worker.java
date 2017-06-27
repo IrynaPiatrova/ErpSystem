@@ -9,7 +9,7 @@ import java.util.List;
  */
 @Entity()
 @Table(name = "workers")
-public class Worker implements Serializable{
+public class Worker implements Serializable {
     @Id
     @Column(name = "id_worker")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,54 +37,76 @@ public class Worker implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idWorker")
     private List<TimeVocation> workerTimeVocation;
 
-    public Worker(){
+    public Worker() {
+    }
+
+    public Worker(String nameWorker, String login, String password, Profile idProfile) {
+        this.nameWorker = nameWorker;
+        this.login = login;
+        this.password = password;
+        this.idProfile = idProfile;
     }
 
     public long getIdWorker() {
         return idWorker;
     }
+
     public void setIdWorker(int idWorker) {
         this.idWorker = idWorker;
     }
+
     public String getNameWorker() {
         return nameWorker;
     }
+
     public void setNameWorker(String nameWorker) {
         this.nameWorker = nameWorker;
     }
+
     public String getLogin() {
         return login;
     }
+
     public void setLogin(String login) {
         this.login = login;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public void setIdProfile(Profile idProfile) {
         this.idProfile = idProfile;
     }
+
     public Profile getIdProfile() {
         return idProfile;
     }
+
     public List<ProjectTicket> getWorkerProjectTickets() {
         return workerProjectTickets;
     }
+
     public void setWorkerProjectTickets(List<ProjectTicket> workerProjectTickets) {
         this.workerProjectTickets = workerProjectTickets;
     }
+
     public List<CommentsTicket> getWorkerCommentsTickets() {
         return workerCommentsTickets;
     }
+
     public void setWorkerCommentsTickets(List<CommentsTicket> workerCommentsTickets) {
         this.workerCommentsTickets = workerCommentsTickets;
     }
+
     public List<TimeVocation> getWorkerTimeVocation() {
         return workerTimeVocation;
     }
+
     public void setWorkerTimeVocation(List<TimeVocation> workerTimeVocation) {
         this.workerTimeVocation = workerTimeVocation;
     }

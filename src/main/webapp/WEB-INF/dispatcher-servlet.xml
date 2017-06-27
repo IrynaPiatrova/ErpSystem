@@ -2,11 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 
 <mvc:annotation-driven>
@@ -60,6 +60,18 @@
         <property name="username" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
     </bean>
+
+    <!-- Фабрика, которая будет строить Hibernate-сессии -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!-- бины снизу как бы ссылаются на конфигурационный файл hibernate-cfg, настройки которого описаны в dataSource
+        поэтому у нас hibernate.cfg.xml не используется   -->
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.erp.system.entity"/>
+        <property name="hibernateProperties">
+            <props><prop key="hibernate.enable_lazy_load_no_trans">true</prop></props>
+        </property>
+    </bean>
+
     <!--&lt;!&ndash;Менеджер сущностей&ndash;&gt;-->
     <!--<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
         <!--<property name="dataSource" ref="dataSource" />-->
@@ -75,6 +87,6 @@
 
     <!--<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />-->
 
-    <!--<bean id="workerDaoImpl" class="com.erp.system.dao.worker.WorkerDaoImpl"/>-->
+    <bean id="workerDaoImple" class="com.erp.system.dao.worker.impl.WorkerDaoImpl"/>
 
 </beans>
