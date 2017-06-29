@@ -2,11 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
-       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 
 <mvc:annotation-driven>
@@ -54,6 +54,7 @@
         <property name="location" value="classpath:jdbc.properties"/>
     </bean>
 
+    <!-- Определение источника данных - мост между СУБД и Hibernate.-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driverClassName}"/>
         <property name="url" value="${jdbc.url}"/>
@@ -72,6 +73,13 @@
         </property>
     </bean>
 
+    <!-- СЛЕДУЮЩАЯ секция для того, чтобы работал механизм транзакций с использованием @Transactional  -->
+    <!--  tx:annotation-driven включает механизм управления транзакциями через аннотации -->
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+    <!-- Менеджер транзакций-->
+    <bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     <!--&lt;!&ndash;Менеджер сущностей&ndash;&gt;-->
     <!--<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">-->
         <!--<property name="dataSource" ref="dataSource" />-->
@@ -88,5 +96,6 @@
     <!--<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />-->
 
     <bean id="workerDaoImple" class="com.erp.system.dao.worker.impl.WorkerDaoImpl"/>
+    <bean id="profDaoImpl" class="com.erp.system.dao.profile.impl.ProfileDaoImpl" />
 
 </beans>

@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * Created by John on 16.06.2017.
  */
 @Controller
-public class LogInComtroller {
+public class LogInController {
     @Autowired
     LoginPasswordValidator lpValidator;
 

@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Entity()
 @Table(name = "project_tickets")
-public class ProjectTicket implements Serializable{
+public class ProjectTicket implements Serializable {
     @Id
     @Column(name = "id_project_ticket")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,54 +44,71 @@ public class ProjectTicket implements Serializable{
     public long getIdProjectTicket() {
         return idProjectTicket;
     }
+
     public void setIdProjectTicket(long idProjectTicket) {
         this.idProjectTicket = idProjectTicket;
     }
+
     public String getNameProjectTicket() {
         return nameProjectTicket;
     }
+
     public void setNameProjectTicket(String nameProjectTicket) {
         this.nameProjectTicket = nameProjectTicket;
     }
+
     public String getSpecification() {
         return specification;
     }
+
     public void setSpecification(String specification) {
         this.specification = specification;
     }
+
     public String getStatusProjectTicket() {
         return statusProjectTicket;
     }
+
     public void setStatusProjectTicket(String statusProjectTicket) {
         this.statusProjectTicket = statusProjectTicket;
     }
+
     public Date getStartTicketDate() {
         return startTicketDate;
     }
+
     public void setStartTicketDate(Date startTicketDate) {
         this.startTicketDate = startTicketDate;
     }
+
     public Date getEndTicketDate() {
         return endTicketDate;
     }
+
     public void setEndTicketDate(Date endTicketDate) {
         this.endTicketDate = endTicketDate;
     }
+
     public Date getDeadlineTicket() {
         return deadlineTicket;
     }
+
     public void setDeadlineTicket(Date deadlineTicket) {
         this.deadlineTicket = deadlineTicket;
     }
+
     public Worker getIdWorker() {
         return idWorker;
     }
+
     public void setIdWorker(Worker idWorker) {
         this.idWorker = idWorker;
     }
+
     public List<CommentsTicket> getProjectCommentTickets() {
         return projectCommentTickets;
     }
+
     public void setProjectCommentTickets(List<CommentsTicket> projectCommentTickets) {
         this.projectCommentTickets = projectCommentTickets;
     }

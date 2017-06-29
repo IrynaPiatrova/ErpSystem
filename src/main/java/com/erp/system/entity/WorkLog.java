@@ -32,30 +32,39 @@ public class WorkLog implements Serializable {
     public long getIdWorkLog() {
         return idWorkLog;
     }
+
     public void setIdWorkLog(long idWorkLog) {
         this.idWorkLog = idWorkLog;
     }
+
     public ProjectTicket getIdProjectTicket() {
         return idProjectTicket;
     }
+
     public void setIdProjectTicket(ProjectTicket idProjectTicket) {
         this.idProjectTicket = idProjectTicket;
     }
+
     public Worker getIdWorker() {
         return idWorker;
     }
+
     public void setIdWorker(Worker idWorker) {
         this.idWorker = idWorker;
     }
+
     public Date getStartLogDate() {
         return startLogDate;
     }
+
     public void setStartLogDate(Date startLogDate) {
         this.startLogDate = startLogDate;
     }
+
     public String getSpentTime() {
         return spentTime;
     }
+
     public void setSpentTime(String spentTime) {
         this.spentTime = spentTime;
     }

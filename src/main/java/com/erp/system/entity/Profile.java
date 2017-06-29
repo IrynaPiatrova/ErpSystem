@@ -36,7 +36,7 @@ public class Profile implements Serializable {
     @Column(name = "photo")
     private byte[] photo;
 
-    @OneToOne(mappedBy = "idProfile")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProfile")
     private Worker worker;
 
     public Profile() {

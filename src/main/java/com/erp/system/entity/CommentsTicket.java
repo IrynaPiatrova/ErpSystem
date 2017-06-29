@@ -32,30 +32,39 @@ public class CommentsTicket implements Serializable {
     public long getIdCommentTicket() {
         return idCommentTicket;
     }
+
     public void setIdCommentTicket(long idCommentTicket) {
         this.idCommentTicket = idCommentTicket;
     }
+
     public ProjectTicket getIdProjectTicket() {
         return idProjectTicket;
     }
+
     public void setIdProjectTicket(ProjectTicket idProjectTicket) {
         this.idProjectTicket = idProjectTicket;
     }
+
     public Worker getIdWorker() {
         return idWorker;
     }
+
     public void setIdWorker(Worker idWorker) {
         this.idWorker = idWorker;
     }
+
     public String getComment() {
         return comment;
     }
+
     public void setComment(String comment) {
         this.comment = comment;
     }
+
     public Date getCommentDate() {
         return commentDate;
     }
+
     public void setCommentDate(Date commentDate) {
         this.commentDate = commentDate;
     }

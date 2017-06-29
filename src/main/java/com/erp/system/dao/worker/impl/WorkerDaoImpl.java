@@ -16,36 +16,87 @@ import java.util.List;
  */
 @Repository(/*"workerDaoImpl"*/)// дополнительно говорит, что транзакции должны быть
 @Transactional
-public class WorkerDaoImpl implements WorkerDao<Worker> {
+public class WorkerDaoImpl implements WorkerDao {
 
     protected static final Logger LOGGER = Logger.getLogger(WorkerDaoImpl.class);
 
     @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;
 
-    public List<Worker> getAll() {
-        LOGGER.info("WorkerDaoImpl getAll start");
+    /**
+     * get all Workers
+     * @return List<Worker>
+     */
+    @Override
+    public List<Worker> getAllWorkers() {
+        LOGGER.info("WorkerDaoImpl getAllWorkers start");
         Query query = sessionFactory.getCurrentSession().createQuery("from Worker");
-        LOGGER.info("WorkerDaoImpl getAll end");
+        LOGGER.info("WorkerDaoImpl getAllWorkers end");
         return query.getResultList();
     }
 
-    public void add(Worker worker) {
-        LOGGER.info("WorkerDaoImpl add start");
+    /**
+     * create new Worker in DB
+     * @param worker
+     */
+    @Override
+    public void createWorker(Worker worker) {
+        LOGGER.info("WorkerDaoImpl createWorker start");
         sessionFactory.getCurrentSession().save(worker);
-        LOGGER.info("WorkerDaoImpl add end");
+        LOGGER.info("WorkerDaoImpl createWorker end");
     }
 
+    /**
+     * cheak Worker Login and Password
+     * @param worker
+     * @return boolean
+     */
+    @Override
     public boolean isLoginPasswordValid(Worker worker) {
+        LOGGER.info("WorkerDaoImpl isLoginPasswordValid start");
         Query query = sessionFactory.getCurrentSession().createQuery("from Worker where login = :login and password = :password");
         query.setParameter("login", worker.getLogin());
         query.setParameter("password", worker.getPassword());
-        return query.getResultList() != null;
+        //sessionFactory.getCurrentSession().get(Worker.class, worker.getLogin(), worker.getPassword());
+        LOGGER.info("WorkerDaoImpl isLoginPasswordValid end");
+        return query.getResultList().size() != 0;
     }
-   /* @PersistenceContext
-    protected EntityManager emf;
+
+    /**
+     * update Worker data
+     * @param worker
+     */
     @Override
-    public List<Worker> findAll() {
-        return emf.createQuery("from Worker w").getResultList();
-    }*/
+    public void updateWorker(Worker worker) {
+        LOGGER.info("WorkerDaoImpl updateWorker start");
+        sessionFactory.getCurrentSession().update(worker);
+        LOGGER.info("WorkerDaoImpl updateWorker end");
+    }
+
+    /**
+     * delete Worker data
+     * @param worker
+     */
+    @Override
+    public void deleteWorker(Worker worker) {
+        LOGGER.info("WorkerDaoImpl deleteWorker start");
+        Worker loadWorker = sessionFactory.getCurrentSession().load(Worker.class, worker);
+        sessionFactory.getCurrentSession().delete(worker);
+        sessionFactory.getCurrentSession().flush();
+        //sessionFactory.getCurrentSession().delete(worker);
+        LOGGER.info("WorkerDaoImpl deleteWorker end");
+    }
+
+    /**
+     * get Worker By Id
+     * @param workerId
+     * @return Worker
+     */
+    @Override
+    public Worker getWorkerById(long workerId) {
+        LOGGER.info("WorkerDaoImpl getProfileById start");
+        Worker worker = sessionFactory.getCurrentSession().get(Worker.class, workerId);
+        LOGGER.info("WorkerDaoImpl getProfileById end");
+        return worker;
+    }
 }

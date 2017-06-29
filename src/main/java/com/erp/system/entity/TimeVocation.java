@@ -28,24 +28,31 @@ public class TimeVocation implements Serializable {
     public long getIdTimeVocation() {
         return idTimeVocation;
     }
+
     public void setIdTimeVocation(long idTimeVocation) {
         this.idTimeVocation = idTimeVocation;
     }
+
     public Worker getIdWorker() {
         return idWorker;
     }
+
     public void setIdWorker(Worker idWorker) {
         this.idWorker = idWorker;
     }
+
     public Date getStartVocDate() {
         return startVocDate;
     }
+
     public void setStartVocDate(Date startVocDate) {
         this.startVocDate = startVocDate;
     }
+
     public Date getEndVocDate() {
         return endVocDate;
     }
+
     public void setEndVocDate(Date endVocDate) {
         this.endVocDate = endVocDate;
     }

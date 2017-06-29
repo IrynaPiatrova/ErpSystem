@@ -1,12 +1,9 @@
 package com.erp.system.dto;
 
-import org.springframework.stereotype.Controller;
-
 /**
  * Created by John on 16.06.2017.
  */
-//нужно будет переделать в dto
-@Controller
+
 public class LoginPassword {
     private String login;
     private String password;
