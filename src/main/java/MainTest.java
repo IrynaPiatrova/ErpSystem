@@ -13,21 +13,21 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 public class MainTest {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = (ApplicationContext) new FileSystemXmlApplicationContext("D:\\GitHub\\ErpSystem\\src\\main\\webapp\\WEB-INF\\dispatcher-servlet.xml");
+        ApplicationContext ctx = (ApplicationContext) new FileSystemXmlApplicationContext("C:\\Users\\klinster\\IdeaProjects\\JavaPro\\ErpSystem\\src\\main\\webapp\\WEB-INF\\dispatcher-servlet.xml");
         WorkerDaoImpl workerDao = (WorkerDaoImpl) ctx.getBean("workerDaoImple");
         ProfileDao profileDao = (ProfileDaoImpl) ctx.getBean("profDaoImpl");
-        Worker worker = new Worker();
-        worker.setPassword("111");
-        worker.setLogin("111");
-        worker.setNameWorker("Ирина");
-        Profile byId = profileDao.getProfileById(1L);
+//        Worker worker = new Worker();
+//        worker.setPassword("111");
+//        worker.setLogin("111");
+//        worker.setNameWorker("Ирина");
+        Profile byId = profileDao.getProfileById(2L);
         System.out.println(byId);
-        worker.setIdProfile(byId);
-        workerDao.createWorker(worker);
-        //Worker worker = workerDao.getProfileById(1l);
+//        worker.setIdProfile(byId);
+//        workerDao.createWorker(worker);
+        Worker worker = workerDao.getWorkerById(2);
         System.out.println(worker);
         //worker.setNameWorker("Irina");
        // workerDao.updateWorker(worker);
-        //workerDao.deleteWorker(worker);
+        workerDao.deleteWorker(worker);
     }
 }

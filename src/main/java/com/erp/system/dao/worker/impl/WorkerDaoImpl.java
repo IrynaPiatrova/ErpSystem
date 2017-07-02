@@ -80,10 +80,9 @@ public class WorkerDaoImpl implements WorkerDao {
     @Override
     public void deleteWorker(Worker worker) {
         LOGGER.info("WorkerDaoImpl deleteWorker start");
-        Worker loadWorker = sessionFactory.getCurrentSession().load(Worker.class, worker);
-        sessionFactory.getCurrentSession().delete(worker);
-        sessionFactory.getCurrentSession().flush();
-        //sessionFactory.getCurrentSession().delete(worker);
+        Query query = sessionFactory.getCurrentSession().createQuery("delete from Worker where idWorker = :login");
+        query.setParameter("login", worker.getIdWorker());
+        query.executeUpdate();
         LOGGER.info("WorkerDaoImpl deleteWorker end");
     }
 

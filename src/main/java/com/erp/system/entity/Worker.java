@@ -51,7 +51,7 @@ public class Worker implements Serializable {
         return idWorker;
     }
 
-    public void setIdWorker(int idWorker) {
+    public void setIdWorker(long idWorker) {
         this.idWorker = idWorker;
     }
 
