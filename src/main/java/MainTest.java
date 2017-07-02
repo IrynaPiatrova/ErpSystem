@@ -13,7 +13,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 public class MainTest {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = (ApplicationContext) new FileSystemXmlApplicationContext("E:\\Загрузки\\M B G\\TMS\\GitHub\\ErpSystem\\src\\main\\webapp\\WEB-INF\\dispatcher-servlet.xml");
+        ApplicationContext ctx = (ApplicationContext) new FileSystemXmlApplicationContext("C:\\Users\\klinster\\IdeaProjects\\JavaPro\\ErpSystem\\src\\main\\webapp\\WEB-INF\\dispatcher-servlet.xml");
         WorkerDaoImpl workerDao = (WorkerDaoImpl) ctx.getBean("workerDaoImple");
         ProfileDao profileDao = (ProfileDaoImpl) ctx.getBean("profDaoImpl");
 //        Worker worker = new Worker();

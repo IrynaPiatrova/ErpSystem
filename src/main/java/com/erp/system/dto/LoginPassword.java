@@ -1,18 +1,19 @@
-package entity;
+package com.erp.system.dto;
 
 /**
  * Created by John on 16.06.2017.
  */
+
 public class LoginPassword {
     private String login;
-    private String pussword;
+    private String password;
 
     public LoginPassword() {
     }
 
-    public LoginPassword(String login, String pussword) {
+    public LoginPassword(String login, String password) {
         this.login = login;
-        this.pussword = pussword;
+        this.password = password;
     }
 
     public String getLogin() {
@@ -23,11 +24,11 @@ public class LoginPassword {
         this.login = login;
     }
 
-    public String getPussword() {
-        return pussword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPussword(String pussword) {
-        this.pussword = pussword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
