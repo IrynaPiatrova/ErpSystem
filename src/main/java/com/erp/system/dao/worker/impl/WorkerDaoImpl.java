@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by klinster on 25.06.2017.
  */
-@Repository(/*"workerDaoImpl"*/)// дополнительно говорит, что транзакции должны быть
+@Repository// дополнительно говорит, что транзакции должны быть
 @Transactional
 public class WorkerDaoImpl implements WorkerDao {
 
@@ -37,15 +37,16 @@ public class WorkerDaoImpl implements WorkerDao {
 
     /**
      * cheak Worker Login and Password
-     * @param worker
+     * @param login
+     * @param password
      * @return boolean
      */
     @Override
-    public boolean isLoginPasswordValid(Worker worker) {
+    public boolean isLoginPasswordValid(String login, String password) {
         LOGGER.info("WorkerDaoImpl isLoginPasswordValid start");
         Query query = sessionFactory.getCurrentSession().createQuery("from Worker where login = :login and password = :password");
-        query.setParameter("login", worker.getLogin());
-        query.setParameter("password", worker.getPassword());
+        query.setParameter("login", login);
+        query.setParameter("password", password);
         //sessionFactory.getCurrentSession().get(Worker.class, worker.getLogin(), worker.getPassword());
         LOGGER.info("WorkerDaoImpl isLoginPasswordValid end");
         return query.getResultList().size() != 0;
