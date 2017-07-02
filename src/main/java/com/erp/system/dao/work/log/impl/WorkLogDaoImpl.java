@@ -19,6 +19,10 @@ public class WorkLogDaoImpl implements WorkLogDao {
     @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;
 
+    /**
+     *  create new WorkLog in DB
+     * @param workLog
+     */
     @Override
     public void createWorkLog(WorkLog workLog) {
         LOGGER.info("WorkLogDaoImpl createWorkLog start");
@@ -26,6 +30,10 @@ public class WorkLogDaoImpl implements WorkLogDao {
         LOGGER.info("WorkLogDaoImpl createWorkLog end");
     }
 
+    /**
+     * update WorkLog data
+     * @param workLog
+     */
     @Override
     public void updateWorkLog(WorkLog workLog) {
         LOGGER.info("WorkLogDaoImpl updateWorkLog start");
@@ -33,6 +41,10 @@ public class WorkLogDaoImpl implements WorkLogDao {
         LOGGER.info("WorkLogDaoImpl updateWorkLog end");
     }
 
+    /**
+     * delete WorkLog data
+     * @param workLog
+     */
     @Override
     public void deleteWorkLog(WorkLog workLog) {
         LOGGER.info("WorkLogDaoImpl updateWorkLog start");
@@ -42,6 +54,11 @@ public class WorkLogDaoImpl implements WorkLogDao {
         LOGGER.info("WorkLogDaoImpl updateWorkLog end");
     }
 
+    /**
+     * get WorkLog By Id
+     * @param workLogId
+     * @return WorkLog
+     */
     @Override
     public WorkLog getWorkLogById(long workLogId) {
         LOGGER.info("WorkLogDaoImpl getWorkLogById start");
@@ -50,6 +67,10 @@ public class WorkLogDaoImpl implements WorkLogDao {
         return workLog;
     }
 
+    /**
+     * get all WorkLog
+     * @return List<WorkLog>
+     */
     @Override
     public List<WorkLog> getAllWorkLogs() {
         LOGGER.info("WorkerDaoImpl getAllWorkers start");
