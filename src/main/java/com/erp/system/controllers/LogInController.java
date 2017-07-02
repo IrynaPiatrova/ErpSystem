@@ -1,5 +1,6 @@
 package com.erp.system.controllers;
 
+import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.dto.LoginPassword;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,6 @@ public class LogInController {
             if(result.hasErrors()){
                 return "pages/index";
             }
-        //}
         return "pages/next";
     }
 }

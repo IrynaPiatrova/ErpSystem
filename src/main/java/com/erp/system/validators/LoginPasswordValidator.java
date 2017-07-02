@@ -31,7 +31,6 @@ public class LoginPasswordValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "empty.login", "Please enter your login");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password", "Please enter your password");
         LoginPassword loginPassword = (LoginPassword) object;
-        //пока не работает проверка на admin
         if (!workerDao.isLoginPasswordValid(loginPassword.getLogin(),loginPassword.getPassword())){
             errors.rejectValue("password", "err.login.password", "Incorrect login or password.");
         }
