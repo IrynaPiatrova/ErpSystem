@@ -23,17 +23,6 @@ public class WorkerDaoImpl implements WorkerDao {
     @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;
 
-    /**
-     * get all Workers
-     * @return List<Worker>
-     */
-    @Override
-    public List<Worker> getAllWorkers() {
-        LOGGER.info("WorkerDaoImpl getAllWorkers start");
-        Query query = sessionFactory.getCurrentSession().createQuery("from Worker");
-        LOGGER.info("WorkerDaoImpl getAllWorkers end");
-        return query.getResultList();
-    }
 
     /**
      * create new Worker in DB
@@ -80,8 +69,8 @@ public class WorkerDaoImpl implements WorkerDao {
     @Override
     public void deleteWorker(Worker worker) {
         LOGGER.info("WorkerDaoImpl deleteWorker start");
-        Query query = sessionFactory.getCurrentSession().createQuery("delete from Worker where idWorker = :login");
-        query.setParameter("login", worker.getIdWorker());
+        Query query = sessionFactory.getCurrentSession().createQuery("delete from Worker where idWorker = :idWorker");
+        query.setParameter("idWorker", worker.getIdWorker());
         query.executeUpdate();
         LOGGER.info("WorkerDaoImpl deleteWorker end");
     }
@@ -97,5 +86,17 @@ public class WorkerDaoImpl implements WorkerDao {
         Worker worker = sessionFactory.getCurrentSession().get(Worker.class, workerId);
         LOGGER.info("WorkerDaoImpl getProfileById end");
         return worker;
+    }
+
+    /**
+     * get all Workers
+     * @return List<Worker>
+     */
+    @Override
+    public List<Worker> getAllWorkers() {
+        LOGGER.info("WorkerDaoImpl getAllWorkers start");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Worker");
+        LOGGER.info("WorkerDaoImpl getAllWorkers end");
+        return query.getResultList();
     }
 }

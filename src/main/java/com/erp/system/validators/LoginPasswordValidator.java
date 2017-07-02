@@ -27,7 +27,7 @@ public class LoginPasswordValidator implements Validator {
         boolean isAdminLogin = loginPassword.getLogin().equals(ADMIN);
         boolean isAdminPassword = loginPassword.getPassword().equals(ADMIN);
         if (!isAdminLogin && !isAdminPassword) {
-            errors.rejectValue("password", "err.login.password", "Please enter your password");
+            errors.rejectValue("password", "err.login.password", "Incorrect login or password.");
         }
     }
 }
