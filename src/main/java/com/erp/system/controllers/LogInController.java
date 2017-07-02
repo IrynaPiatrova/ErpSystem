@@ -1,6 +1,5 @@
 package com.erp.system.controllers;
 
-import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.dto.LoginPassword;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -18,6 +19,11 @@ import javax.validation.Valid;
  */
 @Controller
 public class LogInController {
+    private static final String ADMIN = "admin";
+    private static final String TRUE = "true";
+    private static final String FALSE = "false";
+    private static final String IS_ADMIN = "isAdmin";
+
     @Autowired
     LoginPasswordValidator lpValidator;
 
@@ -34,12 +40,16 @@ public class LogInController {
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.POST)
-    public String checkUserAuthorization(@ModelAttribute("logPass") @Valid LoginPassword lp, BindingResult result, Model model) {
-       // if ((lp.getLogin().equals("") || lp.getPassword().equals(""))) {
+    public String checkUserAuthorization(@ModelAttribute("logPass") @Valid LoginPassword lp,
+                                         BindingResult result, Model model
+                                        , HttpServletResponse response) {
         lpValidator.validate(lp, result);
-            if(result.hasErrors()){
-                return "pages/index";
-            }
+        if(result.hasErrors()){
+            return "pages/index";
+        }
+        String isAdmin = ADMIN.equals(lp.getLogin()) ? TRUE : FALSE;
+        response.addCookie(new Cookie(IS_ADMIN, isAdmin));
+        model.addAttribute(IS_ADMIN, isAdmin);
         return "pages/next";
     }
 }
