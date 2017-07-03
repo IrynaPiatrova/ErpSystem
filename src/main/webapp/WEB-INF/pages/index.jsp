@@ -37,7 +37,7 @@
                     width="10%" height="10%"></a>
     </span>
     <br><br>
-    <form:form class="form-inline" action="welcome" method="post" modelAttribute="logPass">
+    <form:form class="form-inline" action="main" method="post" modelAttribute="logPass">
         <spring:message code="username" var="username"/>
         <form:input type="text" placeholder="${username}" autocomplete="off" path="login"/>
         <div><form:errors path="login" style="color:red"/></div>

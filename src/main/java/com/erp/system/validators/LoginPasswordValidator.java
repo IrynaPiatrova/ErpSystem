@@ -2,16 +2,11 @@ package com.erp.system.validators;
 
 import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.dto.LoginPassword;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
-import javax.annotation.Resource;
-import javax.transaction.Transactional;
 
 /**
  * Created by John on 22.06.2017.
@@ -23,7 +18,7 @@ public class LoginPasswordValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return LoginPassword.class.equals(aClass);//.isAssignableFrom(aClass) - вернёт true, если предок класса
+        return LoginPassword.class.equals(aClass);
     }
 
     @Override

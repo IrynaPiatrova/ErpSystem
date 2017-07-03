@@ -26,7 +26,7 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-3">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Главная</a></li>
+                <li><a href="main">Главная</a></li>
                 <li/>
                 <li><a href="#">Профиль</a></li>
                 <li/>
