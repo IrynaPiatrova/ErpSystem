@@ -36,7 +36,7 @@ public class MethodsForControllers {
     public static MultipartFile getPhoto(byte[] photo) {
         MultipartFile multipartFile = null;
         if (photo != null) {
-            multipartFile  = new MockMultipartFile("imageFile", "filename", "image/png", photo);
+            multipartFile = new MockMultipartFile("imageFile", "filename", "image/png", photo);
         }
         return multipartFile;
     }
