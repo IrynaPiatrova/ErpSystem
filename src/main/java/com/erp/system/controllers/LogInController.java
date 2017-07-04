@@ -78,6 +78,11 @@ public class LogInController {
         //каждый наш метод должен начинаться с проверки на осуществление авторизации (пять строк выше), а дальше логика метода
         return "";
     }
+
+    @RequestMapping(value = "/addNewWorker", method = RequestMethod.GET)
+     public String addNewWorker(){
+        return "pages/addNewWorker";
+    }
     //надо придумать как его вынести, чт могли использовать в каждлм контроллере:)
     private String getCookieByName(String cName, Cookie[] cookies) {
         Map<String, Cookie> cookieMap = new HashMap<>();

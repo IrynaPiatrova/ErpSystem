@@ -1,31 +1,29 @@
 package com.erp.system.controllers;
 
-import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.profile.impl.ProfileDaoImpl;
-import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
+import com.erp.system.validators.RegistrationNewProfileValidator;
+import com.erp.system.validators.RegistrationNewWorkerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import javax.validation.Valid;
 
 /**
  * Created by Roma on 18.06.2017.
  */
 @Controller
 public class AddNewWorkerController {
-
-
-    //ApplicationContext ctx = (ApplicationContext) new FileSystemXmlApplicationContext("E:\\Загрузки\\M B G\\TMS\\GitHub\\ErpSystem\\src\\main\\webapp\\WEB-INF\\dispatcher-servlet.xml");
+    @Autowired
+    RegistrationNewWorkerValidator registrationNewWorkerValidator;
+    @Autowired
+    RegistrationNewProfileValidator registrationNewProfileValidator;
     @Autowired
     WorkerDaoImpl workerDao;
     @Autowired
@@ -34,11 +32,17 @@ public class AddNewWorkerController {
 //    Profile profile = new Profile();
 
     @RequestMapping(value ="/isSuccessAddNewWorker", method = RequestMethod.POST)
-    public String isSuccessAddNewWorker(@ModelAttribute("profile") Profile profile, Worker worker){
-        profileDao.createProfile(profile);
-        //worker.setIdProfile(profile.getIdProfile());
-        System.out.println(worker);
-        workerDao.createWorker(worker);
-        return "pages/next";
+    public String isSuccessAddNewWorker(@ModelAttribute("profile")@Valid Profile profile, BindingResult resultProfile,
+                                        @ModelAttribute("worker") @Valid Worker worker, BindingResult resultWorker){
+        registrationNewProfileValidator.validate(profile, resultProfile);
+        registrationNewWorkerValidator.validate(worker,resultWorker);
+        if(resultProfile.hasErrors() || resultWorker.hasErrors()){
+            return "pages/addNewWorker";
+        }else {
+            profileDao.createProfile(profile);
+            //worker.setIdProfile(profile.getIdProfile());
+            //workerDao.createWorker(worker);
+            return "pages/next";
+        }
     }
 }

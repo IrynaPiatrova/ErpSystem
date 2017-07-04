@@ -12,9 +12,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Main Page</title>
-    <%@include file="pages/head.jsp" %>
+    <%@include file="head.jsp" %>
     <style>
-        <%@include file='css/style_for_authorization.css' %>
+        <%@include file='../css/style_for_authorization.css' %>
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
