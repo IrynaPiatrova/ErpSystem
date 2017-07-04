@@ -16,6 +16,8 @@ public interface WorkerDao {
 
     Worker getWorkerById(long workerId);
 
+    Worker getWorkerByLogin(String workerLogin);
+
     List getAllWorkers();
 
     boolean isLoginPasswordValid(String login, String passowrd);
