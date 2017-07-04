@@ -83,8 +83,8 @@ public class Worker implements Serializable {
         this.idProfile = idProfile;
     }
 
-    public Profile getIdProfile() {
-        return idProfile;
+    public long getIdProfile() {
+        return idProfile.getIdProfile();
     }
 
     public List<ProjectTicket> getWorkerProjectTickets() {

@@ -5,6 +5,7 @@ import com.erp.system.entity.Worker;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,6 +86,16 @@ public class WorkerDaoImpl implements WorkerDao {
     public Worker getWorkerById(long workerId) {
         LOGGER.info("WorkerDaoImpl getProfileById start");
         Worker worker = sessionFactory.getCurrentSession().get(Worker.class, workerId);
+        LOGGER.info("WorkerDaoImpl getProfileById end");
+        return worker;
+    }
+
+    @Override
+    public Worker getWorkerByLogin(String workerLogin) {
+        LOGGER.info("WorkerDaoImpl getProfileById start");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Worker where login = :login");
+        query.setParameter("login", workerLogin);
+        Worker worker = (Worker) query.getResultList().get(0);
         LOGGER.info("WorkerDaoImpl getProfileById end");
         return worker;
     }
