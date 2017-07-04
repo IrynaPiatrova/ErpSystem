@@ -10,6 +10,12 @@ import java.util.Map;
  * Created by John on 04.07.2017.
  */
 public class MethodsForControllers {
+    /**
+     * get Cookie By Name
+     * @param cName
+     * @param cookies
+     * @return String
+     */
     public static String getCookieByName(String cName, Cookie[] cookies) {
         Map<String, Cookie> cookieMap = new HashMap<>();
         for (Cookie cookie : cookies) {
@@ -18,6 +24,11 @@ public class MethodsForControllers {
         return cookieMap.get(cName).getValue();
     }
 
+    /**
+     *
+     * @param request
+     * @return
+     */
     public static Boolean isLogedIn(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String str = (String) session.getAttribute("isLogedIn");

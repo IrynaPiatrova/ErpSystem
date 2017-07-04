@@ -32,9 +32,8 @@ public class LogInController {
 
     /**
      * return start page 'index.jsp'
-     *
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = {"", "/", "/welcome"}, method = RequestMethod.GET)
     public String indexPage(Model model) {
@@ -42,6 +41,14 @@ public class LogInController {
         return "pages/index";
     }
 
+    /**
+     * @param lp
+     * @param result
+     * @param model
+     * @param response
+     * @param request
+     * @return String
+     */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
     public String checkUserAuthorization(@ModelAttribute("logPass") @Valid LoginPassword lp,
                                          BindingResult result, Model model
@@ -58,6 +65,11 @@ public class LogInController {
         return "pages/main";
     }
 
+    /**
+     * @param model
+     * @param request
+     * @return String
+     */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String mainPage(Model model, HttpServletRequest request) {
         Boolean isLogedIn = MethodsForControllers.isLogedIn(request);
