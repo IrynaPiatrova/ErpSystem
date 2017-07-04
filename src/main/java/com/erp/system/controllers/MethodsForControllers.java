@@ -10,6 +10,10 @@ import java.util.Map;
  * Created by John on 04.07.2017.
  */
 public class MethodsForControllers {
+    private static final String LOGED_AS = "logedAs";
+    private static final String IS_ADMIN = "isAdmin";
+    private static final String ADMIN = "admin";
+
     public static String getCookieByName(String cName, Cookie[] cookies) {
         Map<String, Cookie> cookieMap = new HashMap<>();
         for (Cookie cookie : cookies) {
@@ -20,7 +24,10 @@ public class MethodsForControllers {
 
     public static Boolean isLogedIn(HttpServletRequest request) {
         HttpSession session = request.getSession();
-        String str = (String) session.getAttribute("isLogedIn");
-        return str == null ? false : true;
+        return (String) session.getAttribute(LOGED_AS) != null;
+    }
+    public static Boolean isAdmin(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        return ADMIN.equals(session.getAttribute(IS_ADMIN));
     }
 }

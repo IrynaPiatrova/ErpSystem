@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by John on 16.06.2017.
@@ -27,6 +25,9 @@ public class LogInController {
     private static final String TRUE = "true";
     private static final String FALSE = "false";
     private static final String IS_ADMIN = "isAdmin";
+    private static final String NAME_USER = "nameUser";
+    private static final String LOGED_AS = "logedAs";
+    private static final String LOG_PASS = "logPass";
 
     @Autowired
     LoginPasswordValidator lpValidator;
@@ -39,61 +40,40 @@ public class LogInController {
      */
     @RequestMapping(value = {"", "/", "/welcome"}, method = RequestMethod.GET)
     public String indexPage(Model model) {
-        model.addAttribute("logPass", new LoginPassword());
+        model.addAttribute(LOG_PASS, new LoginPassword());
         return "pages/index";
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String checkUserAuthorization(@ModelAttribute("logPass") @Valid LoginPassword lp,
+    public String checkUserAuthorization(@ModelAttribute(LOG_PASS) @Valid LoginPassword lp,
                                          BindingResult result, Model model
-                                        , HttpServletResponse response, HttpServletRequest request) {
+            , HttpServletResponse response, HttpServletRequest request) {
         lpValidator.validate(lp, result);
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "pages/index";
         }
         String isAdmin = ADMIN.equals(lp.getLogin()) ? TRUE : FALSE;
-        response.addCookie(new Cookie(IS_ADMIN, isAdmin));
+//        response.addCookie(new Cookie(IS_ADMIN, isAdmin));
         model.addAttribute(IS_ADMIN, isAdmin);
         HttpSession session = request.getSession();
-        session.setAttribute("isLogedIn",TRUE);
+        session.setAttribute(LOGED_AS, lp.getLogin());
+        session.setAttribute(IS_ADMIN, isAdmin);
         return "pages/main";
     }
+
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String mainPage(Model model, HttpServletRequest request ) {
-        Boolean isLogedIn =isLogedIn(request);
-        if (!isLogedIn){
-            return "redirect:/";
-        }
-        Cookie[] cookies = request.getCookies();
-        model.addAttribute(IS_ADMIN, getCookieByName(IS_ADMIN, cookies));
+    public String mainPage(Model model, HttpServletRequest request) {
+        if (!MethodsForControllers.isLogedIn(request)) return "redirect:/";
+//        model.addAttribute(IS_ADMIN, MethodsForControllers.getCookieByName(IS_ADMIN, request.getCookies()));
         return "pages/main";
     }
-    @RequestMapping(value = "/test", method = RequestMethod.GET) // Это будет тестовый метод где будем пробовать новые фичи, чтобы не создавать всегда заново для проверки
-    public String testMethod(HttpServletRequest request){
-        Boolean isLogedIn =isLogedIn(request);
-        if (!isLogedIn){
-            System.out.println("redirect");
-            return "redirect:/";
-        }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    // Это будет тестовый метод где будем пробовать новые фичи, чтобы не создавать всегда заново для проверки
+    public String testMethod(HttpServletRequest request) {
+        if (!MethodsForControllers.isLogedIn(request)||!MethodsForControllers.isAdmin(request)) return "redirect:/";
+
         //каждый наш метод должен начинаться с проверки на осуществление авторизации (пять строк выше), а дальше логика метода
         return "";
-    }
-    //надо придумать как его вынести, чт могли использовать в каждлм контроллере:)
-    private String getCookieByName(String cName, Cookie[] cookies) {
-        Map<String, Cookie> cookieMap = new HashMap<>();
-        for (Cookie cookie : cookies) {
-            cookieMap.put(cookie.getName(), cookie);
-        }
-        Cookie firstRequiredCookie = cookieMap.get(cName);
-        return firstRequiredCookie.getValue();
-    }
-    private Boolean isLogedIn(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        String str = (String)session.getAttribute("isLogedIn");
-        if (str==null){
-            return false;
-        } else {
-            return true;
-        }
     }
 }
