@@ -1,6 +1,7 @@
 package com.erp.system.controllers;
 
 import com.erp.system.dto.LoginPassword;
+import com.erp.system.entity.Profile;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import javax.validation.Valid;
 public class LogInController {
     @Autowired
     LoginPasswordValidator lpValidator;
-
     /**
      * return start page 'index.jsp'
      *
@@ -29,7 +29,7 @@ public class LogInController {
     @RequestMapping(value = {"", "/", "/welcome"}, method = RequestMethod.GET)
     public String indexPage(Model model) {
         model.addAttribute("logPass", new LoginPassword());
-        return "pages/index";
+        return "index";
     }
 
     @RequestMapping(value = "/welcome", method = RequestMethod.POST)
@@ -37,9 +37,14 @@ public class LogInController {
        // if ((lp.getLogin().equals("") || lp.getPassword().equals(""))) {
         lpValidator.validate(lp, result);
             if(result.hasErrors()){
-                return "pages/index";
+                return "index";
             }
         //}
         return "pages/next";
+    }
+
+    @RequestMapping(value = "/addNewWorker", method = RequestMethod.GET)
+    public String addNewWorker(){
+        return "pages/addNewWorker";
     }
 }

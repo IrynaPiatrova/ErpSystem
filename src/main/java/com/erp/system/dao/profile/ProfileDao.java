@@ -7,4 +7,5 @@ import com.erp.system.entity.Profile;
  */
 public interface ProfileDao {
     Profile getProfileById(long profileId);
+    void createProfile(Profile profile);
 }

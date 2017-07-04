@@ -5,6 +5,7 @@ import com.erp.system.entity.Worker;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * Created by klinster on 25.06.2017.
  */
+@Component
 @Repository(/*"workerDaoImpl"*/)// дополнительно говорит, что транзакции должны быть
 @Transactional
 public class WorkerDaoImpl implements WorkerDao {
