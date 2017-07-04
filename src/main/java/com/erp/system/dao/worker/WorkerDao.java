@@ -8,15 +8,15 @@ import java.util.List;
  * Created by klinster on 25.06.2017.
  */
 public interface WorkerDao {
-    void createWorker(Worker worker);//проверила работает
+    void createWorker(Worker worker);
 
-    void updateWorker(Worker worker);//проверила работает
+    void updateWorker(Worker worker);
 
-    void deleteWorker(Worker worker);//не работает :(
+    void deleteWorker(Worker worker);
 
-    Worker getWorkerById(long workerId);//проверила работает
+    Worker getWorkerById(long workerId);
 
-    List getAllWorkers();//проверила работает
+    List getAllWorkers();
 
-    boolean isLoginPasswordValid(Worker worker);//проверила работает
+    boolean isLoginPasswordValid(String login, String passowrd);
 }

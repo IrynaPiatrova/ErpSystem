@@ -1,6 +1,8 @@
 package com.erp.system.validators;
 
+import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.dto.LoginPassword;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -11,11 +13,12 @@ import org.springframework.validation.Validator;
  */
 @Component
 public class LoginPasswordValidator implements Validator {
-    private static final String ADMIN = "admin";
+    @Autowired
+    WorkerDaoImpl workerDao;
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return LoginPassword.class.equals(aClass);//.isAssignableFrom(aClass) - вернёт true, если предок класса
+        return LoginPassword.class.equals(aClass);
     }
 
     @Override
@@ -23,11 +26,8 @@ public class LoginPasswordValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "empty.login", "Please enter your login");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password", "Please enter your password");
         LoginPassword loginPassword = (LoginPassword) object;
-        //пока не работает проверка на admin
-        boolean isAdminLogin = loginPassword.getLogin().equals(ADMIN);
-        boolean isAdminPassword = loginPassword.getPassword().equals(ADMIN);
-        if (!isAdminLogin && !isAdminPassword) {
-            errors.rejectValue("password", "err.login.password", "Please enter your password");
+        if (!workerDao.isLoginPasswordValid(loginPassword.getLogin(),loginPassword.getPassword())){
+            errors.rejectValue("password", "err.login.password", "Incorrect login or password.");
         }
     }
 }

@@ -5,7 +5,6 @@ import com.erp.system.entity.Worker;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,8 +14,7 @@ import java.util.List;
 /**
  * Created by klinster on 25.06.2017.
  */
-@Component
-@Repository(/*"workerDaoImpl"*/)// дополнительно говорит, что транзакции должны быть
+@Repository// дополнительно говорит, что транзакции должны быть
 @Transactional
 public class WorkerDaoImpl implements WorkerDao {
 
@@ -25,17 +23,6 @@ public class WorkerDaoImpl implements WorkerDao {
     @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;
 
-    /**
-     * get all Workers
-     * @return List<Worker>
-     */
-    @Override
-    public List<Worker> getAllWorkers() {
-        LOGGER.info("WorkerDaoImpl getAllWorkers start");
-        Query query = sessionFactory.getCurrentSession().createQuery("from Worker");
-        LOGGER.info("WorkerDaoImpl getAllWorkers end");
-        return query.getResultList();
-    }
 
     /**
      * create new Worker in DB
@@ -50,15 +37,16 @@ public class WorkerDaoImpl implements WorkerDao {
 
     /**
      * cheak Worker Login and Password
-     * @param worker
+     * @param login
+     * @param password
      * @return boolean
      */
     @Override
-    public boolean isLoginPasswordValid(Worker worker) {
+    public boolean isLoginPasswordValid(String login, String password) {
         LOGGER.info("WorkerDaoImpl isLoginPasswordValid start");
         Query query = sessionFactory.getCurrentSession().createQuery("from Worker where login = :login and password = :password");
-        query.setParameter("login", worker.getLogin());
-        query.setParameter("password", worker.getPassword());
+        query.setParameter("login", login);
+        query.setParameter("password", password);
         //sessionFactory.getCurrentSession().get(Worker.class, worker.getLogin(), worker.getPassword());
         LOGGER.info("WorkerDaoImpl isLoginPasswordValid end");
         return query.getResultList().size() != 0;
@@ -82,8 +70,8 @@ public class WorkerDaoImpl implements WorkerDao {
     @Override
     public void deleteWorker(Worker worker) {
         LOGGER.info("WorkerDaoImpl deleteWorker start");
-        Query query = sessionFactory.getCurrentSession().createQuery("delete from Worker where idWorker = :login");
-        query.setParameter("login", worker.getIdWorker());
+        Query query = sessionFactory.getCurrentSession().createQuery("delete from Worker where idWorker = :idWorker");
+        query.setParameter("idWorker", worker.getIdWorker());
         query.executeUpdate();
         LOGGER.info("WorkerDaoImpl deleteWorker end");
     }
@@ -99,5 +87,17 @@ public class WorkerDaoImpl implements WorkerDao {
         Worker worker = sessionFactory.getCurrentSession().get(Worker.class, workerId);
         LOGGER.info("WorkerDaoImpl getProfileById end");
         return worker;
+    }
+
+    /**
+     * get all Workers
+     * @return List<Worker>
+     */
+    @Override
+    public List<Worker> getAllWorkers() {
+        LOGGER.info("WorkerDaoImpl getAllWorkers start");
+        Query query = sessionFactory.getCurrentSession().createQuery("from Worker");
+        LOGGER.info("WorkerDaoImpl getAllWorkers end");
+        return query.getResultList();
     }
 }
