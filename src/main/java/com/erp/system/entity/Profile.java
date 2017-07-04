@@ -2,11 +2,13 @@ package com.erp.system.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 
 /**
  * Created by klinster on 25.06.2017.
  */
+//Поменял дату на тип String, нужно подумать можно ли без изменения
 @Entity()
 @Table(name = "profiles")
 public class Profile implements Serializable {
@@ -16,7 +18,7 @@ public class Profile implements Serializable {
     private long idProfile;
 
     @Column(name = "start_date")
-    private Date startDateProfile;
+    private String startDateProfile;
 
     @Column(name = "position", length = 64)
     private String position;
@@ -50,11 +52,11 @@ public class Profile implements Serializable {
         this.idProfile = idProfile;
     }
 
-    public Date getStartDateProfile() {
+    public String getStartDateProfile() {
         return startDateProfile;
     }
 
-    public void setStartDateProfile(Date startDateProfile) {
+    public void setStartDateProfile(String startDateProfile) {
         this.startDateProfile = startDateProfile;
     }
 
@@ -112,5 +114,20 @@ public class Profile implements Serializable {
 
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "idProfile=" + idProfile +
+                ", startDateProfile=" + startDateProfile +
+                ", position='" + position + '\'' +
+                ", employmentStatus='" + employmentStatus + '\'' +
+                ", department='" + department + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", photo=" + Arrays.toString(photo) +
+                ", worker=" + worker +
+                '}';
     }
 }
