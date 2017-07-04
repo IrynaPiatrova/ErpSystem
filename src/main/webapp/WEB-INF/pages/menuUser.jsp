@@ -28,7 +28,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="main">Главная</a></li>
                 <li/>
-                <li><a href="#">Профиль</a></li>
+                <li><a href="profile">Профиль</a></li>
                 <li/>
                 <li><a href="#">Тикеты</a></li>
                 <li/>
