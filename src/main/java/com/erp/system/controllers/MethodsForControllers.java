@@ -1,5 +1,8 @@
 package com.erp.system.controllers;
 
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,8 +29,17 @@ public class MethodsForControllers {
         HttpSession session = request.getSession();
         return (String) session.getAttribute(LOGED_AS) != null;
     }
-    public static Boolean isAdmin(HttpServletRequest request){
+
+    public static Boolean isAdmin(HttpServletRequest request) {
         HttpSession session = request.getSession();
         return ADMIN.equals(session.getAttribute(IS_ADMIN));
+    }
+
+    public static MultipartFile getPhoto(byte[] photo) {
+        MultipartFile multipartFile = null;
+        if (photo != null) {
+            multipartFile  = new MockMultipartFile("imageFile", "filename", "image/png", photo);
+        }
+        return multipartFile;
     }
 }

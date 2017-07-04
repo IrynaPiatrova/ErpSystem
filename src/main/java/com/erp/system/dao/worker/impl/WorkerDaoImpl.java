@@ -93,7 +93,9 @@ public class WorkerDaoImpl implements WorkerDao {
     @Override
     public Worker getWorkerByLogin(String workerLogin) {
         LOGGER.info("WorkerDaoImpl getProfileById start");
-        Worker worker = sessionFactory.getCurrentSession().get(Worker.class, workerLogin);
+        Query query = sessionFactory.getCurrentSession().createQuery("from Worker where login = :login");
+        query.setParameter("login", workerLogin);
+        Worker worker = (Worker) query.getResultList().get(0);
         LOGGER.info("WorkerDaoImpl getProfileById end");
         return worker;
     }
