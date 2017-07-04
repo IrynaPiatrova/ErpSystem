@@ -26,14 +26,14 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse-3">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Главная</a></li>
+                <li><a href="main">Главная</a></li>
                 <li/>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user/preferences">Support</a></li>
-                        <li><a href="/help/support">Contact Support</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Contact Support</a></li>
                         <%--<li class="divider"></li>--%>
-                        <li><a href="/auth/logout">Logout</a></li>
+                        <li><a href="#">Logout</a></li>
                     </ul>
                 </li>
                 <li/>
