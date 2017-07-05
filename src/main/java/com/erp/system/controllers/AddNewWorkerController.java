@@ -2,6 +2,7 @@ package com.erp.system.controllers;
 
 import com.erp.system.dao.profile.impl.ProfileDaoImpl;
 import com.erp.system.dao.worker.impl.WorkerDaoImpl;
+import com.erp.system.dto.RegistrationNewWorkerAndAddNewProfile;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
 import com.erp.system.validators.RegistrationNewProfileValidator;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by Roma on 18.06.2017.
@@ -32,17 +36,22 @@ public class AddNewWorkerController {
 //    Profile profile = new Profile();
 
     @RequestMapping(value ="/isSuccessAddNewWorker", method = RequestMethod.POST)
-    public String isSuccessAddNewWorker(@ModelAttribute("profile")@Valid Profile profile, BindingResult resultProfile,
-                                        @ModelAttribute("worker") @Valid Worker worker, BindingResult resultWorker){
-        registrationNewProfileValidator.validate(profile, resultProfile);
-        registrationNewWorkerValidator.validate(worker,resultWorker);
-        if(resultProfile.hasErrors() || resultWorker.hasErrors()){
-            return "pages/addNewWorker";
-        }else {
-            profileDao.createProfile(profile);
-            //worker.setIdProfile(profile.getIdProfile());
-            //workerDao.createWorker(worker);
-            return "pages/next";
-        }
+    public String isSuccessAddNewWorker(@ModelAttribute("profile") Profile profile, @ModelAttribute("worker") Worker worker) throws ParseException {
+        //registrationNewProfileValidator.validate(profileAndWorker, result);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        System.out.println(profile.getStartDate());
+        System.out.println(profile);
+        Date date = simpleDateFormat.parse(profile.getStartDate());
+        profile.setStartDateProfile(date);
+        System.out.println(profile);
+//        if(result.hasErrors()){
+//            return "pages/addNewWorker";
+//        }else {
+//            profileDao.createProfile(profile);
+//            //worker.setIdProfile(profile.getIdProfile());
+//            //workerDao.createWorker(worker);
+//            return "pages/next";
+//        }
+        return "pages/main";
     }
 }

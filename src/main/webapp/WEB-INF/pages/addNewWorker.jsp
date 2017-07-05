@@ -14,7 +14,6 @@
 </head>
 <body>
 <form:form id="form" action="isSuccessAddNewWorker" method="post" modelAttribute="profile">
-<form:form modelAttribute="worker">
     <input type="text" name="nameWorker" placeholder="Введите имя">
     <div><form:errors path="nameWorker" style="color:red"/></div>
     <br>
@@ -24,7 +23,6 @@
     <input type="password" name="password" placeholder="Введите пароль">
     <div><form:errors path="password" style="color:red"/></div>
     <br>
-</form:form>
     <input type="text" name="position" placeholder="Введите должность">
     <div><form:errors path="position" style="color:red"/></div>
     <br>
@@ -40,8 +38,8 @@
     <input type="text" name="email" placeholder="Введите email">
     <div><form:errors path="email" style="color:red"/></div>
     <br>
-    <input type="date" name="startDateProfile">
-    <div><form:errors path="startDateProfile" style="color:red"/></div>
+    <input type="date" name="startDate">
+    <div><form:errors path="startDate" style="color:red"/></div>
     <br>
     <input type="file" name="photo">
     <br>
