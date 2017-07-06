@@ -13,7 +13,7 @@ import java.util.List;
  * Created by klinster on 05.07.2017
  */
 @Service("commentsTicketService")
-public class CommentsTicketServiceImpl implements CommentsTicketService{
+public class CommentsTicketServiceImpl implements CommentsTicketService {
     @Autowired
     CommentsTicketDao commentsTicketDao;
 

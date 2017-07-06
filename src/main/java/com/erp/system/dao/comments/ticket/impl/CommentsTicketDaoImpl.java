@@ -5,13 +5,17 @@ import com.erp.system.entity.CommentsTicket;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
+@Repository
+@Transactional
 public class CommentsTicketDaoImpl implements CommentsTicketDao {
     protected static final Logger LOGGER = Logger.getLogger(CommentsTicketDaoImpl .class);
 

@@ -16,6 +16,7 @@
     <context:component-scan base-package="com.erp.system.dto"/>
     <context:component-scan base-package="com.erp.system.dao"/>
     <context:component-scan base-package="com.erp.system.entity"/>
+    <context:component-scan base-package="com.erp.system.services"/>
     <bean id="messageSource"
           class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basename" value="classpath:label"/>

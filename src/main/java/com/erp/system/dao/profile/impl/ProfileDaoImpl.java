@@ -1,7 +1,6 @@
 package com.erp.system.dao.profile.impl;
 
 import com.erp.system.dao.profile.ProfileDao;
-import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.entity.Profile;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -10,25 +9,23 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
 @Component
 @Repository()
 @Transactional
 public class ProfileDaoImpl implements ProfileDao {
 
-    protected static final Logger LOGGER = Logger.getLogger(WorkerDaoImpl.class);
+    protected static final Logger LOGGER = Logger.getLogger(ProfileDaoImpl.class);
 
     @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;
 
     /**
      * get Profile By Id
+     *
      * @param profileId
      * @return Profile
      */
@@ -43,7 +40,6 @@ public class ProfileDaoImpl implements ProfileDao {
     @Override
     public void createProfile(Profile profile) {
         LOGGER.info("ProfileDaoImpl createProfile start");
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         sessionFactory.getCurrentSession().save(profile);
         LOGGER.info("ProfileDaoImpl createProfile end");
     }

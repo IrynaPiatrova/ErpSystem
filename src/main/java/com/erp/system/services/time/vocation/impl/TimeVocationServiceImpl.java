@@ -13,7 +13,7 @@ import java.util.List;
  * Created by klinster on 05.07.2017
  */
 @Service("timeVocationService")
-public class TimeVocationServiceImpl implements TimeVocationService{
+public class TimeVocationServiceImpl implements TimeVocationService {
     @Autowired
     TimeVocationDao timeVocationDao;
 

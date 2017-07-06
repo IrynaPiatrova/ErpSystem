@@ -5,7 +5,6 @@ import com.erp.system.entity.Worker;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
 @Repository// дополнительно говорит, что транзакции должны быть
 @Transactional
