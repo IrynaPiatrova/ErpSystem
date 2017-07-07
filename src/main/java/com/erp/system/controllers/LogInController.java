@@ -3,6 +3,7 @@ package com.erp.system.controllers;
 import com.erp.system.constants.IConstants;
 import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.LoginPassword;
+import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,5 +87,10 @@ public class LogInController {
 
         //каждый наш метод должен начинаться с проверки на осуществление авторизации (пять строк выше), а дальше логика метода
         return "";
+    }
+    @RequestMapping(value = "/addNewWorker", method = RequestMethod.GET)
+    public String addNewWorker(Model model){
+        model.addAttribute("profile", new Profile());
+        return "pages/addNewProfile";
     }
 }
