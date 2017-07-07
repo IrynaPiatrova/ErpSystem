@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
- * Created by John on 16.06.2017.
+ * Created by John on 16.06.2017
  */
 @Controller
 public class LogInController {
@@ -34,6 +34,7 @@ public class LogInController {
 
     /**
      * return start page 'index.jsp'
+     *
      * @param model
      * @return String
      */
@@ -47,14 +48,12 @@ public class LogInController {
      * @param lp
      * @param result
      * @param model
-     * @param response
      * @param request
      * @return String
      */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
     public String checkUserAuthorization(@ModelAttribute(IConstants.LOG_PASS) @Valid LoginPassword lp,
-                                         BindingResult result, Model model
-            , HttpServletResponse response, HttpServletRequest request) {
+                                         BindingResult result, Model model, HttpServletRequest request) {
         lpValidator.validate(lp, result);
         if (result.hasErrors()) return "pages/index";
         String isAdmin = IConstants.ADMIN.equals(lp.getLogin()) ? IConstants.TRUE : IConstants.FALSE;
@@ -83,19 +82,19 @@ public class LogInController {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     // Это будет тестовый метод где будем пробовать новые фичи, чтобы не создавать всегда заново для проверки
     public String testMethod(HttpServletRequest request) {
-        if (!MethodsForControllers.isLogedIn(request)||!MethodsForControllers.isAdmin(request)) return "redirect:/";//только админ
+        if (!MethodsForControllers.isLogedIn(request) || !MethodsForControllers.isAdmin(request))
+            return "redirect:/";//только админ
 
         //каждый наш метод должен начинаться с проверки на осуществление авторизации (пять строк выше), а дальше логика метода
         return "";
     }
 
     /**
-     *
      * @param model
      * @return String
      */
     @RequestMapping(value = "/addNewWorker", method = RequestMethod.GET)
-    public String addNewWorker(Model model){
+    public String addNewWorker(Model model) {
         model.addAttribute("profile", new Profile());
         return "pages/addNewProfile";
     }

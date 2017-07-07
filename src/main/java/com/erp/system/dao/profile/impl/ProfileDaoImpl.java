@@ -38,6 +38,13 @@ public class ProfileDaoImpl implements ProfileDao {
     }
 
     @Override
+    public void updateProfile(Profile profile) {
+        LOGGER.info("ProfileDaoImpl updateProfile start");
+        sessionFactory.getCurrentSession().update(profile);
+        LOGGER.info("ProfileDaoImpl updateProfile end");
+    }
+
+    @Override
     public void createProfile(Profile profile) {
         LOGGER.info("ProfileDaoImpl createProfile start");
         sessionFactory.getCurrentSession().save(profile);

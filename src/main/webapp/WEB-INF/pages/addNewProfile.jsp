@@ -29,7 +29,13 @@
     </span>
 <form:form id="form" action="isSuccessAddNewProfile" method="post" modelAttribute="profile">
     <spring:message code="position" var="labelPosition"/>
-    <form:input type="text" name="position" placeholder="${labelPosition}" path="position"/>
+    <%--<form:input type="text" name="position" placeholder="${labelPosition}" path="position"/>--%>
+    <form:select path="position">
+        <option disabled>Выберите должность:</option>
+        <option value="Генерал">Генерал</option>
+        <option value="Уборщик">Уборщик</option>
+        <option value="Прогер">Прогер</option>
+    </form:select>
     <div><form:errors path="position" style="color:red"/></div>
     <br>
     <spring:message code="department" var="department"/>
