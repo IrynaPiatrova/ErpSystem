@@ -18,7 +18,7 @@ public class Profile implements Serializable {
     private long idProfile;
 
     @Column(name = "start_date")
-    private String startDateProfile;
+    private Date startDateProfile;
 
     @Column(name = "position", length = 64)
     private String position;
@@ -52,11 +52,11 @@ public class Profile implements Serializable {
         this.idProfile = idProfile;
     }
 
-    public String getStartDateProfile() {
+    public Date getStartDateProfile() {
         return startDateProfile;
     }
 
-    public void setStartDateProfile(String startDateProfile) {
+    public void setStartDateProfile(Date startDateProfile) {
         this.startDateProfile = startDateProfile;
     }
 
@@ -115,6 +115,7 @@ public class Profile implements Serializable {
     public void setWorker(Worker worker) {
         this.worker = worker;
     }
+
 
     @Override
     public String toString() {
