@@ -23,7 +23,7 @@ import javax.validation.Valid;
  */
 @Controller
 public class LogInController {
-
+//Рома редиска
 
     @Autowired
     WorkerDao workerDao;
