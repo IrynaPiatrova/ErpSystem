@@ -7,17 +7,26 @@ import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
 import com.erp.system.validators.RegistrationNewProfileValidator;
 import com.erp.system.validators.RegistrationNewWorkerValidator;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Roma on 18.06.2017.
@@ -32,26 +41,37 @@ public class AddNewWorkerController {
     WorkerDaoImpl workerDao;
     @Autowired
     ProfileDaoImpl profileDao;
-//    Worker worker = new Worker();
-//    Profile profile = new Profile();
 
-    @RequestMapping(value ="/isSuccessAddNewWorker", method = RequestMethod.POST)
-    public String isSuccessAddNewWorker(@ModelAttribute("profile") Profile profile, @ModelAttribute("worker") Worker worker) throws ParseException {
-        //registrationNewProfileValidator.validate(profileAndWorker, result);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-        System.out.println(profile.getStartDate());
-        System.out.println(profile);
-        Date date = simpleDateFormat.parse(profile.getStartDate());
-        profile.setStartDateProfile(date);
-        System.out.println(profile);
-//        if(result.hasErrors()){
-//            return "pages/addNewWorker";
-//        }else {
-//            profileDao.createProfile(profile);
-//            //worker.setIdProfile(profile.getIdProfile());
-//            //workerDao.createWorker(worker);
-//            return "pages/next";
-//        }
-        return "pages/main";
+    @RequestMapping(value ="/isSuccessAddNewProfile", method = RequestMethod.POST)
+    public String isSuccessAddNewProfile(@ModelAttribute("profile")@Valid Profile profile, BindingResult result,
+                                         @RequestParam("Date")@Valid String startDate, BindingResult resultDate, Model model) throws ParseException {
+        registrationNewProfileValidator.validate(profile, result);
+        //registrationNewProfileValidator.validateDate(startDate, resultDate);
+        if (startDate.length() == 0){//Калечная проверка на дату, нужно сделать нормальную
+            return "pages/addNewProfile";
+        }else {
+            if (result.hasErrors()) {
+                return "pages/addNewProfile";
+            } else {
+                SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = oldDateFormat.parse(startDate);
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                profile.setStartDateProfile(sqlDate);
+                profileDao.createProfile(profile);
+                model.addAttribute("worker", new Worker());
+                return "pages/addNewWorker";
+            }
+        }
+    }
+
+    @RequestMapping(value = "/isSuccessAddNewWorker", method = RequestMethod.POST)
+    public String isSuccessAddNewWorker( @ModelAttribute("worker")@Valid Worker worker, BindingResult result){
+        registrationNewWorkerValidator.validate(registrationNewWorkerValidator, result);
+        if (result.hasErrors()){
+            return "pages/addNewWorker";
+        }else {
+            workerDao.createWorker(worker);
+            return "pages/main";
+        }
     }
 }

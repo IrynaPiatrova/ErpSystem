@@ -41,8 +41,6 @@ public class Profile implements Serializable {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProfile")
     private Worker worker;
 
-    private String startDate;
-
     public Profile() {
     }
 
@@ -118,13 +116,6 @@ public class Profile implements Serializable {
         this.worker = worker;
     }
 
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
 
     @Override
     public String toString() {

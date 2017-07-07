@@ -1,6 +1,7 @@
 package com.erp.system.controllers;
 
 import com.erp.system.dto.LoginPassword;
+import com.erp.system.entity.Profile;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -79,8 +80,9 @@ public class LogInController {
         return "";
     }
     @RequestMapping(value = "/addNewWorker", method = RequestMethod.GET)
-    public String addNewWorker(){
-        return "pages/addNewWorker";
+    public String addNewWorker(Model model){
+        model.addAttribute("profile", new Profile());
+        return "pages/addNewProfile";
     }
     //надо придумать как его вынести, чт могли использовать в каждлм контроллере:)
     private String getCookieByName(String cName, Cookie[] cookies) {

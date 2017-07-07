@@ -43,7 +43,6 @@ public class ProfileDaoImpl implements ProfileDao {
     @Override
     public void createProfile(Profile profile) {
         LOGGER.info("ProfileDaoImpl createProfile start");
-//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         sessionFactory.getCurrentSession().save(profile);
         LOGGER.info("ProfileDaoImpl createProfile end");
     }
