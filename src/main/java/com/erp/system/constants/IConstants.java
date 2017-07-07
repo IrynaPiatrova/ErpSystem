@@ -10,6 +10,7 @@ public class IConstants {
     public static final String IS_ADMIN = "isAdmin";
     public static final String NAME_USER = "nameUser";
     public static final String LOG_PASS = "logPass";
+    public static final String PROFILE_DATA = "profileData";
     public static final String LOGED_AS = "logedAs";
     public static final String PROFILE = "profile";
     public static final String PHOTO = "photo";

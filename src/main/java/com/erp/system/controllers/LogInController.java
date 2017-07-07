@@ -88,6 +88,12 @@ public class LogInController {
         //каждый наш метод должен начинаться с проверки на осуществление авторизации (пять строк выше), а дальше логика метода
         return "";
     }
+
+    /**
+     *
+     * @param model
+     * @return String
+     */
     @RequestMapping(value = "/addNewWorker", method = RequestMethod.GET)
     public String addNewWorker(Model model){
         model.addAttribute("profile", new Profile());

@@ -10,16 +10,42 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Профиль</title>
+    <%@include file="head.jsp" %>
+    <%@include file="bootstrapLinks.jsp" %>
 </head>
 <body>
-    <p>${profile.department}</p>
-    <p>${profile.email}</p>
-    <p>${profile.idProfile}</p>
-    <p>${profile.position}</p>
-    <p>${profile.startDateProfile}</p>
-    <p>${profile.telephone}</p>
-    <p><img src="${photo}" class="img-responsive img-circle"
-            title="John Doe" alt="John Doe" width="30px" height="30px"></p>
+<%@include file="menu.jsp" %>
+<form action="edit" method="get"><input type="submit" class="btn btn-default btn-lg" value="Редактировать" ></form>
+<div class="container">
+    <table class="table table-striped">
+        <tbody>
+        <tr>
+            <td><div class="col-sm-2 col-md-2"><img src="${photo}"  class="img-rounded img-responsive"></div></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><h1>${nameUser}</h1></td>
+        </tr>
+        <tr>
+            <td>Департамент</td>
+            <td>${profile.department}</td>
+
+        </tr>
+        <tr>
+            <td>Позиция</td>
+            <td>${profile.position}</td>
+        </tr>
+        <tr>
+            <td>Почта</td>
+            <td><a href="mailto:${profile.email}?subject=Вопрос">${profile.email}</a></td>
+        </tr>
+        <tr>
+            <td>Телефон</td>
+            <td>${profile.telephone}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
