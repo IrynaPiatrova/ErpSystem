@@ -49,6 +49,7 @@ public class AddNewWorkerController {
                                          @RequestParam("Date")@Valid String startDate, BindingResult resultDate, Model model) throws ParseException {
         registrationNewProfileValidator.validate(profile, result);
         profileWorker = profile;
+        //проверку на уникальность email нужно сделать
         //registrationNewProfileValidator.validateDate(startDate, resultDate);
         if (startDate.length() == 0){//Калечная проверка на дату, нужно сделать нормальную
             return "pages/addNewProfile";
@@ -70,6 +71,7 @@ public class AddNewWorkerController {
     @RequestMapping(value = "/isSuccessAddNewWorker", method = RequestMethod.POST)
     public String isSuccessAddNewWorker( @ModelAttribute("worker")@Valid Worker worker, BindingResult result){
         registrationNewWorkerValidator.validate(registrationNewWorkerValidator, result);
+        //нужно добавить шифрование для пароля
         if (result.hasErrors()){
             return "pages/addNewWorker";
         }else {
