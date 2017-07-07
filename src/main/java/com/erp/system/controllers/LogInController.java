@@ -4,6 +4,7 @@ import com.erp.system.constants.IConstants;
 import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.LoginPassword;
 import com.erp.system.entity.Profile;
+import com.erp.system.entity.ProjectTicket;
 import com.erp.system.entity.Worker;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,5 +93,10 @@ public class LogInController {
     public String addNewWorker(Model model){
         model.addAttribute("profile", new Profile());
         return "pages/addNewProfile";
+    }
+    @RequestMapping(value = "/addNewTicket", method = RequestMethod.GET)
+    public String addNewTicket(Model model){
+        model.addAttribute("ticket", new ProjectTicket());
+        return "pages/addNewTicket";
     }
 }
