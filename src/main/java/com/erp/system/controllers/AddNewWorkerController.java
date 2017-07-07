@@ -42,10 +42,13 @@ public class AddNewWorkerController {
     @Autowired
     ProfileDaoImpl profileDao;
 
+    Profile profileWorker = new Profile();
+
     @RequestMapping(value ="/isSuccessAddNewProfile", method = RequestMethod.POST)
     public String isSuccessAddNewProfile(@ModelAttribute("profile")@Valid Profile profile, BindingResult result,
                                          @RequestParam("Date")@Valid String startDate, BindingResult resultDate, Model model) throws ParseException {
         registrationNewProfileValidator.validate(profile, result);
+        profileWorker = profile;
         //registrationNewProfileValidator.validateDate(startDate, resultDate);
         if (startDate.length() == 0){//Калечная проверка на дату, нужно сделать нормальную
             return "pages/addNewProfile";
@@ -70,6 +73,7 @@ public class AddNewWorkerController {
         if (result.hasErrors()){
             return "pages/addNewWorker";
         }else {
+            worker.setIdProfile(profileWorker);
             workerDao.createWorker(worker);
             return "pages/main";
         }
