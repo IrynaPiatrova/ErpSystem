@@ -61,7 +61,6 @@ public class AddNewWorkerController {
                 Date date = oldDateFormat.parse(startDate);
                 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
                 profile.setStartDateProfile(sqlDate);
-                profileDao.createProfile(profile);
                 model.addAttribute("worker", new Worker());
                 return "pages/addNewWorker";
             }
@@ -75,6 +74,7 @@ public class AddNewWorkerController {
         if (result.hasErrors()){
             return "pages/addNewWorker";
         }else {
+            profileDao.createProfile(profileWorker);
             worker.setIdProfile(profileWorker);
             workerDao.createWorker(worker);
             return "pages/main";
