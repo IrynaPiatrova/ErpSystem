@@ -25,7 +25,7 @@ import javax.validation.Valid;
  */
 @Controller
 public class LogInController {
-//Рома редиска
+//Андрей редиска
 
     @Autowired
     WorkerDao workerDao;
