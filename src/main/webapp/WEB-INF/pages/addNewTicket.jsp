@@ -34,7 +34,9 @@
 <spring:message code="ticket.startDate" var="startDateTicket"/>
 <spring:message code="ticket.endDate" var="endDateTicket"/>
 <spring:message code="ticket.deadline" var="deadlineTicket"/>
-<spring:message code="label.endRegistration" var="labelEnd"/>
+<spring:message code="label.complete" var="labelComplete"/>
+<spring:message code="label.back" var="labelBack"/>
+
 <form:form id="form" action="isSuccessAddNewTicket" method="post" modelAttribute="ticket">
     <table>
         <tr>
@@ -75,9 +77,12 @@
                 <div><form:errors path="deadlineTicket" style="color:red"/></div></td>
         </tr>
         <tr>
-            <td><input type="submit" value="${labelEnd}"></td>
+            <td><input type="submit" value="${labelComplete}"></td>
         </tr>
     </table>
 </form:form>
+<form action="/" method="get">
+    <input type="submit" value="${labelBack}">
+</form>
 </body>
 </html>

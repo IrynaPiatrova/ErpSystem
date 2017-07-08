@@ -36,6 +36,12 @@ public class AddNewWorkerController {
 
     Profile profileWorker = new Profile();
 
+    @RequestMapping(value = "/isSuccessAddNewProfile", method = RequestMethod.GET)
+    public String isSuccessAddNewProfile(Model model){
+        model.addAttribute("worker", new Worker());
+        return "pages/addNewWorker";
+    }
+
     @RequestMapping(value = "/isSuccessAddNewProfile", method = RequestMethod.POST)
     public String isSuccessAddNewProfile(@ModelAttribute("profile") @Valid Profile profile, BindingResult result,
                                          @RequestParam("Date") String startDate, Model model) throws ParseException {
