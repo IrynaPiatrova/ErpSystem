@@ -9,4 +9,6 @@ public interface ProfileService {
     void createProfile(Profile profile);
 
     Profile getProfileById(long profileId);
+
+    void updateProfile(Profile profile);
 }

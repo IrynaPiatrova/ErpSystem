@@ -36,7 +36,7 @@ public class MenuController {
         HttpSession session = request.getSession();
         String login = (String) session.getAttribute(IConstants.LOGED_AS);
         Worker workerByLogin = workerDao.getWorkerByLogin(login);
-        Profile profileById = profileDao.getProfileById(workerByLogin.getIdProfile());
+        Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
         MultipartFile photo = getPhoto(profileById.getPhoto());
         model.addAttribute(IConstants.PHOTO, photo != null ? photo : IConstants.URL_DEFAULT_PHOTO);
         model.addAttribute(IConstants.NAME_USER, workerByLogin.getNameWorker());

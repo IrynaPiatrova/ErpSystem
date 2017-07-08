@@ -28,4 +28,9 @@ public class ProfileServiceImpl implements ProfileService {
     public Profile getProfileById(long profileId) {
         return profileDao.getProfileById(profileId);
     }
+
+    @Override
+    public void updateProfile(Profile profile) {
+        profileDao.updateProfile(profile);
+    }
 }

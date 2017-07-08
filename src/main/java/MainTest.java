@@ -22,7 +22,7 @@ public class MainTest {
 //        worker.setNameWorker("Ирина");
         Profile byId = profileDao.getProfileById(2L);
         System.out.println(byId);
-//        worker.setIdProfile(byId);
+//        worker.setProfile(byId);
 //        workerDao.createWorker(worker);
         Worker worker = workerDao.getWorkerById(2);
         System.out.println(worker);

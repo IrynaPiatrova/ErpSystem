@@ -38,10 +38,21 @@ public class Profile implements Serializable {
     @Column(name = "photo")
     private byte[] photo;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProfile")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "profile")
     private Worker worker;
 
     public Profile() {
+    }
+
+    public Profile(Date startDateProfile, String position, String employmentStatus, String department, String telephone, String email, byte[] photo, Worker worker) {
+        this.startDateProfile = startDateProfile;
+        this.position = position;
+        this.employmentStatus = employmentStatus;
+        this.department = department;
+        this.telephone = telephone;
+        this.email = email;
+        this.photo = photo;
+        this.worker = worker;
     }
 
     public long getIdProfile() {

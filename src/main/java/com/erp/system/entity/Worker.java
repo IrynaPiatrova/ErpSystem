@@ -26,7 +26,7 @@ public class Worker implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_profile")
-    private Profile idProfile;
+    private Profile profile;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idWorker")
     private List<ProjectTicket> workerProjectTickets;
@@ -40,11 +40,11 @@ public class Worker implements Serializable {
     public Worker() {
     }
 
-    public Worker(String nameWorker, String login, String password, Profile idProfile) {
+    public Worker(String nameWorker, String login, String password, Profile profile) {
         this.nameWorker = nameWorker;
         this.login = login;
         this.password = password;
-        this.idProfile = idProfile;
+        this.profile = profile;
     }
 
     public long getIdWorker() {
@@ -79,12 +79,12 @@ public class Worker implements Serializable {
         this.password = password;
     }
 
-    public void setIdProfile(Profile idProfile) {
-        this.idProfile = idProfile;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
-    public long getIdProfile() {
-        return idProfile.getIdProfile();
+    public Profile getProfile() {
+        return profile;
     }
 
     public List<ProjectTicket> getWorkerProjectTickets() {
