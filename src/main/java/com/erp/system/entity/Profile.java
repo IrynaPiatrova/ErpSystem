@@ -8,7 +8,6 @@ import java.util.Date;
 /**
  * Created by klinster on 25.06.2017.
  */
-//Поменял дату на тип String, нужно подумать можно ли без изменения
 @Entity()
 @Table(name = "profiles")
 public class Profile implements Serializable {

@@ -38,6 +38,9 @@
         <form action="/addNewWorker" method="get">
             <input type="submit" value="Добавить нового сотрудника">
         </form>
+        <form action="/addNewTicket" method="get">
+            <input type="submit" value="Создать новую задачу">
+        </form>
     </span>
     <br><br>
     <form:form class="form-inline" action="main" method="post" modelAttribute="logPass">
