@@ -20,34 +20,33 @@
     <form:form class="form-horizontal" action="edit" method="post" modelAttribute="profileData">
         <fieldset>
 
-            <!-- Form Name -->
             <legend>Редактировать</legend>
-
-            <!-- Text input-->
-            <div class="form-group">
-                    <%--<spring:message code="username" var="username"/>--%>
-                <label class="col-md-4 control-label" for="textinput">position</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="position"
-                                id="textinput" name="textinput"/>
-                </div>
-            </div>
-            <div class="form-group">
-                    <%--<spring:message code="username" var="username"/>--%>
-                <label class="col-md-4 control-label" for="textinput">employment status</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="employmentStatus"
-                                id="textinput" name="textinput"/>
-                </div>
-            </div>
-            <div class="form-group">
-                    <%--<spring:message code="username" var="username"/>--%>
-                <label class="col-md-4 control-label" for="textinput">department</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="department"
-                                id="textinput" name="textinput"/>
-                </div>
-            </div>
+            <%--поля position, employment status, department будут меняться только админом при выборе
+            конкретного пользователя из списка - это будет в другой jsp и action будет /editAdmin--%>
+            <%--<div class="form-group">--%>
+                    <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                <%--<label class="col-md-4 control-label" for="textinput">position</label>--%>
+                <%--<div class="col-md-4">--%>
+                    <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="position"--%>
+                                <%--id="textinput" name="textinput"/>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                    <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                <%--<label class="col-md-4 control-label" for="textinput">employment status</label>--%>
+                <%--<div class="col-md-4">--%>
+                    <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="employmentStatus"--%>
+                                <%--id="textinput" name="textinput"/>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+                    <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                <%--<label class="col-md-4 control-label" for="textinput">department</label>--%>
+                <%--<div class="col-md-4">--%>
+                    <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="department"--%>
+                                <%--id="textinput" name="textinput"/>--%>
+                <%--</div>--%>
+            <%--</div>--%>
             <div class="form-group">
                     <%--<spring:message code="username" var="username"/>--%>
                 <label class="col-md-4 control-label" for="textinput">telephone</label>
