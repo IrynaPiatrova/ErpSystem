@@ -36,40 +36,30 @@ public class AddNewWorkerController {
 
     Profile profileWorker = new Profile();
 
-    @RequestMapping(value ="/isSuccessAddNewProfile", method = RequestMethod.POST)
-    public String isSuccessAddNewProfile(@ModelAttribute("profile")@Valid Profile profile, BindingResult result,
-                                         @RequestParam("Date")@Valid String startDate, BindingResult resultDate, Model model) throws ParseException {
+    @RequestMapping(value = "/isSuccessAddNewProfile", method = RequestMethod.POST)
+    public String isSuccessAddNewProfile(@ModelAttribute("profile") @Valid Profile profile, BindingResult result,
+                                         @RequestParam("Date") String startDate, Model model) throws ParseException {
         registrationNewProfileValidator.validate(profile, result);
         profileWorker = profile;
         //проверку на уникальность email нужно сделать
-        //registrationNewProfileValidator.validateDate(startDate, resultDate);
-        if (startDate.length() == 0){//Калечная проверка на дату, нужно сделать нормальную
-            return "pages/addNewProfile";
-        }else {
-            if (result.hasErrors()) {
-                return "pages/addNewProfile";
-            } else {
-                SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = oldDateFormat.parse(startDate);
-                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-                profile.setStartDateProfile(sqlDate);
-                model.addAttribute("worker", new Worker());
-                return "pages/addNewWorker";
-            }
-        }
+        if (startDate.length() == 0) result.rejectValue("startDateProfile", "empty.date");
+        if (result.hasErrors()) return "pages/addNewProfile";
+        SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = oldDateFormat.parse(startDate);
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        profile.setStartDateProfile(sqlDate);
+        model.addAttribute("worker", new Worker());
+        return "pages/addNewWorker";
     }
 
     @RequestMapping(value = "/isSuccessAddNewWorker", method = RequestMethod.POST)
-    public String isSuccessAddNewWorker( @ModelAttribute("worker")@Valid Worker worker, BindingResult result){
+    public String isSuccessAddNewWorker(@ModelAttribute("worker") @Valid Worker worker, BindingResult result) {
         registrationNewWorkerValidator.validate(registrationNewWorkerValidator, result);
         //нужно добавить шифрование для пароля
-        if (result.hasErrors()){
-            return "pages/addNewWorker";
-        }else {
-            profileDao.createProfile(profileWorker);
-            worker.setProfile(profileWorker);
-            workerDao.createWorker(worker);
-            return "pages/main";
-        }
+        if (result.hasErrors()) return "pages/addNewWorker";
+        profileDao.createProfile(profileWorker);
+        worker.setProfile(profileWorker);
+        workerDao.createWorker(worker);
+        return "pages/main";
     }
 }

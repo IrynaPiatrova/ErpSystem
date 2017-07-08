@@ -16,18 +16,11 @@ public class RegistrationNewProfileValidator implements Validator {
     }
 
     @Override
-    public void validate(Object o, Errors errors) {//copypast с логином и паролем в классе LoginPasswordValidator, надо подумать что с этим делать
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "empty.login", "Please enter your login");
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password", "Please enter your password");
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nameWorker", "empty.nameWorker", "Please enter name of Worker");
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "empty.startDateProfile", "Please enter nowaday Date");
+    public void validate(Object o, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "position", "empty.position", "Please enter worker's position");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "employmentStatus", "empty.employmentStatus", "Please enter worker's status");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "department", "empty.department", "Please enter worker's department");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telephone", "empty.telephone", "Please enter worker's telephone");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "empty.email", "Please enter worker's email");
-    }
-    public void validateDate(String str, Errors errors){ // этот метод не будет работать т.к. он не переопределяет метод validate из интерфейса Validator
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, str,"empty.date","Please enter nowaday Date");
     }
 }

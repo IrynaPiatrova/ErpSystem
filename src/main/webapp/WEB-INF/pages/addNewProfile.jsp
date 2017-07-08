@@ -50,6 +50,7 @@
 <spring:message code="profile.startDate" var="profileStartDate"/>
 <spring:message code="profile.photo" var="profilePhoto"/>
 <spring:message code="label.next" var="labelNext"/>
+<spring:message code="label.back" var="labelBack"/>
 
 <form:form id="form" action="isSuccessAddNewProfile" method="post" modelAttribute="profile">
     <table>
@@ -108,8 +109,8 @@
 
         <tr>
             <td>${profileStartDate}</td>
-            <td><input type="date" name="Date"/>
-                <%--<div><form:errors path="Date" style="color:red"/></div>--%>
+            <td><input type="date" name="Date" path="startDateProfile"/>
+                <div><form:errors path="startDateProfile" style="color:red"/></div>
             </td>
         </tr>
 
@@ -125,5 +126,8 @@
         </tr>
     </table>
 </form:form>
+<form action="/" method="get">
+    <input type="submit" value="${labelBack}">
+</form>
 </body>
 </html>

@@ -16,7 +16,7 @@ public class RegistrationNewWorkerValidator implements Validator {
     }
 
     @Override
-    public void validate(Object o, Errors errors) {//copypast с логином и паролем в классе LoginPasswordValidator, надо подумать что с этим делать
+    public void validate(Object o, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "empty.login", "Please enter your login");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password", "Please enter your password");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "nameWorker", "empty.nameWorker", "Please enter name of Worker");

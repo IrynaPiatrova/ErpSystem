@@ -22,17 +22,18 @@
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
                     width="10%" height="10%"></a>
     </span>
-<spring:message code="nameTicket" var="nameTicket"/>
-<spring:message code="specificationTicket" var="specificationTicket"/>
-<spring:message code="statusTicket" var="statusTicket"/>
-<spring:message code="statusTicketOpened" var="statusTicketOpened"/>
-<spring:message code="statusTicketInProgress" var="statusTicketInProgress"/>
-<spring:message code="statusTicketPaused" var="statusTicketPaused"/>
-<spring:message code="statusTicketReadyForTest" var="statusTicketReadyForTest"/>
-<spring:message code="statusTicketFinished" var="statusTicketFinished"/>
-<spring:message code="startDateTicket" var="startDateTicket"/>
-<spring:message code="endDateTicket" var="endDateTicket"/>
-<spring:message code="deadlineTicket" var="deadlineTicket"/>
+<spring:message code="ticket.name" var="nameTicket"/>
+<spring:message code="ticket.specification" var="specificationTicket"/>
+<spring:message code="ticket.status" var="statusTicket"/>
+<spring:message code="ticket.status.choose" var="statusTicketChoose"/>
+<spring:message code="ticket.status.opened" var="statusTicketOpened"/>
+<spring:message code="ticket.status.inProgress" var="statusTicketInProgress"/>
+<spring:message code="ticket.status.paused" var="statusTicketPaused"/>
+<spring:message code="ticket.status.readyForTest" var="statusTicketReadyForTest"/>
+<spring:message code="ticket.status.finished" var="statusTicketFinished"/>
+<spring:message code="ticket.startDate" var="startDateTicket"/>
+<spring:message code="ticket.endDate" var="endDateTicket"/>
+<spring:message code="ticket.deadline" var="deadlineTicket"/>
 <spring:message code="label.endRegistration" var="labelEnd"/>
 <form:form id="form" action="isSuccessAddNewTicket" method="post" modelAttribute="ticket">
     <table>
@@ -49,6 +50,7 @@
         <tr>
             <td>${statusTicket}</td>
             <td><form:select path="statusProjectTicket">
+                <option value="status" disabled selected>${statusTicketChoose}</option>
                 <option value="opened">${statusTicketOpened}</option>
                 <option value="in_progress">${statusTicketInProgress}</option>
                 <option value="paused">${statusTicketPaused}</option>
@@ -75,7 +77,6 @@
         <tr>
             <td><input type="submit" value="${labelEnd}"></td>
         </tr>
-    <%--<form:input type="text" name="statusProjectTicket" placeholder="${statusTicket}" path="statusProjectTicket"/><!--Нужно сделать compobox-->--%>
     </table>
 </form:form>
 </body>

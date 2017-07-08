@@ -22,22 +22,39 @@
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
                     width="10%" height="10%"></a>
     </span>
+<spring:message code="worker.name" var="workerName"/>
+<spring:message code="worker.login" var="workerLogin"/>
+<spring:message code="worker.password" var="workerPassword"/>
+<spring:message code="label.complete" var="labelComplete"/>
+<spring:message code="label.back" var="labelBack"/>
+
 <form:form id="form" action="isSuccessAddNewWorker" method="post" modelAttribute="worker">
-    <spring:message code="nameWorker" var="nameWorker"/>
-    <form:input type="text" name="nameWorker" placeholder="${nameWorker}" path="nameWorker"/>
-    <div><form:errors path="nameWorker" style="color:red"/></div>
-    <br>
-    <spring:message code="loginRegistration" var="logReg"/>
-    <form:input type="text" name="login" placeholder="${logReg}" path="login"/>
-    <div><form:errors path="login" style="color:red"/></div>
-    <br>
-    <spring:message code="passwordRegistration" var="pasReg"/>
-    <form:input type="password" name="password" placeholder="${pasReg}" path="password"/>
-    <div><form:errors path="password" style="color:red"/></div>
-    <br>
-    <spring:message code="label.endRegistration" var="labelEnd"/>
-    <input type="submit" value="${labelEnd}">
-    <br>
+    <table>
+        <tr>
+            <td>${workerName}</td>
+            <td><form:input type="text" name="nameWorker" path="nameWorker"/>
+            <div><form:errors path="nameWorker" style="color:red"/></div>
+            </td>
+        </tr>
+        <tr>
+            <td>${workerLogin}</td>
+            <td><form:input type="text" name="login" path="login"/>
+                <div><form:errors path="login" style="color:red"/></div>
+            </td>
+        </tr>
+        <tr>
+            <td>${workerPassword}</td>
+            <td><form:input type="password" name="password" path="password"/>
+                <div><form:errors path="password" style="color:red"/></div>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="${labelComplete}"></td>
+        </tr>
+    </table>
 </form:form>
+<form action="/addNewWorker" method="get">
+    <input type="submit" value="${labelBack}">
+</form>
 </body>
 </html>
