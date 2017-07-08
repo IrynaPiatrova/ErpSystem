@@ -27,7 +27,7 @@ public class RegistrationNewProfileValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telephone", "empty.telephone", "Please enter worker's telephone");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "empty.email", "Please enter worker's email");
     }
-    public void validateDate(String str, Errors errors){
+    public void validateDate(String str, Errors errors){ // этот метод не будет работать т.к. он не переопределяет метод validate из интерфейса Validator
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, str,"empty.date","Please enter nowaday Date");
     }
 }

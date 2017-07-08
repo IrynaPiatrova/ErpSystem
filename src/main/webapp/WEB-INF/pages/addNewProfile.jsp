@@ -15,7 +15,7 @@
     <title>Добавление нового сотрудника</title>
 </head>
 <style>
-    #form{
+    #form {
         align: center;
     }
 </style>
@@ -27,43 +27,103 @@
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
                     width="10%" height="10%"></a>
     </span>
+<spring:message code="profile.position" var="profilePosition"/>
+<spring:message code="profile.position.choose" var="profilePositionChoose"/>
+<spring:message code="profile.position.juniordeveloper" var="profilePositionJuniordeveloper"/>
+<spring:message code="profile.position.middleDeveloper" var="profilePositionMiddleDeveloper"/>
+<spring:message code="profile.position.seniorDeveloper" var="profilePositionSeniorDeveloper"/>
+<spring:message code="profile.position.QAEngineer" var="profilePositionQAEngineer"/>
+<spring:message code="profile.position.designer" var="profilePositionDesigner"/>
+<spring:message code="profile.department" var="profileDepartment"/>
+<spring:message code="profile.department.choose" var="profileDepartmentChoose"/>
+<spring:message code="profile.department.developers" var="profileDepartmentDevelopers"/>
+<spring:message code="profile.department.testers" var="profileDepartmentTesters"/>
+<spring:message code="profile.department.designers" var="profileDepartmentDesigners"/>
+<spring:message code="profile.employmentStatus" var="profileEmploymentStatus"/>
+<spring:message code="profile.employmentStatus.choose" var="profileEmploymentStatusChoose"/>
+<spring:message code="profile.employmentStatus.1" var="profileEmploymentStatus1"/>
+<spring:message code="profile.employmentStatus.2" var="profileEmploymentStatus2"/>
+<spring:message code="profile.employmentStatus.3" var="profileEmploymentStatus3"/>
+<spring:message code="profile.employmentStatus.4" var="profileEmploymentStatus4"/>
+<spring:message code="profile.telephone" var="profileTelephone"/>
+<spring:message code="profile.email" var="profileEmail"/>
+<spring:message code="profile.startDate" var="profileStartDate"/>
+<spring:message code="profile.photo" var="profilePhoto"/>
+<spring:message code="label.next" var="labelNext"/>
+
 <form:form id="form" action="isSuccessAddNewProfile" method="post" modelAttribute="profile">
-    <spring:message code="position" var="labelPosition"/>
-    <%--<form:input type="text" name="position" placeholder="${labelPosition}" path="position"/>--%>
-    <form:select path="position">
-        <option disabled>Выберите должность:</option>
-        <option value="Генерал">Генерал</option>
-        <option value="Уборщик">Уборщик</option>
-        <option value="Прогер">Прогер</option>
-    </form:select>
-    <div><form:errors path="position" style="color:red"/></div>
-    <br>
-    <spring:message code="department" var="department"/>
-    <form:input type="text" name="department" placeholder="${department}" path="department"/>
-    <div><form:errors path="department" style="color:red"/></div>
-    <br>
-    <spring:message code="employmentStatus" var="employmentStatus"/>
-    <form:input type="text" name="employmentStatus" placeholder="${employmentStatus}" path="employmentStatus"/><!--Нужно сделать compobox-->
-    <div><form:errors path="employmentStatus" style="color:red"/></div>
-    <br>
-    <spring:message code="telephone" var="telephone"/>
-    <form:input type="text" name="telephone" placeholder="${telephone}" path="telephone"/>
-    <div><form:errors path="telephone" style="color:red"/></div>
-    <br>
-    <spring:message code="email" var="email"/>
-    <form:input type="text" name="email" placeholder="${email}" path="email"/>
-    <div><form:errors path="email" style="color:red"/></div>
-    <br>
-    <input type="date" name="Date">
-    <br>
-    <%--<form:input type="date" name="startDate" path="startDate"/>--%>
-    <%--<div><form:errors path="startDate" style="color:red"/></div>--%>
-    <br>
-    <form:input type="file" name="photo" path="photo"/>
-    <br>
-    <spring:message code="label.next" var="labelNext"/>
-    <input type="submit" value="${labelNext}">
-    <br>
+    <table>
+        <tr>
+            <td>${profileDepartment}</td>
+            <td><form:select path="department">
+                <option value="department" disabled selected>${profileDepartmentChoose}</option>
+                <option value="development">${profileDepartmentDevelopers}</option>
+                <option value="testing">${profileDepartmentTesters}</option>
+                <option value="design">${profileDepartmentDesigners}</option>
+            </form:select>
+                <div><form:errors path="department" style="color:red"/></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>${profilePosition}</td>
+            <td><form:select path="position">
+                <option value="position" disabled selected>${profilePositionChoose}</option>
+                <option value="junior developer">${profilePositionJuniordeveloper}</option>
+                <option value="middle developer">${profilePositionMiddleDeveloper}</option>
+                <option value="senior developer">${profilePositionSeniorDeveloper}</option>
+                <option value="QAEngineer">${profilePositionQAEngineer}</option>
+                <option value="designer">${profilePositionDesigner}</option>
+            </form:select>
+                <div><form:errors path="position" style="color:red"/></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>${profileEmploymentStatus}</td>
+            <td><form:select path="employmentStatus">
+                <option value="status" disabled selected>${profileEmploymentStatusChoose}</option>
+                <option value="status 1">${profileEmploymentStatus1}</option>
+                <option value="status 2">${profileEmploymentStatus2}</option>
+                <option value="status 3">${profileEmploymentStatus3}</option>
+                <option value="status 4">${profileEmploymentStatus4}</option>
+            </form:select>
+                <div><form:errors path="employmentStatus" style="color:red"/></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>${profileTelephone}</td>
+            <td><form:input type="text" name="telephone" path="telephone"/>
+                <div><form:errors path="telephone" style="color:red"/></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>${profileEmail}</td>
+            <td><form:input type="text" name="email" path="email"/>
+                <div><form:errors path="email" style="color:red"/></div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>${profileStartDate}</td>
+            <td><input type="date" name="Date"/>
+                <%--<div><form:errors path="Date" style="color:red"/></div>--%>
+            </td>
+        </tr>
+
+        <tr>
+            <td>${profilePhoto}</td>
+            <td><form:input type="file" name="photo" path="photo"/>
+                    <%--<div><form:errors path="photo" style="color:red"/></div>--%>
+            </td>
+        </tr>
+
+        <tr>
+            <td><input type="submit" value="${labelNext}"></td>
+        </tr>
+    </table>
 </form:form>
 </body>
 </html>
