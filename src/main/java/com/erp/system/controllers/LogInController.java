@@ -53,7 +53,7 @@ public class LogInController {
      */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
     public String checkUserAuthorization(@ModelAttribute(IConstants.LOG_PASS) @Valid LoginPassword lp,
-                                         BindingResult result, Model model, HttpServletRequest request) {
+                                         BindingResult result, Model model, HttpSession session) {
         lpValidator.validate(lp, result);
         if (result.hasErrors()) return "pages/index";
         String isAdmin = IConstants.ADMIN.equals(lp.getLogin()) ? IConstants.TRUE : IConstants.FALSE;
@@ -61,7 +61,6 @@ public class LogInController {
         Worker workerByLogin = workerDao.getWorkerByLogin(login);
         model.addAttribute(IConstants.IS_ADMIN, isAdmin);
         model.addAttribute(IConstants.NAME_USER, workerByLogin.getNameWorker());
-        HttpSession session = request.getSession();
         session.setAttribute(IConstants.LOGED_AS, login);
         session.setAttribute(IConstants.IS_ADMIN, isAdmin);
         return "pages/main";
@@ -73,16 +72,16 @@ public class LogInController {
      * @return String
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String mainPage(Model model, HttpServletRequest request) {
-        if (!MethodsForControllers.isLogedIn(request)) return "redirect:/";
+    public String mainPage(Model model, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
 //        model.addAttribute(IS_ADMIN, MethodsForControllers.getCookieByName(IS_ADMIN, request.getCookies()));
         return "pages/main";
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     // Это будет тестовый метод где будем пробовать новые фичи, чтобы не создавать всегда заново для проверки
-    public String testMethod(HttpServletRequest request) {
-        if (!MethodsForControllers.isLogedIn(request) || !MethodsForControllers.isAdmin(request))
+    public String testMethod(HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session))
             return "redirect:/";//только админ
 
         //каждый наш метод должен начинаться с проверки на осуществление авторизации (пять строк выше), а дальше логика метода
