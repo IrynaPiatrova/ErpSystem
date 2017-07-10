@@ -9,14 +9,12 @@ import com.erp.system.entity.Worker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-
+import javax.validation.Valid;
 import java.io.IOException;
 
 
@@ -36,7 +34,8 @@ public class MenuController {
         String login = (String) session.getAttribute(IConstants.LOGED_AS);
         Worker workerByLogin = workerDao.getWorkerByLogin(login);
         Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
-        model.addAttribute(IConstants.PHOTO, profileById.getPhoto().length > 0 ? profileById.getPhoto() : null);
+        byte[] photo = profileById.getPhoto();
+        model.addAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? profileById.getPhoto() : null);
         model.addAttribute(IConstants.NAME_USER, workerByLogin.getNameWorker());
         model.addAttribute(IConstants.PROFILE, profileById);
         session.setAttribute(IConstants.PROFILE_DATA, profileById);
@@ -53,8 +52,9 @@ public class MenuController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     //это метод для изменения СВОЕГО профиля (или пользователь меняет свой профиль, или админ свой)
-    public String editProfile(@ModelAttribute(IConstants.PROFILE_DATA) ProfileDTO profileDTO, @RequestParam("photo") MultipartFile photo, HttpSession session) {
+    public String editProfile(@ModelAttribute(IConstants.PROFILE_DATA) @Valid ProfileDTO profileDTO, @RequestParam("photo") MultipartFile photo, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        if (result.hasErrors()) return "pages/editProfile";
         Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
         profile.setTelephone(profileDTO.getTelephone());
         profile.setEmail(profileDTO.getEmail());
@@ -77,5 +77,25 @@ public class MenuController {
         profile.setDepartment(profileDTO.getDepartment());
         profileDao.updateProfile(profile);
         return "redirect:/profile";
+    }
+
+    @RequestMapping(value = "findWorker", method = RequestMethod.GET)
+    private String findWorker(HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        return "pages/findWorker";
+    }
+
+
+    @RequestMapping(value = "findWorkerById", params = "id", method = RequestMethod.GET)
+    @ResponseBody
+    private Worker findWorkerByValue(@RequestParam("id") Long id) {
+        return workerDao.getWorkerById(id);
+    }
+
+    @RequestMapping(value = "allWorker", method = RequestMethod.GET)
+    private String getAllWorker(HttpSession session, Model model) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        model.addAttribute(IConstants.ALL_WORKERS, workerDao.getAllWorkers());
+        return "pages/allWorker";
     }
 }

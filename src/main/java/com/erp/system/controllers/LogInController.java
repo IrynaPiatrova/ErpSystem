@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -48,7 +46,7 @@ public class LogInController {
      * @param lp
      * @param result
      * @param model
-     * @param request
+     * @param session
      * @return String
      */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
@@ -67,9 +65,10 @@ public class LogInController {
     }
 
     /**
+     *
      * @param model
-     * @param request
-     * @return String
+     * @param session
+     * @return
      */
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String mainPage(Model model, HttpSession session) {

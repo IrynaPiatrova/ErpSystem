@@ -31,10 +31,10 @@
                 <li><a href="main">Главная</a></li>
                 <li/>
                 <c:if test="${isAdmin}">
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b
+                    <li class="dropdown"><a href="allWorkers" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b
                             class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Support</a></li>
+                            <li><a href="findWorker">Поиск пользователя</a></li>
                             <li><a href="#">Contact Support</a></li>
                             <li><a href="#">Logout</a></li>
                             <li><a href="addNewWorker">Add new worker</a></li>

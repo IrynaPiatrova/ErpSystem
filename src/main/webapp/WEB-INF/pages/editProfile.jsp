@@ -48,13 +48,15 @@
                 <%--id="textinput" name="textinput"/>--%>
                 <%--</div>--%>
                 <%--</div>--%>
+
             <div class="form-group">
-                    <%--<spring:message code="username" var="username"/>--%>
+                <%--<spring:message code="username" var="username"/>--%>
                 <label class="col-md-4 control-label" for="inputTelephone">telephone</label>
                 <div class="col-md-4">
                     <form:input class="form-control input-md" type="text" autocomplete="off" path="telephone"
                                 id="inputTelephone" name="textinput"/>
                 </div>
+                    <div><form:errors path="telephone" style="color:red"/></div>
             </div>
             <div class="form-group">
                     <%--<spring:message code="username" var="username"/>--%>
@@ -64,6 +66,7 @@
                                 id="inputEmail"
                                 name="textinput"/>
                 </div>
+                        <div><form:errors path="email" style="color:red"/></div>
             </div>
 
 
