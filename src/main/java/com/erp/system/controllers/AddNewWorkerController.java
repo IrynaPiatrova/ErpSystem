@@ -35,7 +35,7 @@ public class AddNewWorkerController {
     @Autowired
     ProfileDaoImpl profileDao;
 
-    Profile profileWorker = new Profile();
+    private Profile profileWorker = new Profile();
 
     @RequestMapping(value = "/isSuccessAddNewProfile", method = RequestMethod.GET)
     public String isSuccessAddNewProfile(Model model){
