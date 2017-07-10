@@ -4,11 +4,13 @@ import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.entity.Profile;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by klinster on 25.06.2017
@@ -50,6 +52,17 @@ public class ProfileDaoImpl implements ProfileDao {
         sessionFactory.getCurrentSession().save(profile);
         LOGGER.info("ProfileDaoImpl createProfile end");
     }
+    @Override
+    public boolean isEmailExist(String profileEmail) {
+        LOGGER.info("WorkerDaoImpl getEmails start");
+        Query query = sessionFactory.getCurrentSession().createQuery("select email from Profile where email = :profileEmail");
+        LOGGER.info("WorkerDaoImpl getEmails end");
+        if (query == null){
+            return true;
+        } else {
+            return false;
+        }
 
+    }
 
 }

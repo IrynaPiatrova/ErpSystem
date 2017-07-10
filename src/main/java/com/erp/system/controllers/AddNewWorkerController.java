@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -38,6 +39,11 @@ public class AddNewWorkerController {
 
     @RequestMapping(value = "/isSuccessAddNewProfile", method = RequestMethod.GET)
     public String isSuccessAddNewProfile(Model model){
+        model.addAttribute("profile", new Profile());
+        return "pages/addNewProfile";
+    }
+    @RequestMapping(value = "/isSuccessAddNewWorker", method = RequestMethod.GET)
+    public String isSuccessAddNewWorker(Model model){
         model.addAttribute("worker", new Worker());
         return "pages/addNewWorker";
     }
@@ -47,14 +53,15 @@ public class AddNewWorkerController {
                                          @RequestParam("Date") String startDate, Model model) throws ParseException {
         registrationNewProfileValidator.validate(profile, result);
         profileWorker = profile;
-        //проверку на уникальность email нужно сделать
+        boolean isEmailGood = profileDao.isEmailExist(profile.getEmail());
+        if (isEmailGood == false) result.rejectValue("email","exist.email");//проверяет есть ли в базе такой же email
         if (startDate.length() == 0) result.rejectValue("startDateProfile", "empty.date");
         if (result.hasErrors()) return "pages/addNewProfile";
-        SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = oldDateFormat.parse(startDate);
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        profile.setStartDateProfile(sqlDate);
-        model.addAttribute("worker", new Worker());
+            SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = oldDateFormat.parse(startDate);
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            profile.setStartDateProfile(sqlDate);
+            model.addAttribute("worker", new Worker());
         return "pages/addNewWorker";
     }
 
@@ -62,10 +69,11 @@ public class AddNewWorkerController {
     public String isSuccessAddNewWorker(@ModelAttribute("worker") @Valid Worker worker, BindingResult result) {
         registrationNewWorkerValidator.validate(registrationNewWorkerValidator, result);
         //нужно добавить шифрование для пароля
-        if (result.hasErrors()) return "pages/addNewWorker";
-        profileDao.createProfile(profileWorker);
-        worker.setProfile(profileWorker);
-        workerDao.createWorker(worker);
-        return "pages/main";
+        if (result.hasErrors())
+            return "pages/addNewWorker";
+            profileDao.createProfile(profileWorker);
+            worker.setProfile(profileWorker);
+            workerDao.createWorker(worker);
+            return "pages/main";
     }
 }

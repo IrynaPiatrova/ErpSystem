@@ -52,6 +52,7 @@ public class WorkerDaoImpl implements WorkerDao {
         return query.getResultList().size() != 0;
     }
 
+
     /**
      * update Worker data
      * @param worker
@@ -110,4 +111,5 @@ public class WorkerDaoImpl implements WorkerDao {
         LOGGER.info("WorkerDaoImpl getAllWorkers end");
         return query.getResultList();
     }
+
 }

@@ -37,13 +37,14 @@
                             <li><a href="#">Support</a></li>
                             <li><a href="#">Contact Support</a></li>
                             <li><a href="#">Logout</a></li>
+                            <li><a href="addNewWorker">Add new worker</a></li>
                         </ul>
                     </li>
                     <li/>
                 </c:if>
                 <li/>
                 <li><a href="profile">Профиль</a></li>
-                <li><a href="#">Тикеты</a></li>
+                <li><a href="addNewTicket">Тикеты</a></li>
                 <li/>
                 <li><a href="#">Чат</a></li>
             </ul>
