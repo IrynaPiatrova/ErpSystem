@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class MenuController {
         Worker workerByLogin = workerDao.getWorkerByLogin(login);
         Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
         byte[] photo = profileById.getPhoto();
-        model.addAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? profileById.getPhoto() : null);
+        model.addAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? photo : null);
         model.addAttribute(IConstants.NAME_USER, workerByLogin.getNameWorker());
         model.addAttribute(IConstants.PROFILE, profileById);
         session.setAttribute(IConstants.PROFILE_DATA, profileById);
@@ -69,7 +70,7 @@ public class MenuController {
 
     @RequestMapping(value = "/editAdmin", method = RequestMethod.POST)
     //этот метод для изменения других полей профиля - меняет ТОЛЬКО админ после выбора из списка пользователей
-    private String editProfile(HttpSession session, @ModelAttribute(IConstants.PROFILE_DATA) ProfileDTO profileDTO) {
+    public String editProfileByAdmin(@ModelAttribute(IConstants.PROFILE_DATA) ProfileDTO profileDTO, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         Profile profile = new Profile(); //тут надо подумать как передавать из списка пользователей характеристики выбранного пользователя, потом переход на новую страницу с изменением профиля выбранного пользователя
         profile.setPosition(profileDTO.getPosition());
@@ -79,23 +80,35 @@ public class MenuController {
         return "redirect:/profile";
     }
 
-    @RequestMapping(value = "findWorker", method = RequestMethod.GET)
-    private String findWorker(HttpSession session) {
-        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+    @RequestMapping(value = "/findWorker", method = RequestMethod.GET)
+    public String findWorker(HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         return "pages/findWorker";
     }
 
 
-    @RequestMapping(value = "findWorkerById", params = "id", method = RequestMethod.GET)
+    @RequestMapping(value = "/findWorkerById", params = "id", method = RequestMethod.GET)
     @ResponseBody
-    private Worker findWorkerByValue(@RequestParam("id") Long id) {
+    public Worker findWorkerByValue(@RequestParam("id") Long id, HttpSession session, Model model, HttpServletResponse response) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // эту ошибку потом надо отловить и отправить...
+            return null;
+        }
+        Worker worker = workerDao.getWorkerById(id);
         return workerDao.getWorkerById(id);
     }
 
-    @RequestMapping(value = "allWorker", method = RequestMethod.GET)
-    private String getAllWorker(HttpSession session, Model model) {
-        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+    @RequestMapping(value = "/allWorkers", method = RequestMethod.GET)
+    public String getAllWorker(Model model, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         model.addAttribute(IConstants.ALL_WORKERS, workerDao.getAllWorkers());
-        return "pages/allWorker";
+            return "pages/allWorkers";
+    }
+
+    @RequestMapping(value = "/logOut", method = RequestMethod.GET)
+    public String logOut(HttpSession session){
+        session.setAttribute(IConstants.IS_ADMIN, null);
+        session.setAttribute(IConstants.LOGED_AS, null);
+        return "redirect:/";
     }
 }

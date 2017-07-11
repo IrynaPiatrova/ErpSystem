@@ -9,11 +9,14 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by John on 04.07.2017.
+ * Created by John on 04.07.2017
  */
 public class MethodsForControllers {
 
@@ -30,7 +33,22 @@ public class MethodsForControllers {
     }
 
     public static Boolean isAdmin(HttpSession session) {
-        return IConstants.ADMIN.equals(session.getAttribute(IConstants.IS_ADMIN));
+        return IConstants.TRUE.equals(session.getAttribute(IConstants.IS_ADMIN));
+    }
+
+    public static String convertToMD5(String input) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(input.getBytes());
+            BigInteger number = new BigInteger(1, messageDigest);
+            String hashtext = number.toString(16);
+            while (hashtext.length() < 30) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
     // работает без этого метода
 //    public static MultipartFile getPhoto(byte[] photo) {

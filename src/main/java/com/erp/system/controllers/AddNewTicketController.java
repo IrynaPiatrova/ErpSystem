@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @Controller
 public class AddNewTicketController {
 
-    @RequestMapping(value = "isSuccessAddNewTicket", method = RequestMethod.POST)
+    @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.POST)
     public String isSuccessAddNewTicket(@ModelAttribute("ticket")@Valid ProjectTicket projectTicket){
         return "pages/main";
     }

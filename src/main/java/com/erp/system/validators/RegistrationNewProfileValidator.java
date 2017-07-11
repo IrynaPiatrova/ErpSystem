@@ -37,6 +37,6 @@ public class RegistrationNewProfileValidator implements Validator {
         Matcher matcher = pattern.matcher(profile.getEmail());
         if (!matcher.matches()) errors.rejectValue("email", "not.valid.email");
         if (profileDao.isEmailUnique(profile.getEmail())) errors.rejectValue("email", "exist.email");
-        if (profileDao.isTelephoneUnique(profile.getTelephone())) errors.rejectValue("telephone", "exist.telephone");
+        if (profileDao.isTelephoneUnique(profile.getTelephone())) errors.rejectValue("telephone", "exist.telephone"); // надо добавить паттер на телефон
     }
 }

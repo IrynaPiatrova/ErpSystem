@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
 @Entity()
 @Table(name = "profiles")
@@ -19,13 +19,13 @@ public class Profile implements Serializable {
     @Column(name = "start_date")
     private Date startDateProfile;
 
-    @Column(name = "position", length = 64)
+    @Column(name = "position", length = 100)
     private String position;
 
-    @Column(name = "employment_status", length = 64)
+    @Column(name = "employment_status", length = 50)
     private String employmentStatus;
 
-    @Column(name = "department", length = 64)
+    @Column(name = "department", length = 50)
     private String department;
 
     @Column(name = "telephone", length = 30)

@@ -2,19 +2,13 @@ package com.erp.system.controllers;
 
 import com.erp.system.dao.profile.impl.ProfileDaoImpl;
 import com.erp.system.dao.worker.impl.WorkerDaoImpl;
-import com.erp.system.entity.Profile;
-import com.erp.system.entity.Worker;
-import com.erp.system.tags.MD5;
-import com.erp.system.validators.RegistrationNewProfileValidator;
-import com.erp.system.validators.RegistrationNewWorkerValidator;
+import com.erp.system.entity.*;
+import com.erp.system.validators.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.text.ParseException;
@@ -23,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by Roma on 18.06.2017.
+ * Created by Roma on 18.06.2017
  */
 @Controller
 public class AddNewWorkerController {
@@ -36,7 +30,6 @@ public class AddNewWorkerController {
     @Autowired
     ProfileDaoImpl profileDao;
 
-    private MD5 md5 = new MD5();
     private Profile profileWorker = new Profile();
 
     @RequestMapping(value = "/isSuccessAddNewProfile", method = RequestMethod.GET)
@@ -69,7 +62,8 @@ public class AddNewWorkerController {
     public String isSuccessAddNewWorker(@ModelAttribute("worker") @Valid Worker worker, BindingResult result) {
         registrationNewWorkerValidator.validate(worker, result);
         if (result.hasErrors()) return "pages/addNewWorker";
-        worker.setPassword(md5.getMD5(worker.getPassword()));
+        worker.setPassword(worker.getPassword());                                       // Для записи в БД в незашифрованном виде
+//        worker.setPassword(MethodsForControllers.convertToMD5(worker.getPassword())); // Для записи в БД в зашифрованном виде MD5
         profileDao.createProfile(profileWorker);
         worker.setProfile(profileWorker);
         workerDao.createWorker(worker);

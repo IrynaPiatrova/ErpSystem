@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
 @Entity()
 @Table(name = "workers")
@@ -15,7 +15,7 @@ public class Worker implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idWorker;
 
-    @Column(name = "name", length = 64)
+    @Column(name = "name", length = 50)
     private String nameWorker;
 
     @Column(name = "login", length = 64)

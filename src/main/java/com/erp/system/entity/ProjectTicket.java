@@ -16,10 +16,10 @@ public class ProjectTicket implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idProjectTicket;
 
-    @Column(name = "name", length = 64)
+    @Column(name = "name", length = 100)
     private String nameProjectTicket;
 
-    @Column(name = "specification", length = 64)
+    @Column(name = "specification", length = 500)
     private String specification;
 
     @Column(name = "status", length = 64)

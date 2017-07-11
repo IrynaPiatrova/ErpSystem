@@ -18,6 +18,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <span class="navbar-brand">
+                <a href="logOut">Выйти</a>
+            </span>
             <span class="user-avatar pull-left" style="margin-right:20px; margin-top:8px;">
                <img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"
                     title="John Doe" alt="John Doe" width="30px" height="30px">
@@ -31,20 +34,20 @@
                 <li><a href="main">Главная</a></li>
                 <li/>
                 <c:if test="${isAdmin}">
-                    <li class="dropdown"><a href="allWorkers" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b
+                    <li class="dropdown"><a href="/allWorkers" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b
                             class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="findWorker">Поиск пользователя</a></li>
+                            <li><a href="/findWorker">Поиск пользователя</a></li>
                             <li><a href="#">Contact Support</a></li>
-                            <li><a href="#">Logout</a></li>
-                            <li><a href="addNewWorker">Add new worker</a></li>
+                            <li><a href="/addNewWorker">Add new worker</a></li>
+                            <li><a href="/allWorkers">All workers</a> </li>
                         </ul>
                     </li>
                     <li/>
                 </c:if>
                 <li/>
-                <li><a href="profile">Профиль</a></li>
-                <li><a href="addNewTicket">Тикеты</a></li>
+                <li><a href="/profile">Профиль</a></li>
+                <li><a href="/addNewTicket">Тикеты</a></li>
                 <li/>
                 <li><a href="#">Чат</a></li>
             </ul>
