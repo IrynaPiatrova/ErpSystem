@@ -92,10 +92,10 @@ public class MenuController {
         return workerDao.getWorkerById(id);
     }
 
-    @RequestMapping(value = "allWorker", method = RequestMethod.GET)
+    @RequestMapping(value = "allWorkers", method = RequestMethod.GET)
     private String getAllWorker(HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        model.addAttribute(IConstants.ALL_WORKERS, workerDao.getAllWorkers());
-        return "pages/allWorker";
+        model.addAttribute(IConstants.WORKERS, workerDao);
+        return "pages/allWorkers";
     }
 }
