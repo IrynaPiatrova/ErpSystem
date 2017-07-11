@@ -2,6 +2,7 @@ package com.erp.system.validators;
 
 import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.dto.LoginPassword;
+import com.erp.system.tags.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -15,6 +16,7 @@ import org.springframework.validation.Validator;
 public class LoginPasswordValidator implements Validator {
     @Autowired
     WorkerDaoImpl workerDao;
+    private MD5 md5 = new MD5();
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -26,7 +28,7 @@ public class LoginPasswordValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "empty.login", "Please enter your login");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password", "Please enter your password");
         LoginPassword loginPassword = (LoginPassword) object;
-        if (!workerDao.isLoginPasswordValid(loginPassword.getLogin(),loginPassword.getPassword())){
+        if (!workerDao.isLoginPasswordValid(loginPassword.getLogin(),loginPassword.getPassword())){//md5.getMD5(loginPassword.getPassword() - для проверки шифрованного пароля
             errors.rejectValue("password", "err.login.password", "Incorrect login or password.");
         }
     }

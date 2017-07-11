@@ -53,16 +53,20 @@ public class ProfileDaoImpl implements ProfileDao {
         LOGGER.info("ProfileDaoImpl createProfile end");
     }
     @Override
-    public boolean isEmailExist(String profileEmail) {
-        LOGGER.info("WorkerDaoImpl getEmails start");
-        Query query = sessionFactory.getCurrentSession().createQuery("select email from Profile where email = :profileEmail");
-        LOGGER.info("WorkerDaoImpl getEmails end");
-        if (query == null){
-            return true;
-        } else {
-            return false;
-        }
-
+    public boolean isEmailUnique(String profileEmail) {
+        LOGGER.info("ProfileDaoImpl getEmails start");
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM Profile WHERE email = :email");
+        query.setParameter("email", profileEmail);
+        LOGGER.info("ProfileDaoImpl getEmails end");
+        return query.getResultList().size()!=0;
     }
 
+    @Override
+    public boolean isTelephoneUnique(String profileTelephone) {
+        LOGGER.info("ProfileDaoImpl getTelephones start");
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM Profile WHERE telephone = :telephone");
+        query.setParameter("telephone", profileTelephone);
+        LOGGER.info("ProfileDaoImpl getTelephones end");
+        return query.getResultList().size() != 0;
+    }
 }

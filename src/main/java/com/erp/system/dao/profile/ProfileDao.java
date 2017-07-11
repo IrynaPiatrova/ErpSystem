@@ -15,5 +15,7 @@ public interface ProfileDao {
 
     void updateProfile(Profile profile);
 
-    boolean isEmailExist(String profileEmail);
+    boolean isEmailUnique(String profileEmail);
+
+    boolean isTelephoneUnique(String profileTelephone);
 }

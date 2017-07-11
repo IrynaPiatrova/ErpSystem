@@ -52,6 +52,15 @@ public class WorkerDaoImpl implements WorkerDao {
         return query.getResultList().size() != 0;
     }
 
+    @Override
+    public boolean isLoginUnique(String profileLogin) {
+        LOGGER.info("ProfileDaoImpl getLogin start");
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM Worker WHERE login = :login");
+        query.setParameter("login", profileLogin);
+        LOGGER.info("ProfileDaoImpl getLogin end");
+        return query.getResultList().size() != 0;
+    }
+
 
     /**
      * update Worker data

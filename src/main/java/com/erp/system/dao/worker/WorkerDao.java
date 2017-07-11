@@ -22,4 +22,5 @@ public interface WorkerDao {
 
     boolean isLoginPasswordValid(String login, String passowrd);
 
+    boolean isLoginUnique(String profileLogin);
 }
