@@ -21,9 +21,16 @@
     <table class="table table-bordered">
 
         <c:if test="${not empty workers}">
-            <c:forEach items="${workers}" var="worker">
+            <c:forEach items="${workers.getAllWorkers()}" var="worker">
                 <tr>
+                    <%--так работает выводит в виде Worker{idWorker=2, name='wer', login='aaa', password='asd'} --%>
                     <td><c:out value="${worker}"/></td>
+
+                    <%--    не работает:( нужно разобраться почему--%>
+                    <%--<td><c:out value="${worker.idWorker}"/></td>
+                    <td><c:out value="${worker.name}"/></td>
+                    <td><c:out value="${worker.login}"/></td>
+                    <td><c:out value="${worker.password}"/></td>--%>
                 </tr>
             </c:forEach>
         </c:if>

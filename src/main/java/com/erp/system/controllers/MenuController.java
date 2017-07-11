@@ -95,7 +95,7 @@ public class MenuController {
     @RequestMapping(value = "allWorkers", method = RequestMethod.GET)
     private String getAllWorker(HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        model.addAttribute(IConstants.WORKERS, workerDao);
+        session.setAttribute(IConstants.WORKERS, workerDao);
         return "pages/allWorkers";
     }
 }
