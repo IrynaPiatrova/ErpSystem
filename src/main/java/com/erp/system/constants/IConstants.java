@@ -1,7 +1,7 @@
 package com.erp.system.constants;
 
 /**
- * Created by John on 04.07.2017.
+ * Created by John on 04.07.2017
  */
 public class IConstants {
     public static final String ADMIN = "admin";
@@ -16,4 +16,5 @@ public class IConstants {
     public static final String ALL_WORKERS = "allWorkers";
     public static final String PHOTO = "photo";
     public static final String ADMIN_EDIT_PROFILE = "adminEditProfile";
+    public static final String IS_CHOOSE_TICKET = "isChooseTicket";
 }

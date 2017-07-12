@@ -69,4 +69,14 @@ public class ProjectTicketDaoImpl implements ProjectTicketDao {
         LOGGER.info("ProjectTicketDaoImpl getAllProjectTicket end");
         return query.getResultList();
     }
+
+    @Override
+    public List getTicketsByStatus(String status) {
+        LOGGER.info("ProjectTicketDaoImpl geticketsByStatus start");
+        Query query = sessionFactory.getCurrentSession().createQuery("from ProjectTicket where status =:statusTicket");
+        query.setParameter("statusTicket", status);
+        LOGGER.info("ProjectTicketDaoImpl geticketsByStatus end");
+        return query.getResultList();
+    }
+
 }

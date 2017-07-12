@@ -112,4 +112,19 @@ public class ProjectTicket implements Serializable {
     public void setProjectCommentTickets(List<CommentsTicket> projectCommentTickets) {
         this.projectCommentTickets = projectCommentTickets;
     }
+
+    @Override
+    public String toString() {
+        return "ProjectTicket{" +
+                "idProjectTicket=" + idProjectTicket +
+                ", nameProjectTicket='" + nameProjectTicket + '\'' +
+                ", specification='" + specification + '\'' +
+                ", statusProjectTicket='" + statusProjectTicket + '\'' +
+                ", startTicketDate=" + startTicketDate +
+                ", endTicketDate=" + endTicketDate +
+                ", deadlineTicket=" + deadlineTicket +
+                ", idWorker=" + idWorker +
+                ", projectCommentTickets=" + projectCommentTickets +
+                '}';
+    }
 }

@@ -23,6 +23,7 @@ import javax.validation.Valid;
  */
 @Controller
 public class LogInController {
+    //Андрей редиска
 
     @Autowired
     WorkerDao workerDao;

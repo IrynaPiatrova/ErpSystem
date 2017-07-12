@@ -37,7 +37,6 @@
                     <li class="dropdown"><a href="/allWorkers" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b
                             class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <%--<li><a href="/findWorker">Поиск пользователя</a></li>--%>
                             <li><a href="#">Contact Support</a></li>
                             <li><a href="/addNewWorker">Add new worker</a></li>
                             <li><a href="/allWorkers">All workers</a> </li>
@@ -48,6 +47,19 @@
                 <li/>
                 <li><a href="/profile">Профиль</a></li>
                 <li><a href="/addNewTicket">Тикеты</a></li>
+                <li><a href="profile">Профиль</a></li>
+                <c:when test="${isAdmin}">
+                    <li class="dropdown"><a href="allTickets" class="dropdown-toggle" data-toggle="dropdown">Тикеты<b
+                        class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/addNewTicket">Новый тикет</a></li>
+                        <li><a href="/allTickets">Список тикетов</a></li>
+                </ul>
+                </li>
+                </c:when>
+                <c:otherwise>
+                    <li><a href="#">Тикеты</a></li>
+                </c:otherwise>
                 <li/>
                 <li><a href="#">Чат</a></li>
             </ul>

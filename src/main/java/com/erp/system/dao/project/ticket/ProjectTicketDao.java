@@ -15,4 +15,6 @@ public interface ProjectTicketDao {
     ProjectTicket getProjectTicketById(long projectTicketId);
 
     List getAllProjectTickets();
+
+    List getTicketsByStatus(String status);
 }

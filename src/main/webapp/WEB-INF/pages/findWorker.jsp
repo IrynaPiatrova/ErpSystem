@@ -37,7 +37,7 @@
                             ' <input type="image" src="' + $(this).attr("photo") + '">' +
                             '</td>' +*/
                             '<td>' +
-                            '<p><a href="findeWorker/" ' + term +'>' + $(this).attr("nameWorker") + '</a></p>' +
+                            '<p><a href="profile/" ' + term +'>' + $(this).attr("nameWorker") + '</a></p>' +
                             '</td>' +
                             '</tr>'));
 
