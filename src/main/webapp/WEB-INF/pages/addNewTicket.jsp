@@ -12,9 +12,29 @@
 <head>
     <meta charset="UTF-8">
     <%@include file="head.jsp" %>
+    <%@include file="bootstrapLinks.jsp" %>
     <title>Создание новой задачи</title>
+    <style>
+        #centerLayer {
+            position: absolute;
+            margin-left: 30%;
+            margin-top: 10%;
+            padding: 10px;
+            overflow: auto;
+        }
+        body {
+            background: #D3D3D3;
+        }
+        input,select{
+            border-radius: 10px
+        }
+        #textzone{
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
+<%@include file="menu.jsp" %>
 <span style="float: right">
              <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="10%"
                                      height="10%"></a>
@@ -37,19 +57,25 @@
 <spring:message code="label.complete" var="labelComplete"/>
 <spring:message code="label.back" var="labelBack"/>
 
-<form:form id="form" action="isSuccessAddNewTicket" method="post" modelAttribute="ticket">
+<form:form action="isSuccessAddNewTicket" method="post" modelAttribute="ticket">
+    <div id="centerLayer">
     <table>
-        <tr>
+        <tr height="40">
             <td>${nameTicket}</td>
             <td><form:input type="text" name="nameProjectTicket" path="nameProjectTicket"/>
                 <div><form:errors path="nameProjectTicket" style="color:red"/></div></td>
         </tr>
         <tr>
             <td>${specificationTicket}</td>
-            <td><form:input type="text" name="specification" path="specification"/>
+            <td><form:textarea id="textzone" name="specification" path="specification" border-radius = "10" cols="50" rows="4"/>
                 <div><form:errors path="specification" style="color:red"/></div></td>
         </tr>
-        <tr>
+        <%--<tr>--%>
+            <%--<td>${specificationTicket}</td>--%>
+            <%--<td><form:input type="text" name="specification" path="specification"/>--%>
+                <%--<div><form:errors path="specification" style="color:red"/></div></td>--%>
+        <%--</tr>--%>
+        <tr height="40">
             <td>${statusTicket}</td>
             <td><form:select path="statusProjectTicket">
                 <option value="status" disabled selected>${statusTicketChoose}</option>
@@ -61,19 +87,19 @@
             </form:select>
                 <div><form:errors path="statusProjectTicket" style="color:red"/></div></td>
         </tr>
-        <tr>
-            <td>${startDateTicket}</td>
-            <td><form:input type="date" name="startTicketDate" path="startTicketDate"/>
-                <div><form:errors path="startTicketDate" style="color:red"/></div></td>
-        </tr>
-        <tr>
-            <td>${endDateTicket}</td>
-            <td><form:input type="date" name="endTicketDate" path="endTicketDate"/>
-                <div><form:errors path="endTicketDate" style="color:red"/></div></td>
-        </tr>
-        <tr>
+        <%--<tr>--%>
+            <%--<td>${startDateTicket}</td>--%>
+            <%--<td><form:input type="date" name="startDate" path="startTicketDate"/>--%>
+                <%--<div><form:errors path="startTicketDate" style="color:red"/></div></td>--%>
+        <%--</tr>--%>
+        <%--<tr>--%>
+            <%--<td>${endDateTicket}</td>--%>
+            <%--<td><form:input type="date" name="endTicketDate" path="endTicketDate"/>--%>
+                <%--<div><form:errors path="endTicketDate" style="color:red"/></div></td>--%>
+        <%--</tr>--%>
+        <tr height="40">
             <td>${deadlineTicket}</td>
-            <td><form:input type="date" name="deadlineTicket" path="deadlineTicket"/>
+            <td height="30"><input type="date" name="deadlineDate" path="deadlineTicket"/>
                 <div><form:errors path="deadlineTicket" style="color:red"/></div></td>
         </tr>
         <tr>
@@ -81,8 +107,10 @@
         </tr>
     </table>
 </form:form>
-<form action="/" method="get">
+        <br>
+<form margin-top="20px" action="/" method="get">
     <input type="submit" value="${labelBack}">
 </form>
+    </div>
 </body>
 </html>

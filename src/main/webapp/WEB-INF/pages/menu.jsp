@@ -44,7 +44,15 @@
                 </c:if>
                 <li/>
                 <li><a href="profile">Профиль</a></li>
-                <li><a href="addNewTicket">Тикеты</a></li>
+                <c:if test="${isAdmin}">
+                <li class="dropdown"><a href="allTickets" class="dropdown-toggle" data-toggle="dropdown">Тикеты<b
+                        class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/addNewTicket">Новый тикет</a></li>
+                    <li><a href="/allTickets">Список тикетов</a></li>
+                </ul>
+                </li>
+                </c:if>
                 <li/>
                 <li><a href="#">Чат</a></li>
             </ul>

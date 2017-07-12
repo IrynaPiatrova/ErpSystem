@@ -13,19 +13,36 @@
     <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <title>Добавление нового сотрудника</title>
+    <%@include file="head.jsp" %>
+    <%@include file="bootstrapLinks.jsp" %>
+    <style>
+        #centerLayer {
+            position: absolute;
+            margin-left: 30%;
+            margin-top: 10%;
+            padding: 10px;
+            overflow: auto;
+        }
+        body {
+            background: #FAEBD7;
+        }
+        input {
+            width: 200px;
+            border-radius: 10px;
+        }
+        select{
+            border-radius: 10px;
+        }
+        option {
+            width: 200px;
+        }
+    </style>
 </head>
-<style>
-    #form {
-        align: center;
-    }
-</style>
 <body>
-<span style="float: right">
-             <a href="/isSuccessAddNewProfile?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="10%"
-                                     height="10%"></a>
-            <a href="/isSuccessAddNewProfile?lang=ru"><img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
-                    width="10%" height="10%"></a>
+<%@include file="menu.jsp" %>
+<span style="float: right" margin-right="10px" margin-top="10px">
+             <a href="/isSuccessAddNewProfile?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="8%" height="8%"></a>
+            <a href="/isSuccessAddNewProfile?lang=ru"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg==" width="8%" height="8%"></a>
     </span>
 <spring:message code="profile.position" var="profilePosition"/>
 <spring:message code="profile.position.choose" var="profilePositionChoose"/>
@@ -51,12 +68,12 @@
 <spring:message code="profile.photo" var="profilePhoto"/>
 <spring:message code="label.next" var="labelNext"/>
 <spring:message code="label.back" var="labelBack"/>
-
-<form:form id="form" action="isSuccessAddNewProfile" method="post" modelAttribute="profile">
+<div id="centerLayer">
+<form:form action="isSuccessAddNewProfile" method="post" modelAttribute="profile">
     <table>
-        <tr>
+        <tr height="40">
             <td>${profileDepartment}</td>
-            <td><form:select path="department">
+            <td><form:select path="department" width="200">
                 <option value="department" disabled selected>${profileDepartmentChoose}</option>
                 <option value="development">${profileDepartmentDevelopers}</option>
                 <option value="testing">${profileDepartmentTesters}</option>
@@ -66,9 +83,9 @@
             </td>
         </tr>
 
-        <tr>
+        <tr height="40">
             <td>${profilePosition}</td>
-            <td><form:select path="position">
+            <td><form:select path="position" width="200">
                 <option value="position" disabled selected>${profilePositionChoose}</option>
                 <option value="junior developer">${profilePositionJuniordeveloper}</option>
                 <option value="middle developer">${profilePositionMiddleDeveloper}</option>
@@ -80,9 +97,9 @@
             </td>
         </tr>
 
-        <tr>
+        <tr height="40">
             <td>${profileEmploymentStatus}</td>
-            <td><form:select path="employmentStatus">
+            <td><form:select path="employmentStatus"  width="200">
                 <option value="status" disabled selected>${profileEmploymentStatusChoose}</option>
                 <option value="status 1">${profileEmploymentStatus1}</option>
                 <option value="status 2">${profileEmploymentStatus2}</option>
@@ -93,41 +110,42 @@
             </td>
         </tr>
 
-        <tr>
+        <tr height="40">
             <td>${profileTelephone}</td>
             <td><form:input type="text" name="telephone" path="telephone"/>
                 <div><form:errors path="telephone" style="color:red"/></div>
             </td>
         </tr>
 
-        <tr>
+        <tr height="40">
             <td>${profileEmail}</td>
             <td><form:input type="text" name="email" path="email"/>
                 <div><form:errors path="email" style="color:red"/></div>
             </td>
         </tr>
 
-        <tr>
+        <tr height="40">
             <td>${profileStartDate}</td>
-            <td><input type="date" name="Date" path="startDateProfile"/>
+            <td><input type="date" name="Date" path="startDateProfile" height="30"/>
                 <div><form:errors path="startDateProfile" style="color:red"/></div>
             </td>
         </tr>
 
-        <tr>
+        <tr height="40">
             <td>${profilePhoto}</td>
             <td><form:input type="file" name="photo" path="photo"/>
                     <%--<div><form:errors path="photo" style="color:red"/></div>--%>
             </td>
         </tr>
 
-        <tr>
+        <tr height="40"  width="100">
             <td><input type="submit" value="${labelNext}"></td>
         </tr>
     </table>
 </form:form>
-<form action="/" method="get">
+<form action="/" method="get" width="100">
     <input type="submit" value="${labelBack}">
 </form>
+</div>
 </body>
 </html>
