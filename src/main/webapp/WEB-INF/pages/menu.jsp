@@ -37,7 +37,7 @@
                     <li class="dropdown"><a href="/allWorkers" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b
                             class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/findWorker">Поиск пользователя</a></li>
+                            <%--<li><a href="/findWorker">Поиск пользователя</a></li>--%>
                             <li><a href="#">Contact Support</a></li>
                             <li><a href="/addNewWorker">Add new worker</a></li>
                             <li><a href="/allWorkers">All workers</a> </li>

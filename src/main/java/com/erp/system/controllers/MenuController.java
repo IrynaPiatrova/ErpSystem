@@ -87,15 +87,27 @@ public class MenuController {
     }
 
 
-    @RequestMapping(value = "/findWorkerById", params = "id", method = RequestMethod.GET)
-    @ResponseBody
-    public Worker findWorkerByValue(@RequestParam("id") Long id, HttpSession session, Model model, HttpServletResponse response) {
-        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // эту ошибку потом надо отловить и отправить...
-            return null;
-        }
-        Worker worker = workerDao.getWorkerById(id);
-        return workerDao.getWorkerById(id);
+//    @RequestMapping(value = "/findWorkerById", params = "id", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Worker findWorkerByValue(@RequestParam("id") Long id, HttpSession session, Model model, HttpServletResponse response) {
+//        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) {
+//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // эту ошибку потом надо отловить и отправить...
+//            return null;
+//        }
+//        Worker worker = workerDao.getWorkerById(id);
+//
+//        return workerDao.getWorkerById(id);
+//    }
+
+    @RequestMapping(value = "/findWorkerByLogin", method = RequestMethod.POST)
+    public String findWorkerByValue(@RequestParam("login") String login, HttpSession session, Model model) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        Worker workerByLogin = workerDao.getWorkerByLogin(login);
+        Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
+        model.addAttribute(IConstants.PROFILE, profileById);
+        session.setAttribute(IConstants.PROFILE_DATA, profileById);
+        model.addAttribute(IConstants.ADMIN_EDIT_PROFILE, true);
+        return "pages/editProfile";
     }
 
     @RequestMapping(value = "/allWorkers", method = RequestMethod.GET)

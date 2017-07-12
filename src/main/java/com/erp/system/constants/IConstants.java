@@ -15,4 +15,5 @@ public class IConstants {
     public static final String PROFILE = "profile";
     public static final String ALL_WORKERS = "allWorkers";
     public static final String PHOTO = "photo";
+    public static final String ADMIN_EDIT_PROFILE = "adminEditProfile";
 }

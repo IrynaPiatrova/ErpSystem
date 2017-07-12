@@ -9,6 +9,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="hidden" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Профиль</title>
@@ -17,78 +19,109 @@
 </head>
 <body>
 <div class="container">
-    <form:form class="form-horizontal" action="edit" method="post" modelAttribute="profileData"
-               enctype="multipart/form-data">
-        <fieldset>
+    <c:choose>
+        <c:when test="${adminEditProfile}">
+            <form:form class="form-horizontal" action="edit" method="post" modelAttribute="profileData"
+                       enctype="multipart/form-data">
+                <fieldset>
 
-            <legend>Редактировать</legend>
-                <%--поля position, employment status, department будут меняться только админом при выборе
-                конкретного пользователя из списка - это будет в другой jsp и action будет /editAdmin--%>
-                <%--<div class="form-group">--%>
-                <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
-                <%--<label class="col-md-4 control-label" for="textinput">position</label>--%>
-                <%--<div class="col-md-4">--%>
-                <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="position"--%>
-                <%--id="textinput" name="textinput"/>--%>
-                <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="form-group">--%>
-                <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
-                <%--<label class="col-md-4 control-label" for="textinput">employment status</label>--%>
-                <%--<div class="col-md-4">--%>
-                <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="employmentStatus"--%>
-                <%--id="textinput" name="textinput"/>--%>
-                <%--</div>--%>
-                <%--</div>--%>
-                <%--<div class="form-group">--%>
-                <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
-                <%--<label class="col-md-4 control-label" for="textinput">department</label>--%>
-                <%--<div class="col-md-4">--%>
-                <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="department"--%>
-                <%--id="textinput" name="textinput"/>--%>
-                <%--</div>--%>
-                <%--</div>--%>
+                <legend>Редактировать</legend>
+                    <%--поля position, employment status, department будут меняться только админом при выборе
+                    конкретного пользователя из списка - это будет в другой jsp и action будет /editAdmin--%>
+                    <%--<div class="form-group">--%>
+                    <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                    <%--<label class="col-md-4 control-label" for="textinput">position</label>--%>
+                    <%--<div class="col-md-4">--%>
+                    <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="position"--%>
+                    <%--id="textinput" name="textinput"/>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                    <%--<label class="col-md-4 control-label" for="textinput">employment status</label>--%>
+                    <%--<div class="col-md-4">--%>
+                    <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="employmentStatus"--%>
+                    <%--id="textinput" name="textinput"/>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--<div class="form-group">--%>
+                    <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                    <%--<label class="col-md-4 control-label" for="textinput">department</label>--%>
+                    <%--<div class="col-md-4">--%>
+                    <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="department"--%>
+                    <%--id="textinput" name="textinput"/>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                </form:form>
+        </c:when>
+        <c:otherwise>
+                    <form:form class="form-horizontal" action="edit" method="post" modelAttribute="profileData"
+                               enctype="multipart/form-data">
+                    <fieldset>
 
-            <div class="form-group">
-                <%--<spring:message code="username" var="username"/>--%>
-                <label class="col-md-4 control-label" for="inputTelephone">telephone</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="telephone"
-                                id="inputTelephone" name="textinput"/>
-                </div>
-                    <div><form:errors path="telephone" style="color:red"/></div>
-            </div>
-            <div class="form-group">
-                    <%--<spring:message code="username" var="username"/>--%>
-                <label class="col-md-4 control-label" for="inputEmail">email</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="email"
-                                id="inputEmail"
-                                name="textinput"/>
-                </div>
-                        <div><form:errors path="email" style="color:red"/></div>
-            </div>
+                        <legend>Редактировать</legend>
+                            <%--поля position, employment status, department будут меняться только админом при выборе
+                            конкретного пользователя из списка - это будет в другой jsp и action будет /editAdmin--%>
+                            <%--<div class="form-group">--%>
+                            <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                            <%--<label class="col-md-4 control-label" for="textinput">position</label>--%>
+                            <%--<div class="col-md-4">--%>
+                            <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="position"--%>
+                            <%--id="textinput" name="textinput"/>--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="form-group">--%>
+                            <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                            <%--<label class="col-md-4 control-label" for="textinput">employment status</label>--%>
+                            <%--<div class="col-md-4">--%>
+                            <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="employmentStatus"--%>
+                            <%--id="textinput" name="textinput"/>--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="form-group">--%>
+                            <%--&lt;%&ndash;<spring:message code="username" var="username"/>&ndash;%&gt;--%>
+                            <%--<label class="col-md-4 control-label" for="textinput">department</label>--%>
+                            <%--<div class="col-md-4">--%>
+                            <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="department"--%>
+                            <%--id="textinput" name="textinput"/>--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
 
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="inputTelephone">telephone</label>
+                            <div class="col-md-4">
+                                <form:input class="form-control input-md" type="text" autocomplete="off" path="telephone"
+                                            id="inputTelephone" name="textinput"/>
+                            </div>
+                            <div><form:errors path="telephone" style="color:red"/></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="inputEmail">email</label>
+                            <div class="col-md-4">
+                                <form:input class="form-control input-md" type="text" autocomplete="off" path="email"
+                                            id="inputEmail"
+                                            name="textinput"/>
+                            </div>
+                            <div><form:errors path="email" style="color:red"/></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="inputPhoto">upload photo</label>
+                            <div class="col-md-4">
+                                <form:input id="inputPhoto" name="photo" class="input-file" type="file" path="photo"
+                                            accept="image/*"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="singlebutton"></label>
+                            <div class="col-md-4">
+                                <input type="submit" id="singlebutton" class="btn btn-primary" value="submit"/>
+                            </div>
+                        </div>
 
-            <!-- File Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputPhoto">upload photo</label>
-                <div class="col-md-4">
-                    <form:input id="inputPhoto" name="photo" class="input-file" type="file" path="photo"
-                                accept="image/*"/>
-                </div>
-            </div>
+                    </fieldset>
+                    </form:form>
+        </c:otherwise>
+    </c:choose>
 
-            <!-- Button -->
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="singlebutton"></label>
-                <div class="col-md-4">
-                    <input type="submit" id="singlebutton" class="btn btn-primary" value="submit"/>
-
-                </div>
-            </div>
-
-        </fieldset>
-    </form:form>
 </div>
 </body>
