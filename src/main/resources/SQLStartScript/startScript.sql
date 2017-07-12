@@ -32,10 +32,10 @@ CREATE TABLE  project_tickets
   name VARCHAR(100) NOT NULL ,
   specification VARCHAR(500) NOT NULL ,
   status VARCHAR(50) NOT NULL ,
-  start_ticket_date DATE NOT NULL,
+  start_ticket_date DATE DEFAULT NULL,
   end_ticket_date DATE DEFAULT NULL,
   deadline DATE NOT NULL,
-  id_worker INT NOT NULL,
+  id_worker INT DEFAULT NULL,
   FOREIGN KEY (id_worker) REFERENCES workers (id_worker) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 

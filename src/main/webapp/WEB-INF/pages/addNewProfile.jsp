@@ -27,7 +27,7 @@
             background: #FAEBD7;
         }
         input {
-            width: 200px;
+            width: 300px;
             border-radius: 10px;
         }
         select{
@@ -134,7 +134,6 @@
         <tr height="40">
             <td>${profilePhoto}</td>
             <td><form:input type="file" name="photo" path="photo"/>
-                    <%--<div><form:errors path="photo" style="color:red"/></div>--%>
             </td>
         </tr>
 

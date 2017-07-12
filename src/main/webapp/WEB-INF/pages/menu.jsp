@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
+
 <nav class="navbar navbar-inverse">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -22,8 +24,16 @@
                 <a href="logOut">Выйти</a>
             </span>
             <span class="user-avatar pull-left" style="margin-right:20px; margin-top:8px;">
-               <img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"
-                    title="John Doe" alt="John Doe" width="30px" height="30px">
+                <c:choose>
+                    <c:when test="${photo == null}">
+                        <img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"
+                             width="30px" height="30px">
+                    </c:when>
+                    <c:otherwise>
+                        <img src="<mytag:convertImage imageByte="${photo}"/>" class="img-responsive img-circle"
+                             width="30px" height="30px">
+                    </c:otherwise>
+                </c:choose>
             </span>
             <span class="navbar-brand">${nameUser}</span>
         </div>
@@ -62,6 +72,20 @@
                 </c:choose>
                 <li/>
                 <li><a href="#">Чат</a></li>
+                <li/>
+            </ul>
+            <ul>
+                <span style="width: 20px; text-align: right ">
+                    <li>
+                    <ul>
+                        <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png"
+                                                width="2%" height="2%"></a>
+                        <a href="?lang=ru"><img
+                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
+                                width="2%" height="2%"></a>
+                    </ul>
+                </li>
+                </span>
             </ul>
         </div>
     </div>

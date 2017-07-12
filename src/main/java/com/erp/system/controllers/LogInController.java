@@ -1,6 +1,7 @@
 package com.erp.system.controllers;
 
 import com.erp.system.constants.IConstants;
+import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.LoginPassword;
 import com.erp.system.entity.Profile;
@@ -23,13 +24,12 @@ import javax.validation.Valid;
  */
 @Controller
 public class LogInController {
-    //Андрей редиска
-
     @Autowired
     WorkerDao workerDao;
-
     @Autowired
     LoginPasswordValidator lpValidator;
+    @Autowired
+    ProfileDao profileDao;
 
     /**
      * return start page 'index.jsp'
@@ -58,15 +58,17 @@ public class LogInController {
         String isAdmin = IConstants.ADMIN.equals(lp.getLogin()) ? IConstants.TRUE : IConstants.FALSE;
         String login = lp.getLogin();
         Worker workerByLogin = workerDao.getWorkerByLogin(login);
+        Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
+        byte[] photo = profileById.getPhoto();
+        session.setAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? photo : null);
         model.addAttribute(IConstants.IS_ADMIN, isAdmin);
-        model.addAttribute(IConstants.NAME_USER, workerByLogin.getNameWorker());
+        session.setAttribute(IConstants.NAME_USER, workerByLogin.getNameWorker());
         session.setAttribute(IConstants.LOGED_AS, login);
         session.setAttribute(IConstants.IS_ADMIN, isAdmin);
         return "pages/main";
     }
 
     /**
-     *
      * @param model
      * @param session
      * @return
@@ -74,7 +76,6 @@ public class LogInController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String mainPage(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-//        model.addAttribute(IS_ADMIN, MethodsForControllers.getCookieByName(IS_ADMIN, request.getCookies()));
         return "pages/main";
     }
 
@@ -97,8 +98,9 @@ public class LogInController {
         model.addAttribute("profile", new Profile());
         return "pages/addNewProfile";
     }
+
     @RequestMapping(value = "/addNewTicket", method = RequestMethod.GET)
-    public String addNewTicket(Model model){
+    public String addNewTicket(Model model) {
         model.addAttribute("ticket", new ProjectTicket());
         return "pages/addNewTicket";
     }
