@@ -257,8 +257,6 @@
             <form action="/writeComment" method="post" onsubmit="return empty_comment()">
                 <div id="writeComment">
                 <div id="comment_photo">
-                    <img src="<mytag:convertImage imageByte="${workerPhoto}"/>" class="img-responsive img-circle"
-                         width="50px" height="50px">
                 <c:choose>
                     <c:when test="${workerPhoto == null}">
                         <img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"
