@@ -1,10 +1,16 @@
 package com.erp.system.controllers;
 
 import com.erp.system.constants.IConstants;
+import com.erp.system.dao.comments.ticket.CommentsTicketDao;
+import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.project.ticket.ProjectTicketDao;
 import com.erp.system.dao.worker.WorkerDao;
+import com.erp.system.dto.CommentDTO;
+import com.erp.system.entity.CommentsTicket;
+import com.erp.system.entity.Profile;
 import com.erp.system.entity.ProjectTicket;
 import com.erp.system.entity.Worker;
+import com.erp.system.tags.ConvertToImage;
 import com.erp.system.validators.NewTicketValidator;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +23,7 @@ import javax.jws.WebParam;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
@@ -34,14 +41,22 @@ public class TicketsController {
     @Autowired
     WorkerDao workerDao;
     @Autowired
+    ProfileDao profileDao;
+    @Autowired
+    CommentsTicketDao commentsTicketDao;
+    @Autowired
     NewTicketValidator newTicketValidator;
 
     Worker worker = new Worker();
+    Profile profile = new Profile();
     ProjectTicket projectTicket = new ProjectTicket();
+    CommentsTicket commentsTicket = new CommentsTicket();
     private ArrayList<ProjectTicket> listOfTickets = new ArrayList<>();
     private ArrayList<Worker> listOfWorkers = new ArrayList<>();
     private SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private Date date = new Date();
+    private ArrayList<CommentsTicket> listOfComments = new ArrayList<>();
+    private ArrayList<CommentDTO> listOfEndComments = new ArrayList<>();
 
     @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.GET)
     public String isSuccessAddNewTicket(Model model){
@@ -64,8 +79,8 @@ public class TicketsController {
     @RequestMapping(value = "/chooseWorkerOnTicket", method = RequestMethod.POST)
     public String chooseWorkerOnTicket(@RequestParam("nameWorker") String nameWorker,
                                        @RequestParam("idTicket") long idTicket) throws ParseException {
-        //if (nameWorker.length() == 0) result.rejectValue("nameWorker","empty.nameWorker");//Нужно сделать проверку на пустое имя
         String idWorker = nameWorker.substring(0,nameWorker.indexOf("."));
+        date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         worker = workerDao.getWorkerById(Long.parseLong(idWorker));
         projectTicket = projectTicketDao.getProjectTicketById(idTicket);
@@ -85,18 +100,46 @@ public class TicketsController {
     }
     @RequestMapping(value = "/allTickets", method = RequestMethod.POST)
     public String allTickets(Model model,@RequestParam("statusProject") String status) throws ServletException, IOException {
-        listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByStatus(status);
+        if (status.equals("all tickets")) {
+            listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
+        }else{
+            listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByStatus(status);
+        }
         model.addAttribute("collectionTickets",listOfTickets);
         return "pages/allTickets";
     }
     @RequestMapping(value = "/chooseTicket{var}")
-    public String chooseTicket(@PathVariable("var") long var, Model model){
+    public String chooseTicket(@PathVariable("var") long var, Model model, HttpSession session){
         String isChooseTicket = IConstants.TRUE;
+        listOfEndComments.clear();
         listOfWorkers = (ArrayList<Worker>) workerDao.getAllWorkers();
+        listOfComments = (ArrayList<CommentsTicket>) commentsTicketDao.getCommentsTicketByIdTicket(var);
+        for (CommentsTicket m: listOfComments){
+            profile = profileDao.getProfileById(m.getIdWorker().getProfile().getIdProfile());
+            listOfEndComments.add(new CommentDTO(m.getIdWorker().getNameWorker(),m.getComment(),profile.getPhoto()));
+        }
         model.addAttribute("collectionWorkers", listOfWorkers);
         model.addAttribute(IConstants.IS_CHOOSE_TICKET, isChooseTicket);
         model.addAttribute("collectionTickets",listOfTickets);
         model.addAttribute("chosenTicket",projectTicketDao.getProjectTicketById(var));
+        model.addAttribute("workerPhoto",session.getAttribute(IConstants.PHOTO));
+        model.addAttribute("collectionOfComments",listOfEndComments);
+        return "pages/allTickets";
+    }
+    @RequestMapping(value = "/writeComment", method = RequestMethod.POST)
+    public String writeComment(@RequestParam("text_comment") String comment,
+                               @RequestParam("idTicket") long idTicket,HttpSession session,Model model){
+        date = new Date();
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+        projectTicket = projectTicketDao.getProjectTicketById(idTicket);
+        commentsTicket.setComment(comment);
+        commentsTicket.setCommentDate(sqlDate);
+        commentsTicket.setIdProjectTicket(projectTicket);
+        commentsTicket.setIdWorker(worker);
+        commentsTicketDao.createCommentsTicket(commentsTicket);
+        listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
+        model.addAttribute("collectionTickets",listOfTickets);
         return "pages/allTickets";
     }
 

@@ -40,10 +40,10 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<span style="float: right" margin-right="10px" margin-top="10px">
-             <a href="/isSuccessAddNewProfile?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="8%" height="8%"></a>
-            <a href="/isSuccessAddNewProfile?lang=ru"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg==" width="8%" height="8%"></a>
-    </span>
+<%--<span style="float: right" margin-right="10px" margin-top="10px">--%>
+             <%--<a href="/isSuccessAddNewProfile?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="8%" height="8%"></a>--%>
+            <%--<a href="/isSuccessAddNewProfile?lang=ru"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg==" width="8%" height="8%"></a>--%>
+    <%--</span>--%>
 <spring:message code="profile.position" var="profilePosition"/>
 <spring:message code="profile.position.choose" var="profilePositionChoose"/>
 <spring:message code="profile.position.juniordeveloper" var="profilePositionJuniordeveloper"/>

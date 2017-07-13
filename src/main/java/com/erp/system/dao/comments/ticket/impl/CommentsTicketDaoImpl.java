@@ -61,4 +61,13 @@ public class CommentsTicketDaoImpl implements CommentsTicketDao {
         LOGGER.info("WorkerDaoImpl getAllWorkers end");
         return query.getResultList();
     }
+
+    @Override
+    public List getCommentsTicketByIdTicket(long idTicket) {
+        LOGGER.info("WorkerDaoImpl getAllCommentsById start");
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM CommentsTicket WHERE id_project_ticket = :idTicket");
+        query.setParameter("idTicket", idTicket);
+        LOGGER.info("WorkerDaoImpl getAllCommentsById end");
+        return query.getResultList();
+    }
 }

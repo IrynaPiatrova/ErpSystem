@@ -17,4 +17,7 @@ public interface CommentsTicketDao {
     CommentsTicket getCommentsTicketById(long commentsTicketId);
 
     List getAllCommentsTickets();
+
+    List getCommentsTicketByIdTicket(long idTicket);
+
 }

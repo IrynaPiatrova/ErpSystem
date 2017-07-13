@@ -35,13 +35,13 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<span style="float: right">
-             <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="10%"
-                                     height="10%"></a>
-            <a href="?lang=ru"><img
-                    src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
-                    width="10%" height="10%"></a>
-    </span>
+<%--<span style="float: right">--%>
+             <%--<a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="10%"--%>
+                                     <%--height="10%"></a>--%>
+            <%--<a href="?lang=ru"><img--%>
+                    <%--src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="--%>
+                    <%--width="10%" height="10%"></a>--%>
+    <%--</span>--%>
 <spring:message code="ticket.name" var="nameTicket"/>
 <spring:message code="ticket.specification" var="specificationTicket"/>
 <spring:message code="ticket.status" var="statusTicket"/>
