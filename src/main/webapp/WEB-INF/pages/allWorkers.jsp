@@ -36,9 +36,9 @@
             display: none;
         }
 
-        div.panel.panel-primary {
+        div.panel.panel-default {
             border-color: #404040;
-            width: 900px;
+            width: 1200px;
         }
 
         div.panel-heading {
@@ -102,7 +102,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Работники</h3>
                     <div class="pull-right">
