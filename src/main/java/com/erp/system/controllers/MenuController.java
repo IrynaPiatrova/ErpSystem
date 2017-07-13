@@ -48,7 +48,7 @@ public class MenuController {
     }
 
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @RequestMapping(value = {"/edit", "/editAdmin"}, method = RequestMethod.GET)
     public String editProfileInit(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         model.addAttribute(IConstants.PROFILE, session.getAttribute(IConstants.PROFILE_DATA));
@@ -60,22 +60,23 @@ public class MenuController {
     public String editProfile(@ModelAttribute(IConstants.PROFILE) @Valid ProfileDTO profileDTO, @RequestParam("photo") MultipartFile photo, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
-        profile.setTelephone(profileDTO.getTelephone());
-        profile.setEmail(profileDTO.getEmail());
         String profileDTOLogin = profileDTO.getWorker().getLogin();
-        profile.getWorker().setPassword(profileDTO.getWorker().getPassword());
         profileDTO.setEmploymentStatus(profile.getEmploymentStatus());
         profileDTO.setPosition(profile.getPosition());
         profileDTO.setDepartment(profile.getDepartment());
-        editProfileValidator.validate(profileDTO,result);
-        if (workerDao.isLoginUnique(profileDTOLogin) && !profile.getWorker().getLogin().equals(profileDTOLogin)) result.rejectValue("worker.login","exist.login");
-        profile.getWorker().setLogin(profileDTOLogin);
+        editProfileValidator.validate(profileDTO, result);
+        if (workerDao.isLoginUnique(profileDTOLogin) && !profile.getWorker().getLogin().equals(profileDTOLogin))
+            result.rejectValue("worker.login", "exist.login");
         if (result.hasErrors()) return "pages/editProfile";
         try {
-            if(photo.getBytes().length > 0) profile.setPhoto(photo.getBytes());
+            if (photo.getBytes().length > 0) profile.setPhoto(photo.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
+        profile.setTelephone(profileDTO.getTelephone());
+        profile.setEmail(profileDTO.getEmail());
+        profile.getWorker().setLogin(profileDTOLogin);
+        profile.getWorker().setPassword(profileDTO.getWorker().getPassword());
         profileDao.updateProfile(profile);
         session.setAttribute(IConstants.LOGED_AS, profile.getWorker().getLogin());
         return "redirect:/profile";
@@ -83,14 +84,21 @@ public class MenuController {
 
     @RequestMapping(value = "/editAdmin", method = RequestMethod.POST)
     //этот метод для изменения других полей профиля - меняет ТОЛЬКО админ после выбора из списка пользователей
-    public String editProfileByAdmin(@ModelAttribute(IConstants.PROFILE) ProfileDTO profileDTO, HttpSession session) {
+    public String editProfileByAdmin(@ModelAttribute(IConstants.PROFILE) @Valid ProfileDTO profileDTO, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        Profile profile = new Profile(); //тут надо подумать как передавать из списка пользователей характеристики выбранного пользователя, потом переход на новую страницу с изменением профиля выбранного пользователя
+        Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
+        profileDTO.setTelephone(profile.getTelephone());
+        profileDTO.setEmail(profile.getEmail());
+        profileDTO.getWorker().setLogin(profile.getWorker().getLogin());
+        profileDTO.getWorker().setPassword(profile.getWorker().getPassword());
+        editProfileValidator.validate(profileDTO, result);
+        if (result.hasErrors()) return "pages/editProfile";
         profile.setPosition(profileDTO.getPosition());
         profile.setEmploymentStatus(profileDTO.getEmploymentStatus());
         profile.setDepartment(profileDTO.getDepartment());
+        profile.getWorker().setNameWorker(profileDTO.getWorker().getNameWorker());
         profileDao.updateProfile(profile);
-        return "redirect:/profile";
+        return "redirect:/allWorkers";
     }
 
 //    @RequestMapping(value = "/findWorker", method = RequestMethod.GET)
@@ -126,11 +134,11 @@ public class MenuController {
     public String getAllWorker(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         model.addAttribute(IConstants.ALL_WORKERS, workerDao.getAllWorkers());
-            return "pages/allWorkers";
+        return "pages/allWorkers";
     }
 
     @RequestMapping(value = "/logOut", method = RequestMethod.GET)
-    public String logOut(HttpSession session){
+    public String logOut(HttpSession session) {
         session.setAttribute(IConstants.IS_ADMIN, null);
         session.setAttribute(IConstants.LOGED_AS, null);
         return "redirect:/";

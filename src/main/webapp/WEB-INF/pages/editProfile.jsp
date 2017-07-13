@@ -62,9 +62,10 @@
                     <div class="form-group">
                         <label class="col-md-4 control-label" for="textinput">${workerNameNew}</label>
                         <div class="col-md-4">
-                            <form:input class="form-control input-md" type="text" autocomplete="off" path="worker.nameWorker"
+                            <form:input class="form-control input-md" type="text" autocomplete="off"
+                                        path="worker.nameWorker"
                                         id="textinput" name="textinput"/>
-                            <div><form:errors path="worker.nameWorker" style="color:red"/> </div>
+                            <div><form:errors path="worker.nameWorker" style="color:red"/></div>
                         </div>
                     </div>
                 </td>
@@ -91,7 +92,7 @@
                     </div>
                 </td>
                 <td>
-                    <jsp:text> ${profile.department} </jsp:text>
+                    <jsp:text> ${profileData.department} </jsp:text>
                 </td>
             </tr>
             <tr>
@@ -112,7 +113,7 @@
                     </div>
                 </td>
                 <td>
-                    <jsp:text> ${profile.position} </jsp:text>
+                    <jsp:text> ${profileData.position} </jsp:text>
                 </td>
             </tr>
             <tr>
@@ -132,12 +133,10 @@
                     </div>
                 </td>
                 <td>
-                    <jsp:text> ${profile.employmentStatus} </jsp:text>
+                    <jsp:text> ${profileData.employmentStatus} </jsp:text>
                 </td>
             </tr>
         </table>
-
-
         <div class="form-group">
             <label class="col-md-4 control-label" for="singlebutton"></label>
             <div class="col-md-4">
@@ -146,15 +145,13 @@
         </div>
         </form:form>
         </c:when>
+
         <c:otherwise>
         <form:form class="form-horizontal" action="edit" method="post" modelAttribute="profile"
                    enctype="multipart/form-data">
         <fieldset>
 
             <legend>${profileEdition}</legend>
-
-
-                <%--вставить еще логин и пароль И ВАЛИДАЦИЮ ДЛЯ НИХ--%>
 
             <div class="form-group">
                 <label class="col-md-4 control-label" for="inputLogin">${workerLoginNew}</label>
