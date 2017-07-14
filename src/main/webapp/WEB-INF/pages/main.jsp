@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>Welcome Page</title>
+    <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
     <style>

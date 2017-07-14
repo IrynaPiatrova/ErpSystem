@@ -66,7 +66,7 @@
                         </li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="#">Тикеты</a></li>
+                        <li><a href="/allTickets">Мои Тикеты</a></li>
                     </c:otherwise>
                 </c:choose>
                 <li/>
