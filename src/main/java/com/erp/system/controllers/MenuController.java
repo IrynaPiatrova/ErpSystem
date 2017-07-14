@@ -145,4 +145,15 @@ public class MenuController {
         session.setAttribute(IConstants.LOGED_AS, null);
         return "redirect:/";
     }
+
+    /**
+     * If u click "chat" in menu u will redirect to page "chat.jsp"
+     * @param session
+     * @return String
+     */
+    @RequestMapping(value = "/chat", method = RequestMethod.GET)
+    public String findWorker(HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        return "pages/chat";
+    }
 }

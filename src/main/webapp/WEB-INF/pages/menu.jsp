@@ -70,7 +70,7 @@
                     </c:otherwise>
                 </c:choose>
                 <li/>
-                <li><a href="#">Чат</a></li>
+                <li><a href="/chat">Чат</a></li>
                 <li><a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png"
                                             class="img-responsive img-circle"
                                             width="30px" height="30px"></a></li>
