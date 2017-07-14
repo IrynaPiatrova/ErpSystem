@@ -16,63 +16,8 @@
     <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
-    <script type="text/javascript"></script>
     <style>
-        body {
-            background: #D3D3D3;
-        }
-        #centerLayer {
-            position: absolute;
-            margin-left: 10%;
-            margin-right: 10%;
-            margin-top: 3%;
-            padding: 10px;
-            overflow: auto;
-        }
-        .tableOfTickets{
-            font-size: medium;
-            width: 100%;
-        }
-        #chooseTicket{
-            margin-top: 0%;
-            margin-right: 0%;
-            float: right;
-            width: 50%;
-            height: 30%;
-            border-color: #5379fa;
-        }
-        table {
-            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-            table-layout: fixed;
-            font-size: 14px;
-            text-align: center;
-            border-collapse: collapse;
-            border-radius: 10px;
-            box-shadow: 0 0 0 10px #F2906B;
-            color: #452F21;
-        }
-        th {
-            padding: 10px 8px;
-            background: white;
-            text-align: center;
-        }
-        table th:first-child {
-            border-top-left-radius: 5px;
-        }
-        table th:last-child {
-            border-top-right-radius: 5px;
-        }
-        td {
-            border-top: 4px solid #F2906B;
-            padding: 1px;
-            /*background: white;*/
-        }
-        table td:first-child {
-            border-bottom-left-radius: 10px;
-        }
-        table td:last-child {
-            border-bottom-right-radius: 10px;
-        }
+        <%@include file='../css/table.css' %>
     </style>
 </head>
 <body>
@@ -100,8 +45,9 @@
 <spring:message code="allTickets.ticket.worker" var="workerTicket"/>
 
 <div id="centerLayer">
-    <form:form action="allTickets" method="post" modelAttribute="ticket">
-            <select name="statusProject" path="statusProjectTicket">
+    <div class="container">
+        <form:form action="allTickets" method="post" modelAttribute="ticket">
+            <select name="statusProject" path="statusProjectTicket" class="selectpicker">
                 <option value="status" disabled selected>${statusTicketChoose}</option>
                 <option value="opened">${statusTicketOpened}</option>
                 <option value="in_progress">${statusTicketInProgress}</option>
@@ -110,27 +56,36 @@
                 <option value="finished">${statusTicketFinished}</option>
                 <option value="all tickets">${allTickets}</option>
                 <div><form:errors path="statusProjectTicket" style="color:red"/></div>
-            <select>
-            <input type="submit" value="${labelShow}">
-    </form:form>
-        <table class="tableOfTickets">
-            <tr height="40">
-                <th width="100">${nameTicket}</th>
-                <th width="100">${statusTicket}</th>
-                <th width="100">${deadlineDate}</th>
-            </tr>
-        <c:forEach items="${collectionTickets}" var="listTickets">
-            <tr height="40" class="clickable" style="background-color:#ECECEC;"
-                onMouseOver="this.style.backgroundColor='#00FFFF';"
-                onMouseOut="this.style.backgroundColor='#ECECEC'"
-                onclick="location.href='/chooseTicket${listTickets.idProjectTicket}'">
-                <td hidden>${listTickets.idProjectTicket}</td>
-                <td width="100">${listTickets.nameProjectTicket}</td>
-                <td width="100">${listTickets.statusProjectTicket}</td>
-                <td width="100">${listTickets.deadlineTicket}</td>
-            </tr>
-        </c:forEach>
-        </table>
+            </select>
+            <input type="submit" value="${labelShow}" class="btn btn-default">
+        </form:form>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Тикеты</h3>
+                    </div>
+                    <table class="table table-hover" id="dev-table">
+                        <thead>
+                        <tr>
+                            <th>${nameTicket}</th>
+                            <th>${statusTicket}</th>
+                            <th>${deadlineDate}</th>
+                        </tr>
+                        <c:forEach items="${collectionTickets}" var="listTickets">
+                        <tr class="clickable"
+                            onclick="location.href='/chooseTicket${listTickets.idProjectTicket}'">
+                            <td hidden>${listTickets.idProjectTicket}</td>
+                            <td>${listTickets.nameProjectTicket}</td>
+                            <td>${listTickets.statusProjectTicket}</td>
+                            <td>${listTickets.deadlineTicket}</td>
+                        </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
