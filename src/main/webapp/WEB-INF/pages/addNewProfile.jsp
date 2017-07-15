@@ -75,14 +75,15 @@
                 </td>
             </tr>
 
-            <tr height="40">
+            <tr height="40" hidden>
                 <td>${profileEmploymentStatus}</td>
                 <td><form:select path="employmentStatus" width="200">
-                    <option value="status" disabled selected>${profileEmploymentStatusChoose}</option>
-                    <option value="status 1">${profileEmploymentStatus1}</option>
-                    <option value="status 2">${profileEmploymentStatus2}</option>
-                    <option value="status 3">${profileEmploymentStatus3}</option>
-                    <option value="status 4">${profileEmploymentStatus4}</option>
+                    <option value="status" disabled>${profileEmploymentStatusChoose}</option>
+                    <option value="${profileEmploymentStatus1}">${profileEmploymentStatus1}</option>
+                    <option value="${profileEmploymentStatus2}" selected>${profileEmploymentStatus2}</option>
+                    <option value="${profileEmploymentStatus3}">${profileEmploymentStatus3}</option>
+                    <option value="${profileEmploymentStatus4}">${profileEmploymentStatus4}</option>
+                    <option value="${profileEmploymentStatus5}">${profileEmploymentStatus5}</option>
                 </form:select>
                     <div><form:errors path="employmentStatus" style="color:red"/></div>
                 </td>
@@ -114,7 +115,7 @@
             </tr>
         </table>
     </form:form>
-    <form action="/" method="get" width="100">
+    <form action="${pageContext.request.contextPath}/" method="get" width="100">
         <input type="submit" value="${labelBack}">
     </form>
 </div>

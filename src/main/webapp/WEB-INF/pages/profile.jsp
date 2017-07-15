@@ -21,7 +21,7 @@
 <%@include file="menu.jsp" %>
 <%@include file="springMessages.jsp"%>
 
-<form action="edit" method="get"><input type="submit" class="btn btn-default btn-lg" value="Редактировать"></form>
+<form action="edit" method="get"><input type="submit" class="btn btn-default btn-lg" value="${profileEdition}"></form>
 <div class="container">
     <table class="table table-striped">
         <tbody>
@@ -49,20 +49,20 @@
             <td><h1>${nameUser}</h1></td>
         </tr>
         <tr>
-            <td>Департамент</td>
+            <td>${profileDepartmentDescription}</td>
             <td>${profile.department}</td>
 
         </tr>
         <tr>
-            <td>Позиция</td>
+            <td>${profilePositionDescription}</td>
             <td>${profile.position}</td>
         </tr>
         <tr>
-            <td>Почта</td>
+            <td>${profileEmailDescription}</td>
             <td><a href="mailto:${profile.email}?subject=Вопрос">${profile.email}</a></td>
         </tr>
         <tr>
-            <td>Телефон</td>
+            <td>${profileTelephoneDescription}</td>
             <td>${profile.telephone}</td>
         </tr>
         </tbody>

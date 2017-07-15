@@ -18,9 +18,10 @@
     <%@include file="bootstrapLinks.jsp" %>
     <script type="text/javascript"></script>
     <style>
-        .tableTicket{
+        .tableTicket {
             width: auto;
         }
+
         #centerLayer {
             align-content: center;
             position: absolute;
@@ -30,55 +31,65 @@
             padding: 10px;
             overflow: auto;
         }
-        #specificationTicket{
+
+        #specificationTicket {
             margin-top: 6%;
             width: 60%;
             align-content: center;
         }
-        #chooseWorker{
+
+        #chooseWorker {
             margin-top: 3%;
         }
-        #allComments{
+
+        #allComments {
             width: 100%;
             overflow: auto;
             margin-top: 2%;
         }
-        #allCommentsPhoto{
+
+        #allCommentsPhoto {
             float: left;
         }
-        #allCommentsComment{
+
+        #allCommentsComment {
             margin-left: 3%;
         }
-        #writeComment{
+
+        #writeComment {
             margin-top: 5%;
             width: 750px;
             height: 50px;
         }
-        #comment_photo{
+
+        #comment_photo {
             align-content: center;
             width: 60px;
             float: left;
         }
-        #comment_comment{
+
+        #comment_comment {
             align-content: center;
             width: 640px;
             margin-left: 3%;
         }
-        #comment_submit{
+
+        #comment_submit {
             align-content: center;
             width: 50px;
             float: right;
             margin-right: 15%;
             margin-bottom: 25%;
         }
-        #endTicket{
+
+        #endTicket {
             margin-top: 3%;
         }
     </style>
     <script>
-        function empty_form () {
+        function empty_form() {
             var txt = document.getElementById('msg').value;
-            if(txt == '') {
+            if (txt == '') {
                 alert('Выберите сотрудника.');
                 return false;
             }
@@ -86,9 +97,9 @@
         }
     </script>
     <script>
-        function empty_comment () {
+        function empty_comment() {
             var txt = document.getElementById('commentMessage').value;
-            if(txt == '') {
+            if (txt == '') {
                 alert('Напишите сообщение.');
                 return false;
             }
@@ -98,137 +109,131 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
-    <div id="centerLayer">
-        <h4>${nameTicket}: ${chosenTicket.nameProjectTicket}</h4>
-        <table class="tableTicket">
-            <th>${statusTicketChoose}</th>
-            <th>${startDateTicket}</th>
-            <th>${endDateTicket}</th>
-            <th>${deadlineDate}</th>
-            <th>${workerTicket}</th>
-            <tr height="40">
-                <td hidden>${chosenTicket.idProjectTicket}</td>
-                <td width="120">${chosenTicket.statusProjectTicket}</td>
-                <td width="120">${chosenTicket.startTicketDate}</td>
-                <td width="120">${chosenTicket.endTicketDate}</td>
-                <td width="120">${chosenTicket.deadlineTicket}
-                        <%--${chosenTicket.deadlineTicket.day}---%>
-                        <%--${chosenTicket.deadlineTicket.month}</td>--%>
-                <td width="120">${chosenTicket.idWorker.nameWorker}</td>
-            </tr>
-        </table>
-        <table id="specificationTicket">
-            <th>${specificationTicket}</th>
-            <tr><td>${chosenTicket.specification}</td></tr>
-        </table>
-        <c:choose>
-            <%--Проверяет есть ли у тикета комменты--%>
-            <c:when test="${collectionOfComments.size() == 0}">
-                <div>
-                    <h4>${noComments}</h4>
-                </div>
-            </c:when>
-            <c:otherwise>
-                <h4>${comments}</h4>
-                <div id="allComments">
-                    <c:forEach items="${collectionOfComments}" var="listComment">
-                        <div id="allCommentsPhoto">
-
-
-                            <%--Тут проверка на фото, когда будет сделано фото в базе по дефолту нужно будет удалить--%>
-                            <%--choose и просто конвертировать картинку из базы--%>
-
-
-                            <c:choose>
-                                <c:when test="${listComment.photo == null}">
-                                    <img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"
-                                         width="50px" height="50px">
-                                </c:when>
-                                <c:otherwise>
-                                    <img src="<mytag:convertImage imageByte="${listComment.photo}"/>" class="img-responsive img-circle"
-                                         width="50px" height="50px">
-                                </c:otherwise>
-                            </c:choose>
+<div id="centerLayer">
+    <h4>${nameTicket}: ${chosenTicket.nameProjectTicket}</h4>
+    <table class="tableTicket">
+        <th>${statusTicketChoose}</th>
+        <th>${startDateTicket}</th>
+        <th>${endDateTicket}</th>
+        <th>${deadlineDate}</th>
+        <th>${workerTicket}</th>
+        <tr height="40">
+            <td hidden>${chosenTicket.idProjectTicket}</td>
+            <td width="120">${chosenTicket.statusProjectTicket}</td>
+            <td width="120">${chosenTicket.startTicketDate}</td>
+            <td width="120">${chosenTicket.endTicketDate}</td>
+            <td width="120">${chosenTicket.deadlineTicket}
+                <%--${chosenTicket.deadlineTicket.day}---%>
+                <%--${chosenTicket.deadlineTicket.month}</td>--%>
+            <td width="120">${chosenTicket.idWorker.nameWorker}</td>
+        </tr>
+    </table>
+    <table id="specificationTicket">
+        <th>${specificationTicket}</th>
+        <tr>
+            <td>${chosenTicket.specification}</td>
+        </tr>
+    </table>
+    <c:choose>
+        <%--Проверяет есть ли у тикета комменты--%>
+        <c:when test="${collectionOfComments.size() == 0}">
+            <div>
+                <h4>${noComments}</h4>
+            </div>
+        </c:when>
+        <c:otherwise>
+            <h4>${comments}</h4>
+            <div id="allComments">
+                <c:forEach items="${collectionOfComments}" var="listComment">
+                    <div id="allCommentsPhoto">
+                            <%--<c:choose>--%>
+                            <%--<c:when test="${listComment.photo == null}">--%>
+                            <%--<img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"--%>
+                            <%--width="50px" height="50px">--%>
+                            <%--</c:when>--%>
+                            <%--<c:otherwise>--%>
+                        <img src="<mytag:convertImage imageByte="${listComment.photo}"/>"
+                             class="img-responsive img-circle"
+                             width="50px" height="50px">
+                            <%--</c:otherwise>--%>
+                            <%--</c:choose>--%>
+                    </div>
+                    <div id="allCommentsComment">
+                        <div>
+                            <p style="color:blue">${listComment.nameWorker}</p>
+                            <p>${listComment.comment}</p>
+                            <hr>
                         </div>
-                        <div id="allCommentsComment">
-                            <div>
-                                <p style="color:blue">${listComment.nameWorker}</p>
-                                <p>${listComment.comment}</p>
-                                <hr>
-                            </div>
-                        </div>
-                    </c:forEach>
+                    </div>
+                </c:forEach>
+            </div>
+        </c:otherwise>
+    </c:choose>
+    <div id="form">
+        <form action="${pageContext.request.contextPath}/writeComment" method="post" onsubmit="return empty_comment()">
+            <div id="writeComment">
+                <div id="comment_photo">
+                    <%--<c:choose>--%>
+                    <%--<c:when test="${workerPhoto == null}">--%>
+                    <%--<img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"--%>
+                    <%--width="50px" height="50px">--%>
+                    <%--</c:when>--%>
+                    <%--<c:otherwise>--%>
+                    <img src="<mytag:convertImage imageByte="${workerPhoto}"/>" class="img-responsive img-circle"
+                         width="50px" height="50px">
+                    <%--</c:otherwise>--%>
+                    <%--</c:choose>--%>
                 </div>
-            </c:otherwise>
-        </c:choose>
-        <div id="form">
-            <form action="/writeComment" method="post" onsubmit="return empty_comment()">
-                <div id="writeComment">
-                    <div id="comment_photo">
-
-                        <%--Здесь тоже нужно будет просто подгрузить фото из базы--%>
-
-                        <c:choose>
-                            <c:when test="${workerPhoto == null}">
-                                <img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"
-                                     width="50px" height="50px">
-                            </c:when>
-                            <c:otherwise>
-                                <img src="<mytag:convertImage imageByte="${workerPhoto}"/>" class="img-responsive img-circle"
-                                     width="50px" height="50px">
-                            </c:otherwise>
-                        </c:choose>
-                    </div>
-                    <div id="comment_comment">
-                        <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
-                        <textarea id="commentMessage" name="text_comment" cols="70" rows="2" placeholder="${writeComments}"></textarea>
-                    </div>
-                    <div id="comment_submit">
-                        <input type="image" value="${submit}"/>
-                    </div>
+                <div id="comment_comment">
+                    <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
+                    <textarea id="commentMessage" name="text_comment" cols="70" rows="2"
+                              placeholder="${writeComments}"></textarea>
                 </div>
-            </form>
-        </div>
+                <div id="comment_submit">
+                    <input type="image" value="${submit}"/>
+                </div>
+            </div>
+        </form>
+    </div>
 
+    <%--Ниже идет проверка - если зашел админ, то отобразить кнопку назначения сотрудника,--%>
+    <%--если работник, то отобразить кнопку завершить тикет--%>
+    <%--Внутри еще 2 choose, которые проверяют:--%>
+    <%---для админа - если назначен сотрудник, то повторно назначить нельзя--%>
+    <%---для работника - если статус тикета "готов к проверке" или "завершен",--%>
+    <%--то у него не будет кнопки завершить тикет--%>
 
-        <%--Ниже идет проверка - если зашел админ, то отобразить кнопку назначения сотрудника,--%>
-        <%--если работник, то отобразить кнопку завершить тикет--%>
-        <%--Внутри еще 2 choose, которые проверяют:--%>
-        <%---для админа - если назначен сотрудник, то повторно назначить нельзя--%>
-        <%---для работника - если статус тикета "готов к проверке" или "завершен",--%>
-        <%--то у него не будет кнопки завершить тикет--%>
-
-        <c:choose>
-            <c:when test="${isAdmin}">
-                <c:choose>
+    <c:choose>
+        <c:when test="${isAdmin}">
+            <c:choose>
                 <c:when test="${isWorkerOnTicketChoose == true}">
-                <div id="chooseWorker">
-                    <form:form action="/chooseWorkerOnTicket" method="post" onsubmit="return empty_form()">
-                        <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
-                        <input list="workers" id="msg" name="nameWorker" placeholder="${employee}">
-                        <datalist id="workers">
-                            <c:forEach items="${collectionWorkers}" var="listWorker">
-                                <option>${listWorker.idWorker}.${listWorker.nameWorker}</option>
-                            </c:forEach>
-                        </datalist>
-                        <input type="submit" value="${choseWorker}">
-                    </form:form>
-                </div>
+                    <div id="chooseWorker">
+                        <form:form action="/chooseWorkerOnTicket" method="post" onsubmit="return empty_form()">
+                            <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
+                            <input list="workers" id="msg" name="nameWorker" placeholder="${employee}">
+                            <datalist id="workers">
+                                <c:forEach items="${collectionWorkers}" var="listWorker" begin="1" varStatus="status">
+                                    <option>${status.index}.${listWorker.nameWorker}</option>
+                                </c:forEach>
+                            </datalist>
+                            <input type="submit" value="${choseWorker}">
+                        </form:form>
+                    </div>
                 </c:when>
                 <c:otherwise>
                     <div id="chooseWorker">
                         <h4>${disableChooseWorkerOnTicket}</h4>
                     </div>
                 </c:otherwise>
-                </c:choose>
-            </c:when>
-            <c:otherwise>
-                <c:choose>
+            </c:choose>
+        </c:when>
+        <c:otherwise>
+            <c:choose>
                 <c:when test="${isTicketFinished == true}">
                     <div id="endTicket">
-                        <form action="/workerEndTicket" method="post">
+                        <form action="${pageContext.request.contextPath}/workerEndTicket" method="post">
                             <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
                             <input type="submit" value="${complete}">
                         </form>
@@ -239,9 +244,9 @@
                         <h4>${disableWorkerEndTicket}</h4>
                     </div>
                 </c:otherwise>
-                </c:choose>
-            </c:otherwise>
-        </c:choose>
-    </div>
+            </c:choose>
+        </c:otherwise>
+    </c:choose>
+</div>
 </body>
 </html>

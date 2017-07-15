@@ -32,9 +32,9 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Работники</h3>
+                    <h3 class="panel-title">${labelWorkersChoose}</h3>
                     <div class="pull-right">
-							<span class="clickable filter" data-toggle="tooltip" title="Toggle table filter"
+							<span class="clickable filter" data-toggle="tooltip" title="${labelToggleFilter}"
                                   data-container="body">
 								<i class="glyphicon glyphicon-filter"></i>
 							</span>
@@ -42,20 +42,20 @@
                 </div>
                 <div class="panel-body">
                     <input type="text" class="form-control" id="dev-table-filter" data-action="filter"
-                           data-filters="#dev-table" placeholder="Поиск работников..."/>
+                           data-filters="#dev-table" placeholder="${labelSearchInput}"/>
                 </div>
                 <table class="table table-hover" id="dev-table">
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Имя</th>
-                        <th>Логин</th>
-                        <th>Подразделение</th>
-                        <th>Должность</th>
-                        <th>Дата принятия на работу</th>
-                        <th>Статус</th>
-                        <th>Телефон</th>
-                        <th>Почта</th>
+                        <th>${workerNameDescription}</th>
+                        <th>${workerLoginDescription}</th>
+                        <th>${profileDepartmentDescription}</th>
+                        <th>${profilePositionDescription}</th>
+                        <th>${profileStartDateDescription}</th>
+                        <th>${profileEmploymentStatusDescription}</th>
+                        <th>${profileTelephoneDescription}</th>
+                        <th>${profileEmailDescription}</th>
                     </tr>
                     </thead>
                     <tbody id="tBody">
@@ -78,14 +78,14 @@
                 <table>
                     <tr>
                         <td>
-                            <form action="/findByLoginAndEditWorker" method="post" id="formButton">
+                            <form action="${pageContext.request.contextPath}/findByLoginAndEditWorker" method="post" id="formButton">
                                 <p/>
                                 <input type="hidden" name="login" id="login" value="">
                                 <input type="hidden" id="editButton" value="Редактировать профиль" class="btn btn-default">
                             </form>
                         </td>
                         <td>
-                            <form action="/findByLoginAndShowInfo" method="post">
+                            <form action="${pageContext.request.contextPath}/findByLoginAndShowInfo" method="post">
                                 <p/>
                                 <input type="hidden" name="login" id="loginToShow" value="">
                                 <input type="hidden" id="editButtonToShow" value="Дополнительная информация" class="btn btn-default">
@@ -105,10 +105,10 @@ $(document).on('click', '.rowLink', function () {
     var choosedNumber = $(this).find('td.choosedNumber').html();
     document.getElementById("login").value = choosedLogin;
     document.getElementById("editButton").type = "submit";
-    document.getElementById("editButton").value = "Редактировать профиль #" + choosedNumber;
+    document.getElementById("editButton").value = "${labelEditWorkerButton}" + choosedNumber;
     document.getElementById("loginToShow").value = choosedLogin;
     document.getElementById("editButtonToShow").type = "submit";
-    document.getElementById("editButtonToShow").value = "Доп. информация о профиле #" + choosedNumber;
+    document.getElementById("editButtonToShow").value = "${labelShowWorkerButton}" + choosedNumber;
     highlight_Table_Rows("dev-table", "hover_Row", "clicked_Row");
 });
 </script>

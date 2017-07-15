@@ -43,13 +43,13 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Тикеты</h3>
+                        <h3 class="panel-title">${labelTicketsChoose}</h3>
                     </div>
                     <table class="table table-hover" id="dev-table">
                         <thead>
                         <tr>
                             <th>${nameTicket}</th>
-                            <th>${statusTicket}</th>
+                            <th>${statusTicketDescription}</th>
                             <th>${deadlineDate}</th>
                         </tr>
                         <c:forEach items="${collectionTickets}" var="listTickets">
