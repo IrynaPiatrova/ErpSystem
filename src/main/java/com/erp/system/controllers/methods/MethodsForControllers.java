@@ -1,14 +1,16 @@
-package com.erp.system.controllers;
+package com.erp.system.controllers.methods;
 
 import com.erp.system.constants.IConstants;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -35,9 +37,14 @@ public class MethodsForControllers {
         return IConstants.TRUE.equals(session.getAttribute(IConstants.IS_ADMIN));
     }
 
-    public static byte[] returnDefaultPhotoBytes() throws IOException {
-        Path path = Paths.get("/photo/me-flat.png");
-        byte[] data = Files.readAllBytes(path);
+    public static byte[] returnDefaultPhotoBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        BufferedImage image = ImageIO.read(inputStream);
+        ImageIO.write(image,"png",byteArrayOutputStream);
+        byteArrayOutputStream.flush();
+        String base64String = Base64.encode(byteArrayOutputStream.toByteArray());
+        byteArrayOutputStream.close();
+        byte[] data = Base64.decode(base64String);
         return data;
     }
 

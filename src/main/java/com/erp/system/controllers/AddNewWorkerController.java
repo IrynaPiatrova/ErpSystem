@@ -1,5 +1,6 @@
 package com.erp.system.controllers;
 
+import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dao.profile.impl.ProfileDaoImpl;
 import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.entity.Profile;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -57,7 +59,8 @@ public class AddNewWorkerController {
         SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = oldDateFormat.parse(startDate);
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        //profile.setPhoto(MethodsForControllers.returnDefaultPhotoBytes());
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("photo/me-flat.png");
+        profile.setPhoto(MethodsForControllers.returnDefaultPhotoBytes(inputStream));
         profile.setStartDateProfile(sqlDate);
         model.addAttribute("worker", new Worker());
         profileWorker = profile;

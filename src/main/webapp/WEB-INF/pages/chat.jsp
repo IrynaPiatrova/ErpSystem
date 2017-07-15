@@ -20,6 +20,8 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
+<%@include file="springMessages.jsp"%>
+
 <div class="main_section">
     <div class="container">
         <div class="chat_container">

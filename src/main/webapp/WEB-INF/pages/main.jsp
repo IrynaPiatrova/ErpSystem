@@ -26,5 +26,6 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
+<%@include file="springMessages.jsp"%>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.erp.system.controllers;
 
 import com.erp.system.constants.IConstants;
+import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.LoginPassword;

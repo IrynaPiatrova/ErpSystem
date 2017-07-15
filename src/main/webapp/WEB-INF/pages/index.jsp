@@ -21,6 +21,7 @@
 </head>
 
 <body>
+<%@include file="springMessages.jsp"%>
 
 <div class="body"></div>
 <div class="grad"></div>
@@ -30,21 +31,18 @@
 <br>
 <div class="login">
     <span style="float: right">
-             <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="10%"
+             <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png" width="8%"
                                      height="10%"></a>
             <a href="?lang=ru"><img
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
-                    width="10%" height="10%"></a>
+                    width="8%" height="10%"></a>
     </span>
     <br><br>
     <form:form class="form-inline" action="main" method="post" modelAttribute="logPass">
-        <spring:message code="username" var="username"/>
         <form:input type="text" placeholder="${username}" autocomplete="off" path="login"/>
         <div><form:errors path="login" style="color:red"/></div>
-        <spring:message code="password" var="password"/>
         <form:input type="password" placeholder="${password}" path="password"/>
         <div><form:errors path="password" style="color:red"/></div>
-        <spring:message code="label.authorization" var="labelAuthorization"/>
         <br><br>
         <input type="submit" value="${labelAuthorization}"/>
     </form:form>

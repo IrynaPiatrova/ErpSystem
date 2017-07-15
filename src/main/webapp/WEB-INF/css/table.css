@@ -30,3 +30,11 @@ div.panel-heading {
     border-color: #363636;
     background-image: none;
 }
+
+.hover_Row {
+    background-color: darkgrey;
+}
+
+.clicked_Row {
+    background-color: darkgrey;
+}

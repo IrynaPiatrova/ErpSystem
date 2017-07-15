@@ -1,6 +1,7 @@
 package com.erp.system.controllers;
 
 import com.erp.system.constants.IConstants;
+import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.ProfileDTO;
@@ -41,7 +42,8 @@ public class MenuController {
         Worker workerByLogin = workerDao.getWorkerByLogin(login);
         Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
         byte[] photo = profileById.getPhoto();
-        session.setAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? photo : null);
+//        session.setAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? photo : null); // если в базе нет фото то по дефолту ссылка на файл в jsp
+        session.setAttribute(IConstants.PHOTO, photo);
         model.addAttribute(IConstants.NAME_USER, workerByLogin.getNameWorker());
         model.addAttribute(IConstants.PROFILE, profileById);
         session.setAttribute(IConstants.PROFILE_DATA, profileById);
@@ -103,13 +105,6 @@ public class MenuController {
         return "redirect:/allWorkers";
     }
 
-//    @RequestMapping(value = "/findWorker", method = RequestMethod.GET)
-//    public String findWorker(HttpSession session) {
-//        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-//        return "pages/findWorker";
-//    }
-
-
 //    @RequestMapping(value = "/findWorkerById", params = "id", method = RequestMethod.GET)
 //    @ResponseBody
 //    public Worker findWorkerByValue(@RequestParam("id") Long id, HttpSession session, Model model, HttpServletResponse response) {
@@ -122,14 +117,30 @@ public class MenuController {
 //        return workerDao.getWorkerById(id);
 //    }
 
-    @RequestMapping(value = "/findWorkerByLogin", method = RequestMethod.POST)
-    public String findWorkerByValue(@RequestParam("login") String login, HttpSession session, Model model) {
+    @RequestMapping(value = "/findByLoginAndEditWorker", method = RequestMethod.POST)
+    public String findByLoginAndEditWorker(@RequestParam("login") String login, HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         Worker workerByLogin = workerDao.getWorkerByLogin(login);
         Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
         session.setAttribute(IConstants.PROFILE_DATA, profileById);
         session.setAttribute(IConstants.ADMIN_EDIT_PROFILE, true);
         return "redirect:/edit";
+    }
+
+    @RequestMapping(value = "/findByLoginAndShowInfo", method = RequestMethod.POST)
+    public String findByLoginAndShowInfo(@RequestParam("login") String login, HttpSession session, Model model) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        Worker workerByLogin = workerDao.getWorkerByLogin(login);
+        Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
+        //тут будет код по инициализации инфо о работнике
+        return "redirect:/showWorkerInfo";
+    }
+
+    @RequestMapping(value = "/showWorkerInfo", method = RequestMethod.GET)
+    public String showWorkerInfo(Model model, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";// Надо подумать будет ли доступна обычному пользователю инфо о его успеваемости
+        //тут будет код по инициализации инфо о работнике
+        return "pages/workerInfo";
     }
 
     @RequestMapping(value = "/allWorkers", method = RequestMethod.GET)

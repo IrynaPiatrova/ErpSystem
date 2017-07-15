@@ -35,21 +35,7 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-
-<spring:message code="ticket.name" var="nameTicket"/>
-<spring:message code="ticket.specification" var="specificationTicket"/>
-<spring:message code="ticket.status" var="statusTicket"/>
-<spring:message code="ticket.status.choose" var="statusTicketChoose"/>
-<spring:message code="ticket.status.opened" var="statusTicketOpened"/>
-<spring:message code="ticket.status.inProgress" var="statusTicketInProgress"/>
-<spring:message code="ticket.status.paused" var="statusTicketPaused"/>
-<spring:message code="ticket.status.readyForTest" var="statusTicketReadyForTest"/>
-<spring:message code="ticket.status.finished" var="statusTicketFinished"/>
-<spring:message code="ticket.startDate" var="startDateTicket"/>
-<spring:message code="ticket.endDate" var="endDateTicket"/>
-<spring:message code="ticket.deadline" var="deadlineTicket"/>
-<spring:message code="label.complete" var="labelComplete"/>
-<spring:message code="label.back" var="labelBack"/>
+<%@include file="springMessages.jsp"%>
 
 <form:form action="isSuccessAddNewTicket" method="post" modelAttribute="ticket">
     <div id="centerLayer">

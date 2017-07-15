@@ -19,34 +19,7 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-
-<spring:message code="profile.position" var="profilePosition"/>
-<spring:message code="profile.position.choose" var="profilePositionChoose"/>
-<spring:message code="profile.position.juniordeveloper" var="profilePositionJuniordeveloper"/>
-<spring:message code="profile.position.middleDeveloper" var="profilePositionMiddleDeveloper"/>
-<spring:message code="profile.position.seniorDeveloper" var="profilePositionSeniorDeveloper"/>
-<spring:message code="profile.position.QAEngineer" var="profilePositionQAEngineer"/>
-<spring:message code="profile.position.designer" var="profilePositionDesigner"/>
-<spring:message code="profile.department" var="profileDepartment"/>
-<spring:message code="profile.department.choose" var="profileDepartmentChoose"/>
-<spring:message code="profile.department.developers" var="profileDepartmentDevelopers"/>
-<spring:message code="profile.department.testers" var="profileDepartmentTesters"/>
-<spring:message code="profile.department.designers" var="profileDepartmentDesigners"/>
-<spring:message code="profile.employmentStatus" var="profileEmploymentStatus"/>
-<spring:message code="profile.employmentStatus.choose" var="profileEmploymentStatusChoose"/>
-<spring:message code="profile.employmentStatus.1" var="profileEmploymentStatus1"/>
-<spring:message code="profile.employmentStatus.2" var="profileEmploymentStatus2"/>
-<spring:message code="profile.employmentStatus.3" var="profileEmploymentStatus3"/>
-<spring:message code="profile.employmentStatus.4" var="profileEmploymentStatus4"/>
-<spring:message code="profile.telephone.new" var="profileTelephoneNew"/>
-<spring:message code="profile.email.new" var="profileEmailNew"/>
-<spring:message code="profile.photo.new" var="profilePhotoNew"/>
-<spring:message code="profile.edit" var="profileEdition"/>
-<spring:message code="label.complete" var="labelComplete"/>
-<spring:message code="worker.name.new" var="workerNameNew"/>
-<spring:message code="worker.login.new" var="workerLoginNew"/>
-<spring:message code="worker.password.new" var="workerPasswordNew"/>
-
+<%@include file="springMessages.jsp"%>
 
 <div class="container">
     <c:choose>

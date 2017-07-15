@@ -22,27 +22,7 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-
-<spring:message code="allTickets.ticket.name" var="nameTicket"/>
-<spring:message code="allTickets.ticket.specification" var="specificationTicket"/>
-<spring:message code="ticket.status" var="statusTicket"/>
-<spring:message code="ticket.status.choose" var="statusTicketChoose"/>
-<spring:message code="ticket.status.opened" var="statusTicketOpened"/>
-<spring:message code="ticket.status.inProgress" var="statusTicketInProgress"/>
-<spring:message code="ticket.status.paused" var="statusTicketPaused"/>
-<spring:message code="ticket.status.readyForTest" var="statusTicketReadyForTest"/>
-<spring:message code="ticket.status.finished" var="statusTicketFinished"/>
-<spring:message code="allTickets.ticket.status.allTickets" var="allTickets"/>
-<spring:message code="allTickets.ticket.label.show" var="labelShow"/>
-<spring:message code="allTickets.ticket.startDate" var="startDateTicket"/>
-<spring:message code="allTickets.ticket.endDate" var="endDateTicket"/>
-<spring:message code="allTickets.ticket.comments" var="comments"/>
-<spring:message code="allTickets.ticket.noComments" var="noComments"/>
-<spring:message code="allTickets.ticket.writeComments" var="writeComments"/>
-<spring:message code="allTickets.ticket.employee" var="employee"/>
-<spring:message code="allTickets.ticket.choseWorker" var="choseWorker"/>
-<spring:message code="allTickets.ticket.deadline" var="deadlineDate"/>
-<spring:message code="allTickets.ticket.worker" var="workerTicket"/>
+<%@include file="springMessages.jsp"%>
 
 <div id="centerLayer">
     <div class="container">

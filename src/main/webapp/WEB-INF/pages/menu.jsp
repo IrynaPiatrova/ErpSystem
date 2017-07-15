@@ -24,16 +24,16 @@
                 <a href="logOut">Выйти</a>
             </span>
             <span class="user-avatar pull-left" style="margin-right:20px; margin-top:8px;">
-                <c:choose>
-                    <c:when test="${photo == null}">
-                        <img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"
-                             width="30px" height="30px">
-                    </c:when>
-                    <c:otherwise>
+                <%--<c:choose>--%>
+                    <%--<c:when test="${photo == null}">--%>
+                        <%--<img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"--%>
+                             <%--width="30px" height="30px">--%>
+                    <%--</c:when>--%>
+                    <%--<c:otherwise>--%>
                         <img src="<mytag:convertImage imageByte="${photo}"/>" class="img-responsive img-circle"
                              width="30px" height="30px">
-                    </c:otherwise>
-                </c:choose>
+                    <%--</c:otherwise>--%>
+                <%--</c:choose>--%>
             </span>
             <span class="navbar-brand">${nameUser}</span>
         </div>

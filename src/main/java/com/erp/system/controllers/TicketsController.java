@@ -1,6 +1,7 @@
 package com.erp.system.controllers;
 
 import com.erp.system.constants.IConstants;
+import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dao.comments.ticket.CommentsTicketDao;
 import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.project.ticket.ProjectTicketDao;
@@ -10,20 +11,14 @@ import com.erp.system.entity.CommentsTicket;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.ProjectTicket;
 import com.erp.system.entity.Worker;
-import com.erp.system.tags.ConvertToImage;
 import com.erp.system.validators.NewTicketValidator;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import sun.security.krb5.internal.Ticket;
 
-import javax.jws.WebParam;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -94,7 +89,7 @@ public class TicketsController {
     }
     @RequestMapping(value = "/allTickets", method = RequestMethod.GET)
     public String allTickets(Model model,HttpSession session){
-        if (MethodsForControllers.isAdmin(session) == true) {
+        if (MethodsForControllers.isAdmin(session)) {
             model.addAttribute("ticket", new ProjectTicket());
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
             model.addAttribute("collectionTickets", listOfTickets);
@@ -109,7 +104,7 @@ public class TicketsController {
     }
     @RequestMapping(value = "/allTickets", method = RequestMethod.POST)
     public String allTickets(Model model,@RequestParam("statusProject") String status,HttpSession session) throws ServletException, IOException {
-        if (MethodsForControllers.isAdmin(session) == true){//если админ то отобразить все тикеты
+        if (MethodsForControllers.isAdmin(session)){//если админ то отобразить все тикеты
             if (status.equals("all tickets")) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
             }else{
@@ -150,18 +145,10 @@ public class TicketsController {
     }
 
     public boolean isStatusNotFinish(String status){
-        if (status.equals("ready_for_testing") || status.equals("finished")){
-            return false;
-        }else {
-            return true;
-        }
+        return !(status.equals("ready_for_testing") || status.equals("finished"));
     }
     public boolean isWorkerChosen(Worker worker){
-        if (worker== null){
-            return true;
-        }else {
-            return false;
-        }
+        return worker == null;
     }
 
     @RequestMapping(value = "/writeComment", method = RequestMethod.POST)
@@ -176,7 +163,7 @@ public class TicketsController {
         commentsTicket.setIdProjectTicket(projectTicket);
         commentsTicket.setIdWorker(worker);
         commentsTicketDao.createCommentsTicket(commentsTicket);
-        if (MethodsForControllers.isAdmin(session) == true) {
+        if (MethodsForControllers.isAdmin(session)) {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
         }else {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
