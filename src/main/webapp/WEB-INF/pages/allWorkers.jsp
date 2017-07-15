@@ -17,8 +17,71 @@
     <style>
         <%@include file='../css/table.css' %>
     </style>
+
+    <style type="text/css">
+        .hover_Row { background-color: darkgrey; }
+        .clicked_Row { background-color: darkgrey; }
+    </style>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <%@include file="table.jsp" %>
+
+    <script type="text/javascript">
+        function highlight_Table_Rows(table_Id, hover_Class, click_Class) {
+            var table = document.getElementById(table_Id);
+
+            if (hover_Class) {
+                var hover_Class_Reg = new RegExp("\\b"+hover_Class+"\\b");
+                table.onmouseover = table.onmouseout = function(e) {
+                    if (!e) e = window.event;
+                    var elem = e.target || e.srcElement;
+                    while (!elem.tagName || !elem.tagName.match(/td|th|table/i))
+                        elem = elem.parentNode;
+
+                    if (elem.parentNode.tagName == 'TR' &&
+                        elem.parentNode.parentNode.tagName == 'TBODY') {
+                        var row = elem.parentNode;
+                        if (!row.getAttribute('clicked_Row'))
+                            row.className = e.type=="mouseover"?row.className +
+                                " " + hover_Class:row.className.replace(hover_Class_Reg," ");
+                    }
+                };
+            }
+
+            if (click_Class) table.onclick = function(e) {
+                if (!e) e = window.event;
+                var elem = e.target || e.srcElement;
+                while (!elem.tagName || !elem.tagName.match(/td|th|table/i))
+                    elem = elem.parentNode;
+
+                if (elem.parentNode.tagName == 'TR' &&
+                    elem.parentNode.parentNode.tagName == 'TBODY') {
+                    var click_Class_Reg = new RegExp("\\b"+click_Class+"\\b");
+                    var row = elem.parentNode;
+
+                    if (row.getAttribute('clicked_Row')) {
+                        row.removeAttribute('clicked_Row');
+                        row.className = row.className.replace(click_Class_Reg, "");
+                        row.className += " "+hover_Class;
+                    }
+                    else {
+                        if (hover_Class) row.className = row.className.replace(hover_Class_Reg, "");
+                        row.className += " "+click_Class;
+                        row.setAttribute('clicked_Row', true);
+
+                        var lastRowI = table.getAttribute("last_Clicked_Row");
+                        if (lastRowI!==null && lastRowI!=='' && row.sectionRowIndex!=lastRowI) {
+                            var lastRow = table.tBodies[0].rows[lastRowI];
+                            lastRow.className = lastRow.className.replace(click_Class_Reg, "");
+                            lastRow.removeAttribute('clicked_Row');
+                        }
+                        table.setAttribute("last_Clicked_Row", row.sectionRowIndex);
+                    }
+                }
+            };
+        }
+    </script>
+
 </head>
 <body>
 <%@include file="menu.jsp" %>
@@ -57,7 +120,7 @@
                     <c:set var="it" value="1"/>
                     <c:forEach var="list" items="${allWorkers}" begin="1" step="1" varStatus="status">
                         <tr class="rowLink">
-                            <td>${status.index}</td>
+                            <td class="choosedNumber">${status.index}</td>
                             <td>${list.nameWorker} </td>
                             <td class="choosedLogin">${list.login}</td>
                             <td>${list.profile.department}</td>
@@ -84,12 +147,16 @@
 
 $(document).on('click', '.rowLink', function () {
     var choosedLogin = $(this).find('td.choosedLogin').html(); // получаем значение со строки "td"
+    var choosedNumber = $(this).find('td.choosedNumber').html();
     document.getElementById("login").value = choosedLogin;
     document.getElementById("editButton").type = "submit";
-    document.getElementById("editButton").value = choosedLogin;
-    //нужно придумать как сделать это с надписью  формата:
-    // "Редактировать профиль" + id выбранного пользвателя
+    document.getElementById("editButton").value = "Редактировать профиль #"+choosedNumber;
 });
 </script>
+
+<script type="text/javascript">
+    highlight_Table_Rows("dev-table", "hover_Row", "clicked_Row");
+</script>
+
 </body>
 </html>
