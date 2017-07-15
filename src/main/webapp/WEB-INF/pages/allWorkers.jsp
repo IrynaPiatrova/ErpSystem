@@ -11,98 +11,21 @@
 <html>
 <head>
     <title>AllWorkers</title>
+    <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
     <style>
-        .row {
-            margin-top: 40px;
-            padding: 0 10px;
-        }
-
-        .clickable {
-            cursor: pointer;
-        }
-
-        .panel-heading div {
-            margin-top: -18px;
-            font-size: 15px;
-        }
-
-        .panel-heading div span {
-            margin-left: 5px;
-        }
-
-        .panel-body {
-            display: none;
-        }
-
-        div.panel.panel-primary {
-            border-color: #404040;
-            width: 900px;
-        }
-
-        div.panel-heading {
-            background-color: #363636;
-            border-color: #363636;
-            background-image: none;
-        }
+        <%@include file='../css/table.css' %>
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script>
-        (function () {
-            'use strict';
-            var $ = jQuery;
-            $.fn.extend({
-                filterTable: function () {
-                    return this.each(function () {
-                        $(this).on('keyup', function (e) {
-                            $('.filterTable_no_results').remove();
-                            var $this = $(this), search = $this.val().toLowerCase(),
-                                target = $this.attr('data-filters'), $target = $(target),
-                                $rows = $target.find('tbody tr');
-                            if (search == '') {
-                                $rows.show();
-                            } else {
-                                $rows.each(function () {
-                                    var $this = $(this);
-                                    $this.text().toLowerCase().indexOf(search) === -1 ? $this.hide() : $this.show();
-                                })
-                                if ($target.find('tbody tr:visible').size() === 0) {
-                                    var col_count = $target.find('tr').first().find('td').size();
-                                    var no_results = $('<tr class="filterTable_no_results"><td colspan="' + col_count + '">No results found</td></tr>')
-                                    $target.find('tbody').append(no_results);
-                                }
-                            }
-                        });
-                    });
-                }
-            });
-            $('[data-action="filter"]').filterTable();
-        })(jQuery);
-
-        $(function () {
-            // attach table filter plugin to inputs
-            $('[data-action="filter"]').filterTable();
-
-            $('.container').on('click', '.panel-heading span.filter', function (e) {
-                var $this = $(this),
-                    $panel = $this.parents('.panel');
-
-                $panel.find('.panel-body').slideToggle();
-                if ($this.css('display') != 'none') {
-                    $panel.find('.panel-body input').focus();
-                }
-            });
-            $('[data-toggle="tooltip"]').tooltip();
-        })
-    </script>
+    <%@include file="table.jsp" %>
 </head>
 <body>
 <%@include file="menu.jsp" %>
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-primary">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Работники</h3>
                     <div class="pull-right">
@@ -147,19 +70,25 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <form action="/findWorkerByLogin" method="post">
+                <form action="/findWorkerByLogin" method="post" id="formButton">
+                    <p/>
                     <input type="hidden" name="login" id="login" value="">
-                    <input type="submit" value="Редактировать профиль">
+                    <input type="hidden" id="editButton" value="Редактировать профиль" class="btn btn-default">
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-<script type="text/javascript"> // этот скрипт должен быть после формы чтобы видеть элемент с id=login
+<script type="text/javascript"> // этот скрипт должен быть после формы чтобы видеть элемент с id=login$(document).ready(function(){
+
 $(document).on('click', '.rowLink', function () {
     var choosedLogin = $(this).find('td.choosedLogin').html(); // получаем значение со строки "td"
     document.getElementById("login").value = choosedLogin;
+    document.getElementById("editButton").type = "submit";
+    document.getElementById("editButton").value = choosedLogin;
+    //нужно придумать как сделать это с надписью  формата:
+    // "Редактировать профиль" + id выбранного пользвателя
 });
 </script>
 </body>

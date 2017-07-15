@@ -2,6 +2,7 @@ package com.erp.system.dao.project.ticket.impl;
 
 import com.erp.system.dao.project.ticket.ProjectTicketDao;
 import com.erp.system.entity.ProjectTicket;
+import com.erp.system.entity.Worker;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -76,6 +77,25 @@ public class ProjectTicketDaoImpl implements ProjectTicketDao {
         Query query = sessionFactory.getCurrentSession().createQuery("from ProjectTicket where status =:statusTicket");
         query.setParameter("statusTicket", status);
         LOGGER.info("ProjectTicketDaoImpl geticketsByStatus end");
+        return query.getResultList();
+    }
+
+    @Override
+    public List getTicketsByIdWorker(Worker worker) {
+        LOGGER.info("ProjectTicketDaoImpl getTicketsById start");
+        Query query = sessionFactory.getCurrentSession().createQuery("from ProjectTicket where id_worker =:worker");
+        query.setParameter("worker", worker);
+        LOGGER.info("ProjectTicketDaoImpl getTicketsById end");
+        return query.getResultList();
+    }
+
+    @Override
+    public List getTicketsByIdWorkerAndStatus(Worker worker, String status) {
+        LOGGER.info("ProjectTicketDaoImpl getTicketsByIdAndStatus start");
+        Query query = sessionFactory.getCurrentSession().createQuery("from ProjectTicket where id_worker =:worker AND status =:status");
+        query.setParameter("worker", worker);
+        query.setParameter("status", status);
+        LOGGER.info("ProjectTicketDaoImpl geticketsByIdAndStatus end");
         return query.getResultList();
     }
 

@@ -1,15 +1,14 @@
 package com.erp.system.controllers;
 
 import com.erp.system.constants.IConstants;
-import com.erp.system.dto.ProfileDTO;
-import com.erp.system.entity.Profile;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -34,6 +33,12 @@ public class MethodsForControllers {
 
     public static Boolean isAdmin(HttpSession session) {
         return IConstants.TRUE.equals(session.getAttribute(IConstants.IS_ADMIN));
+    }
+
+    public static byte[] returnDefaultPhotoBytes() throws IOException {
+        Path path = Paths.get("/photo/me-flat.png");
+        byte[] data = Files.readAllBytes(path);
+        return data;
     }
 
     public static String convertToMD5(String input) {

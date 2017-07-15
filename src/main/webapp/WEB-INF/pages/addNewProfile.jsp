@@ -131,11 +131,11 @@
             </td>
         </tr>
 
-        <tr height="40">
+       <%-- <tr height="40">
             <td>${profilePhoto}</td>
             <td><form:input type="file" name="photo" path="photo"/>
             </td>
-        </tr>
+        </tr>--%>
 
         <tr height="40"  width="100">
             <td><input type="submit" value="${labelNext}"></td>

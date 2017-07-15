@@ -16,5 +16,6 @@ public class IConstants {
     public static final String ALL_WORKERS = "allWorkers";
     public static final String PHOTO = "photo";
     public static final String ADMIN_EDIT_PROFILE = "adminEditProfile";
-    public static final String IS_CHOOSE_TICKET = "isChooseTicket";
+    public static final String IS_TICKET_FINISHED = "isTicketFinished";
+    public static final String IS_WORKER_ON_TICKET_CHOOSE = "isWorkerOnTicketChoose";
 }

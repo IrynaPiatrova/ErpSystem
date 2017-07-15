@@ -47,7 +47,6 @@
                     <li class="dropdown"><a href="/allWorkers" class="dropdown-toggle" data-toggle="dropdown">Пользователи<b
                             class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Contact Support</a></li>
                             <li><a href="/addNewWorker">Add new worker</a></li>
                             <li><a href="/allWorkers">All workers</a></li>
                         </ul>
@@ -67,25 +66,20 @@
                         </li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="#">Тикеты</a></li>
+                        <li><a href="/allTickets">Мои Тикеты</a></li>
                     </c:otherwise>
                 </c:choose>
                 <li/>
-                <li><a href="#">Чат</a></li>
+                <li><a href="/chat">Чат</a></li>
+                <li><a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png"
+                                            class="img-responsive img-circle"
+                                            width="30px" height="30px"></a></li>
                 <li/>
-            </ul>
-            <ul>
-                <span style="width: 20px; text-align: right ">
-                    <li>
-                    <ul>
-                        <a href="?lang=en"><img src="http://www.world-globe.ru/files/flags/akrotiri_l.png"
-                                                width="2%" height="2%"></a>
-                        <a href="?lang=ru"><img
-                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
-                                width="2%" height="2%"></a>
-                    </ul>
-                </li>
-                </span>
+                <li><a href="?lang=ru"><img
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
+                        class="img-responsive img-circle"
+                        width="30px" height="30px"></a></li>
+                <li/>
             </ul>
         </div>
     </div>

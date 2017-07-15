@@ -11,6 +11,7 @@
 <html>
 <head>
     <title>Search</title>
+    <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
     <script>

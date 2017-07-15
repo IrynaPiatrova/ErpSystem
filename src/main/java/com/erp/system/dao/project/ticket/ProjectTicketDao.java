@@ -1,6 +1,7 @@
 package com.erp.system.dao.project.ticket;
 
 import com.erp.system.entity.ProjectTicket;
+import com.erp.system.entity.Worker;
 
 import java.util.List;
 
@@ -17,4 +18,9 @@ public interface ProjectTicketDao {
     List getAllProjectTickets();
 
     List getTicketsByStatus(String status);
+
+    List getTicketsByIdWorker(Worker Worker);
+
+    List getTicketsByIdWorkerAndStatus(Worker worker, String status);
+
 }

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import sun.security.krb5.internal.Ticket;
 
 import javax.jws.WebParam;
 import javax.servlet.ServletException;
@@ -56,7 +57,7 @@ public class TicketsController {
     private SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private Date date = new Date();
     private ArrayList<CommentsTicket> listOfComments = new ArrayList<>();
-    private ArrayList<CommentDTO> listOfEndComments = new ArrayList<>();
+    private ArrayList<CommentDTO> listOfDTOComments = new ArrayList<>();
 
     @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.GET)
     public String isSuccessAddNewTicket(Model model){
@@ -92,40 +93,77 @@ public class TicketsController {
         return "pages/main";
     }
     @RequestMapping(value = "/allTickets", method = RequestMethod.GET)
-    public String allTickets(Model model){
-        model.addAttribute("ticket", new ProjectTicket());
-        listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
-        model.addAttribute("collectionTickets",listOfTickets);
-        return "pages/allTickets";
+    public String allTickets(Model model,HttpSession session){
+        if (MethodsForControllers.isAdmin(session) == true) {
+            model.addAttribute("ticket", new ProjectTicket());
+            listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
+            model.addAttribute("collectionTickets", listOfTickets);
+            return "pages/allTickets";
+        }else {
+            worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+            listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
+            model.addAttribute("collectionTickets", listOfTickets);
+            model.addAttribute("ticket", new ProjectTicket());
+            return "pages/allTickets";
+        }
     }
     @RequestMapping(value = "/allTickets", method = RequestMethod.POST)
-    public String allTickets(Model model,@RequestParam("statusProject") String status) throws ServletException, IOException {
-        if (status.equals("all tickets")) {
-            listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
-        }else{
-            listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByStatus(status);
+    public String allTickets(Model model,@RequestParam("statusProject") String status,HttpSession session) throws ServletException, IOException {
+        if (MethodsForControllers.isAdmin(session) == true){//если админ то отобразить все тикеты
+            if (status.equals("all tickets")) {
+                listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
+            }else{
+                listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByStatus(status);
+            }
+        }else {//если не админ, то через сессию получаем логин,
+            // а через логин получаем все тикеты того кто авторизовался
+            worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+            if (status.equals("all tickets")) {
+                listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
+            }else{
+                listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorkerAndStatus(worker,status);
+            }
         }
         model.addAttribute("collectionTickets",listOfTickets);
         return "pages/allTickets";
     }
     @RequestMapping(value = "/chooseTicket{var}")
     public String chooseTicket(@PathVariable("var") long var, Model model, HttpSession session){
-        String isChooseTicket = IConstants.TRUE;
-        listOfEndComments.clear();
+        listOfDTOComments.clear();//здесь очищаются список с комментариями,
+        // потому что при обновлении страницы они дублируются
         listOfWorkers = (ArrayList<Worker>) workerDao.getAllWorkers();
         listOfComments = (ArrayList<CommentsTicket>) commentsTicketDao.getCommentsTicketByIdTicket(var);
+        projectTicket = projectTicketDao.getProjectTicketById(var);
         for (CommentsTicket m: listOfComments){
             profile = profileDao.getProfileById(m.getIdWorker().getProfile().getIdProfile());
-            listOfEndComments.add(new CommentDTO(m.getIdWorker().getNameWorker(),m.getComment(),profile.getPhoto()));
+            listOfDTOComments.add(new CommentDTO(m.getIdWorker().getNameWorker(),m.getComment(),profile.getPhoto()));
         }
+        model.addAttribute(IConstants.IS_WORKER_ON_TICKET_CHOOSE,isWorkerChosen(projectTicket.getIdWorker()));
+        model.addAttribute(IConstants.IS_TICKET_FINISHED,isStatusNotFinish(projectTicket.getStatusProjectTicket()));
+        //две модели выше реализуют методы(они лежат сразу после этого метода), которые возвращают
+        //boolean, и в зависимости от того, что вернется рисуется chooseTicket.jsp
         model.addAttribute("collectionWorkers", listOfWorkers);
-        model.addAttribute(IConstants.IS_CHOOSE_TICKET, isChooseTicket);
-        model.addAttribute("collectionTickets",listOfTickets);
         model.addAttribute("chosenTicket",projectTicketDao.getProjectTicketById(var));
         model.addAttribute("workerPhoto",session.getAttribute(IConstants.PHOTO));
-        model.addAttribute("collectionOfComments",listOfEndComments);
-        return "pages/allTickets";
+        model.addAttribute("collectionOfComments",listOfDTOComments);
+        return "pages/chooseTicket";
     }
+
+    public boolean isStatusNotFinish(String status){
+        if (status.equals("ready_for_testing") || status.equals("finished")){
+            return false;
+        }else {
+            return true;
+        }
+    }
+    public boolean isWorkerChosen(Worker worker){
+        if (worker== null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     @RequestMapping(value = "/writeComment", method = RequestMethod.POST)
     public String writeComment(@RequestParam("text_comment") String comment,
                                @RequestParam("idTicket") long idTicket,HttpSession session,Model model){
@@ -138,9 +176,23 @@ public class TicketsController {
         commentsTicket.setIdProjectTicket(projectTicket);
         commentsTicket.setIdWorker(worker);
         commentsTicketDao.createCommentsTicket(commentsTicket);
-        listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
+        if (MethodsForControllers.isAdmin(session) == true) {
+            listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
+        }else {
+            listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
+        }
         model.addAttribute("collectionTickets",listOfTickets);
-        return "pages/allTickets";
+        return "pages/allTickets";//надо придумать как сделать return на эту же страницу
+    }
+
+    @RequestMapping(value = "/workerEndTicket", method = RequestMethod.POST)
+    public String endTicket(@RequestParam("idTicket") long idTicket,HttpSession session){
+        date = new Date();
+        projectTicket = (ProjectTicket) projectTicketDao.getProjectTicketById(idTicket);
+        projectTicket.setEndTicketDate(date);
+        projectTicket.setStatusProjectTicket("ready_for_testing");
+        projectTicketDao.updateProjectTicket(projectTicket);
+        return "pages/main";
     }
 
 }
