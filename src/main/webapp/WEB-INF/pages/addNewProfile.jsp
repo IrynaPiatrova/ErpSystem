@@ -131,6 +131,21 @@
             </td>
         </tr>
 
+        <tr>
+            <td><p>Выберите ключевой вопрос</p>
+                <p>для восстановления пароля</p></td>
+            <td><form:select name="keyWord" path="keyWord" width="200">
+                <option value="status" disabled selected>${profileEmploymentStatusChoose}</option>
+                <option value="status 1">Девичья фамилия матери</option>
+                <option value="status 2">Город где вы родились</option>
+                <option value="status 3">Любимое блюдо</option>
+            </form:select></td>
+        </tr>
+
+        <tr>
+            <td><p>Введите ответ на вопрос</p></td>
+            <td><form:input type="text" name="answerOnKeyWord" path="answerOnKeyWord"/></td>
+        </tr>
        <%-- <tr height="40">
             <td>${profilePhoto}</td>
             <td><form:input type="file" name="photo" path="photo"/>

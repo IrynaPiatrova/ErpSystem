@@ -19,7 +19,8 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<form action="edit" method="get"><input type="submit" class="btn btn-default btn-lg" value="Редактировать"></form>
+<form action="edit" method="get">
+    <input type="submit" class="btn btn-default btn-lg" value="Редактировать"></form>
 <div class="container">
     <table class="table table-striped">
         <tbody>
