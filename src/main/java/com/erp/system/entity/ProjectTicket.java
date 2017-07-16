@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
 @Entity()
 @Table(name = "project_tickets")
@@ -26,13 +26,13 @@ public class ProjectTicket implements Serializable {
     private String statusProjectTicket;
 
     @Column(name = "start_ticket_date")
-    private Date startTicketDate;
+    private String startTicketDate;
 
     @Column(name = "end_ticket_date")
-    private Date endTicketDate;
+    private String endTicketDate;
 
     @Column(name = "deadline")
-    private Date deadlineTicket;
+    private String deadlineTicket;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_worker")
@@ -73,27 +73,27 @@ public class ProjectTicket implements Serializable {
         this.statusProjectTicket = statusProjectTicket;
     }
 
-    public Date getStartTicketDate() {
+    public String getStartTicketDate() {
         return startTicketDate;
     }
 
-    public void setStartTicketDate(Date startTicketDate) {
+    public void setStartTicketDate(String startTicketDate) {
         this.startTicketDate = startTicketDate;
     }
 
-    public Date getEndTicketDate() {
+    public String getEndTicketDate() {
         return endTicketDate;
     }
 
-    public void setEndTicketDate(Date endTicketDate) {
+    public void setEndTicketDate(String endTicketDate) {
         this.endTicketDate = endTicketDate;
     }
 
-    public Date getDeadlineTicket() {
+    public String getDeadlineTicket() {
         return deadlineTicket;
     }
 
-    public void setDeadlineTicket(Date deadlineTicket) {
+    public void setDeadlineTicket(String deadlineTicket) {
         this.deadlineTicket = deadlineTicket;
     }
 

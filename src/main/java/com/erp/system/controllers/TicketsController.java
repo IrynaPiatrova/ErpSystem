@@ -25,10 +25,11 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by klinster on 18.06.2017.
+ * Created by klinster on 18.06.2017
  */
 @Controller
 public class TicketsController {
@@ -45,7 +46,7 @@ public class TicketsController {
 
     private ArrayList<Worker> listOfWorkers = new ArrayList<>();
     private SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    private Date date = new Date();
+    private Date date;
     private ArrayList<CommentsTicket> listOfComments = new ArrayList<>();
     private ArrayList<CommentDTO> listOfDTOComments = new ArrayList<>();
 
@@ -63,9 +64,7 @@ public class TicketsController {
         newTicketValidator.validate(projectTicket,result);
         if (deadlineDate.length() == 0) result.rejectValue("deadlineTicket", "empty.ticket.deadlineDate");
         if (result.hasErrors()) return "pages/addNewTicket";
-        date = oldDateFormat.parse(deadlineDate);
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        projectTicket.setDeadlineTicket(sqlDate);
+        projectTicket.setDeadlineTicket(deadlineDate);
         projectTicketDao.createProjectTicket(projectTicket);
         return "pages/main";
     }
@@ -73,12 +72,11 @@ public class TicketsController {
     public String chooseWorkerOnTicket(@RequestParam("nameWorker") String nameWorker,
                                        @RequestParam("idTicket") long idTicket) throws ParseException {
         String idWorker = nameWorker.substring(0,nameWorker.indexOf("."));
-        date = new Date();
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         Worker worker = workerDao.getWorkerById(Long.parseLong(idWorker));
         ProjectTicket projectTicket = projectTicketDao.getProjectTicketById(idTicket);
         projectTicket.setStatusProjectTicket("in_progress");
-        projectTicket.setStartTicketDate(sqlDate);
+        Date now = Calendar.getInstance().getTime();
+        projectTicket.setStartTicketDate(oldDateFormat.format(now));
         projectTicket.setWorker(worker);
         System.out.println(projectTicket);
         projectTicketDao.updateProjectTicket(projectTicket);
@@ -177,9 +175,9 @@ public class TicketsController {
 
     @RequestMapping(value = "/workerEndTicket", method = RequestMethod.POST)
     public String endTicket(@RequestParam("idTicket") long idTicket,HttpSession session){
-        date = new Date();
         ProjectTicket projectTicket = (ProjectTicket) projectTicketDao.getProjectTicketById(idTicket);
-        projectTicket.setEndTicketDate(date);
+        Date now = Calendar.getInstance().getTime();
+        projectTicket.setEndTicketDate(oldDateFormat.format(now));
         projectTicket.setStatusProjectTicket("ready_for_testing");
         projectTicketDao.updateProjectTicket(projectTicket);
         return "pages/main";

@@ -7,7 +7,10 @@ import com.erp.system.entity.Worker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by klinster on 25.06.2017.
@@ -16,21 +19,26 @@ import java.util.ArrayList;
 public class MainTest {
 
     public static void main(String[] args) {
-        ApplicationContext ctx = (ApplicationContext) new FileSystemXmlApplicationContext("E:\\Загрузки\\M B G\\TMS\\GitHub\\ErpSystem\\src\\main\\webapp\\WEB-INF\\dispatcher-servlet.xml");
-        WorkerDaoImpl workerDao = (WorkerDaoImpl) ctx.getBean("workerDaoImple");
-        ProfileDao profileDao = (ProfileDaoImpl) ctx.getBean("profDaoImpl");
+//        ApplicationContext ctx = (ApplicationContext) new FileSystemXmlApplicationContext("E:\\Загрузки\\M B G\\TMS\\GitHub\\ErpSystem\\src\\main\\webapp\\WEB-INF\\dispatcher-servlet.xml");
+//        WorkerDaoImpl workerDao = (WorkerDaoImpl) ctx.getBean("workerDaoImple");
+//        ProfileDao profileDao = (ProfileDaoImpl) ctx.getBean("profDaoImpl");
 //        Worker worker = new Worker();
 //        worker.setPassword("111");
 //        worker.setLogin("111");
 //        worker.setNameWorker("Ирина");
-        Profile byId = profileDao.getProfileById(2L);
-        System.out.println(byId);
+//        Profile byId = profileDao.getProfileById(2L);
+//        System.out.println(byId);
 //        worker.setProfile(byId);
 //        workerDao.createWorker(worker);
-        Worker worker = workerDao.getWorkerById(2);
-        System.out.println(worker);
+//        Worker worker = workerDao.getWorkerById(2);
+//        System.out.println(worker);
         //worker.setNameWorker("Irina");
        // workerDao.updateWorker(worker);
-        workerDao.deleteWorker(worker);
+//        workerDao.deleteWorker(worker);
+        Date date = new Date();
+        SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date now = Calendar.getInstance().getTime();
+        String formattedDate = oldDateFormat.format(now);
+        System.out.println(formattedDate);
     }
 }

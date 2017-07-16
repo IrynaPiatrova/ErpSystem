@@ -20,7 +20,7 @@ public class TimeVocation implements Serializable {
     private Worker worker;
 
     @Column(name = "start_voc_date")
-    private Date startVocDate;
+    private String startVocDate;
 
     @Column(name = "end_voc_date")
     private Date endVocDate;
@@ -41,11 +41,11 @@ public class TimeVocation implements Serializable {
         this.worker = idWorker;
     }
 
-    public Date getStartVocDate() {
+    public String getStartVocDate() {
         return startVocDate;
     }
 
-    public void setStartVocDate(Date startVocDate) {
+    public void setStartVocDate(String startVocDate) {
         this.startVocDate = startVocDate;
     }
 

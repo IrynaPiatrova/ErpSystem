@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class ProfileDTO {
     private long idProfile;
-    private Date startDateProfile;
+    private String startDateProfile;
     private String telephone;
     private String email;
     private MultipartFile photo;
@@ -78,11 +78,11 @@ public class ProfileDTO {
         this.idProfile = idProfile;
     }
 
-    public Date getStartDateProfile() {
+    public String getStartDateProfile() {
         return startDateProfile;
     }
 
-    public void setStartDateProfile(Date startDateProfile) {
+    public void setStartDateProfile(String startDateProfile) {
         this.startDateProfile = startDateProfile;
     }
 

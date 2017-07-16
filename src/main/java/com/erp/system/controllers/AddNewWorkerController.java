@@ -56,12 +56,9 @@ public class AddNewWorkerController {
         registrationNewProfileValidator.validate(profile, result);
         if (startDate.length() == 0) result.rejectValue("startDateProfile", "empty.date");
         if (result.hasErrors()) return "pages/addNewProfile";
-        SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = oldDateFormat.parse(startDate);
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("photo/me-flat.png");
         profile.setPhoto(MethodsForControllers.returnDefaultPhotoBytes(inputStream));
-        profile.setStartDateProfile(sqlDate);
+        profile.setStartDateProfile(startDate);
         model.addAttribute("worker", new Worker());
         profileWorker = profile;
         return "pages/addNewWorker";
