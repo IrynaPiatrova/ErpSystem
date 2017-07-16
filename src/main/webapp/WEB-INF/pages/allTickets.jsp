@@ -25,15 +25,14 @@
 
 <div id="centerLayer">
     <div class="container">
-        <form:form action="allTickets" method="post" modelAttribute="ticket">
+        <form:form action="allTickets" method="post" modelAttribute="ticket" >
             <select name="statusProject" path="statusProjectTicket" class="selectpicker">
-                <option value="status" disabled selected>${statusTicketChoose}</option>
+                <option value="all tickets" selected>${allTickets}</option>
                 <option value="opened">${statusTicketOpened}</option>
                 <option value="in progress">${statusTicketInProgress}</option>
                 <option value="paused">${statusTicketPaused}</option>
                 <option value="ready for testing">${statusTicketReadyForTest}</option>
                 <option value="finished">${statusTicketFinished}</option>
-                <option value="all tickets">${allTickets}</option>
                 <div><form:errors path="statusProjectTicket" style="color:red"/></div>
             </select>
             <input type="submit" value="${labelShow}" class="btn btn-default">

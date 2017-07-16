@@ -18,73 +18,7 @@
     <%@include file="bootstrapLinks.jsp" %>
     <script type="text/javascript"></script>
     <style>
-        .tableTicket {
-            width: auto;
-        }
-
-        #centerLayer {
-            align-content: center;
-            position: absolute;
-            margin-left: 10%;
-            margin-top: 5%;
-            margin-right: 10%;
-            padding: 10px;
-            overflow: auto;
-        }
-
-        #specificationTicket {
-            margin-top: 6%;
-            width: 60%;
-            align-content: center;
-        }
-
-        #chooseWorker {
-            margin-top: 3%;
-        }
-
-        #allComments {
-            width: 100%;
-            overflow: auto;
-            margin-top: 2%;
-        }
-
-        #allCommentsPhoto {
-            float: left;
-        }
-
-        #allCommentsComment {
-            margin-left: 3%;
-        }
-
-        #writeComment {
-            margin-top: 5%;
-            width: 750px;
-            height: 50px;
-        }
-
-        #comment_photo {
-            align-content: center;
-            width: 60px;
-            float: left;
-        }
-
-        #comment_comment {
-            align-content: center;
-            width: 640px;
-            margin-left: 3%;
-        }
-
-        #comment_submit {
-            align-content: center;
-            width: 50px;
-            float: right;
-            margin-right: 15%;
-            margin-bottom: 25%;
-        }
-
-        #endTicket {
-            margin-top: 3%;
-        }
+        <%@include file='../css/style_for_ticket_comments.css' %>
     </style>
     <script>
         function empty_form() {
@@ -125,8 +59,6 @@
             <td width="120">${chosenTicket.startTicketDate}</td>
             <td width="120">${chosenTicket.endTicketDate}</td>
             <td width="120">${chosenTicket.deadlineTicket}
-                <%--${chosenTicket.deadlineTicket.day}---%>
-                <%--${chosenTicket.deadlineTicket.month}</td>--%>
             <td width="120">${chosenTicket.worker.nameWorker}</td>
         </tr>
     </table>
@@ -163,7 +95,7 @@
                     <div id="allCommentsComment">
                         <div>
                             <p style="color:blue">${listComment.nameWorker}</p>
-                            <p>${listComment.comment}</p>
+                            <p>${listComment.commentDate} - ${listComment.comment}</p>
                             <hr>
                         </div>
                     </div>
@@ -208,7 +140,7 @@
     <c:choose>
         <c:when test="${isAdmin}">
             <c:choose>
-                <c:when test="${isWorkerOnTicketChoose == true}">
+                <c:when test="${isWorkerOnTicketNotChoosen == true}">
                     <div id="chooseWorker">
                         <form:form action="/chooseWorkerOnTicket" method="post" onsubmit="return empty_form()">
                             <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
@@ -231,7 +163,7 @@
         </c:when>
         <c:otherwise>
             <c:choose>
-                <c:when test="${isTicketFinished == true}">
+                <c:when test="${isTicketNotFinished == true}">
                     <div id="endTicket">
                         <form action="${pageContext.request.contextPath}/workerEndTicket" method="post">
                             <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">

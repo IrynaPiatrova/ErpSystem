@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,9 +56,16 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
             if(pr.getEndTicketDate() == null){
                 list.add(new ProjectTicketDTO(pr.getIdProjectTicket(),pr.getNameProjectTicket(),pr.getSpecification(),pr.getStatusProjectTicket(),"Not finished"));
             } else {
-                if(pr.getEndTicketDate().compareTo(pr.getDeadlineTicket())==1){
-                    list.add(new ProjectTicketDTO(pr.getIdProjectTicket(),pr.getNameProjectTicket(),pr.getSpecification(),pr.getStatusProjectTicket(),"Unsuccessfully"));
-                } else list.add(new ProjectTicketDTO(pr.getIdProjectTicket(),pr.getNameProjectTicket(),pr.getSpecification(),pr.getStatusProjectTicket(),"Successfully"));
+                SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    Date date1 = oldDateFormat.parse(pr.getEndTicketDate());
+                    Date date2 = oldDateFormat.parse(pr.getDeadlineTicket());
+                    if(date1.compareTo(date2)==1){
+                        list.add(new ProjectTicketDTO(pr.getIdProjectTicket(),pr.getNameProjectTicket(),pr.getSpecification(),pr.getStatusProjectTicket(),"Unsuccessfully"));
+                    } else list.add(new ProjectTicketDTO(pr.getIdProjectTicket(),pr.getNameProjectTicket(),pr.getSpecification(),pr.getStatusProjectTicket(),"Successfully"));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return list;

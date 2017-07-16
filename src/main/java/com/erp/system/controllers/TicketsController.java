@@ -123,6 +123,7 @@ public class TicketsController {
     }
     @RequestMapping(value = "/chooseTicket{var}")
     public String chooseTicket(@PathVariable("var") long var, Model model, HttpSession session){
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         listOfDTOComments.clear();//здесь очищаются список с комментариями,
         // потому что при обновлении страницы они дублируются
         listOfWorkers = (ArrayList<Worker>) workerDao.getAllWorkers();
@@ -130,14 +131,14 @@ public class TicketsController {
         ProjectTicket projectTicket = projectTicketDao.getProjectTicketById(var);
         for (CommentsTicket m: listOfComments){
             Profile profile = profileDao.getProfileById(m.getIdWorker().getProfile().getIdProfile());
-            listOfDTOComments.add(new CommentDTO(m.getIdWorker().getNameWorker(),m.getComment(),profile.getPhoto()));
+            listOfDTOComments.add(new CommentDTO(m.getIdWorker().getNameWorker(),m.getComment(),profile.getPhoto(),m.getCommentDate()));
         }
-        model.addAttribute(IConstants.IS_WORKER_ON_TICKET_CHOOSE,isWorkerChosen(projectTicket.getWorker()));
-        model.addAttribute(IConstants.IS_TICKET_FINISHED,isStatusNotFinish(projectTicket.getStatusProjectTicket()));
+        model.addAttribute(IConstants.IS_WORKER_ON_TICKET_NOT_CHOOSEN,isWorkerNotChosen(projectTicket.getWorker()));
+        model.addAttribute(IConstants.IS_TICKET_NOT_FINISHED,isStatusNotFinish(projectTicket.getStatusProjectTicket()));
         //две модели выше реализуют методы(они лежат сразу после этого метода), которые возвращают
         //boolean, и в зависимости от того, что вернется рисуется chooseTicket.jsp
         model.addAttribute("collectionWorkers", listOfWorkers);
-        model.addAttribute("chosenTicket",projectTicketDao.getProjectTicketById(var));
+        model.addAttribute("chosenTicket",projectTicket);
         model.addAttribute("workerPhoto",session.getAttribute(IConstants.PHOTO));
         model.addAttribute("collectionOfComments",listOfDTOComments);
         return "pages/chooseTicket";
@@ -146,20 +147,20 @@ public class TicketsController {
     public boolean isStatusNotFinish(String status){
         return !(status.equals("ready_for_testing") || status.equals("finished"));
     }
-    public boolean isWorkerChosen(Worker worker){
+    public boolean isWorkerNotChosen(Worker worker){
         return worker == null;
     }
 
     @RequestMapping(value = "/writeComment", method = RequestMethod.POST)
     public String writeComment(@RequestParam("text_comment") String comment,
                                @RequestParam("idTicket") long idTicket,HttpSession session,Model model){
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         date = new Date();
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         Worker worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
         ProjectTicket projectTicket = projectTicketDao.getProjectTicketById(idTicket);
         CommentsTicket commentsTicket = new CommentsTicket();
         commentsTicket.setComment(comment);
-        commentsTicket.setCommentDate(sqlDate);
+        commentsTicket.setCommentDate(date);
         commentsTicket.setIdProjectTicket(projectTicket);
         commentsTicket.setIdWorker(worker);
         commentsTicketDao.createCommentsTicket(commentsTicket);
@@ -175,7 +176,8 @@ public class TicketsController {
 
     @RequestMapping(value = "/workerEndTicket", method = RequestMethod.POST)
     public String endTicket(@RequestParam("idTicket") long idTicket,HttpSession session){
-        ProjectTicket projectTicket = (ProjectTicket) projectTicketDao.getProjectTicketById(idTicket);
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        ProjectTicket projectTicket = projectTicketDao.getProjectTicketById(idTicket);
         Date now = Calendar.getInstance().getTime();
         projectTicket.setEndTicketDate(oldDateFormat.format(now));
         projectTicket.setStatusProjectTicket("ready_for_testing");
