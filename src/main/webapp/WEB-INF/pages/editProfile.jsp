@@ -162,14 +162,14 @@
                 </div>
                 <div><form:errors path="worker.login" style="color:red"/></div>
             </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputPassword">${workerPasswordNew}</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="worker.password"
-                                id="inputPassword" name="textinput"/>
-                </div>
-                <div><form:errors path="worker.password" style="color:red"/></div>
-            </div>
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-4 control-label" for="inputPassword">${workerPasswordNew}</label>--%>
+                <%--<div class="col-md-4">--%>
+                    <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="worker.password"--%>
+                                <%--id="inputPassword" name="textinput"/>--%>
+                <%--</div>--%>
+                <%--<div><form:errors path="worker.password" style="color:red"/></div>--%>
+            <%--</div>--%>
             <div class="form-group">
                 <label class="col-md-4 control-label" for="inputTelephone">${profileTelephoneNew}</label>
                 <div class="col-md-4">
@@ -200,9 +200,13 @@
                     <input type="submit" id="singlebutton" class="btn btn-primary" value="${labelComplete}"/>
                 </div>
             </div>
-
         </fieldset>
         </form:form>
+        <div class="form-group">
+            <form action="changePassword">
+                <input type="submit" value="change password">
+            </form>
+        </div>
         </c:otherwise>
         </c:choose>
 </div>

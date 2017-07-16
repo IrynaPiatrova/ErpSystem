@@ -7,6 +7,7 @@ import com.erp.system.dto.ProfileDTO;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
 import com.erp.system.validators.EditProfileValidator;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -103,6 +104,27 @@ public class MenuController {
         return "redirect:/allWorkers";
     }
 
+    @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
+    public String changePassword(Model model, HttpSession session){
+        model.addAttribute(IConstants.PROFILE, session.getAttribute(IConstants.PROFILE_DATA));
+        return "pages/changePassword";
+    }
+
+    @RequestMapping(value = "/change", method = RequestMethod.POST)
+    public String change(@ModelAttribute(IConstants.PROFILE)@Valid ProfileDTO profileDTO,
+                         BindingResult result, @RequestParam("repeatNewPassword") String repeatNewPassword,
+                         @RequestParam("newPassword") String newPassword, HttpSession session){
+        if (newPassword.length()<= 0)result.rejectValue("password", "empty.password");
+        if (repeatNewPassword.length() <= 0)result.rejectValue("password", "empty.newPassword");
+        if (profileDTO.getAnswer_on_keyWord().length()<= 0) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
+        if (result.hasErrors()) return "pages/changePassword";
+        Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
+        if (!profileDTO.getAnswer_on_keyWord().equals(profile.getAnswerOnKeyWord())) result.rejectValue("answerOnKeyWord", "incorrect.keyWord");
+        if (!newPassword.equals(repeatNewPassword)) result.rejectValue("password","notsame.password");
+        if (result.hasErrors()) return "pages/changePassword";
+        System.out.println(profile);
+        return "pages/main";
+    }
 //    @RequestMapping(value = "/findWorker", method = RequestMethod.GET)
 //    public String findWorker(HttpSession session) {
 //        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";

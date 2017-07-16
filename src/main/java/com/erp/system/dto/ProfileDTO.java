@@ -18,6 +18,8 @@ public class ProfileDTO {
     private String employmentStatus;
     private String department;
     private Worker worker;
+    private String keyWord;
+    private String answer_on_keyWord;
 
     public ProfileDTO() {
     }
@@ -92,5 +94,21 @@ public class ProfileDTO {
 
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
+    }
+
+    public String getAnswer_on_keyWord() {
+        return answer_on_keyWord;
+    }
+
+    public void setAnswer_on_keyWord(String answer_on_keyWord) {
+        this.answer_on_keyWord = answer_on_keyWord;
     }
 }
