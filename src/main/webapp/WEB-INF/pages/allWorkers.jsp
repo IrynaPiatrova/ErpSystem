@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html>
 <head>
     <title>AllWorkers</title>
@@ -63,6 +63,7 @@
                     <c:forEach var="list" items="${allWorkers}" begin="1" step="1" varStatus="status">
                         <tr class="rowLink">
                             <td class="choosedNumber">${status.index}</td>
+                            <td class="choosedId" hidden>${list.idWorker}</td>
                             <td>${list.nameWorker} </td>
                             <td class="choosedLogin">${list.login}</td>
                             <td>${list.profile.department}</td>
@@ -78,16 +79,16 @@
                 <table>
                     <tr>
                         <td>
-                            <form action="${pageContext.request.contextPath}/findByLoginAndEditWorker" method="post" id="formButton">
+                            <form action="${pageContext.request.contextPath}/findByIdAndEditWorker" method="post" id="formButton">
                                 <p/>
-                                <input type="hidden" name="login" id="login" value="">
+                                <input type="hidden" name="idWorker" id="idWorker" value="">
                                 <input type="hidden" id="editButton" value="Редактировать профиль" class="btn btn-default">
                             </form>
                         </td>
                         <td>
-                            <form action="${pageContext.request.contextPath}/findByLoginAndShowInfo" method="post">
+                            <form action="${pageContext.request.contextPath}/findByIdAndShowInfo" method="post">
                                 <p/>
-                                <input type="hidden" name="login" id="loginToShow" value="">
+                                <input type="hidden" name="idWorker" id="idWorkerToShow" value="">
                                 <input type="hidden" id="editButtonToShow" value="Дополнительная информация" class="btn btn-default">
                             </form>
                         </td>
@@ -101,12 +102,12 @@
 <script type="text/javascript"> // этот скрипт должен быть после формы чтобы видеть элемент с id=login$(document).ready(function(){
 
 $(document).on('click', '.rowLink', function () {
-    var choosedLogin = $(this).find('td.choosedLogin').html(); // получаем значение со строки "td"
+    var choosedId = $(this).find('td.choosedId').html(); // получаем значение со строки "td"
     var choosedNumber = $(this).find('td.choosedNumber').html();
-    document.getElementById("login").value = choosedLogin;
+    document.getElementById("idWorker").value = choosedId;
     document.getElementById("editButton").type = "submit";
     document.getElementById("editButton").value = "${labelEditWorkerButton}" + choosedNumber;
-    document.getElementById("loginToShow").value = choosedLogin;
+    document.getElementById("idWorkerToShow").value = choosedId;
     document.getElementById("editButtonToShow").type = "submit";
     document.getElementById("editButtonToShow").value = "${labelShowWorkerButton}" + choosedNumber;
     highlight_Table_Rows("dev-table", "hover_Row", "clicked_Row");

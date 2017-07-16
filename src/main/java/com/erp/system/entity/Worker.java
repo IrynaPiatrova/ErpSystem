@@ -28,13 +28,13 @@ public class Worker implements Serializable {
     @JoinColumn(name = "id_profile")
     private Profile profile;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idWorker")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "worker")
     private List<ProjectTicket> workerProjectTickets;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idWorker")
     private List<CommentsTicket> workerCommentsTickets;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idWorker")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "worker")
     private List<TimeVocation> workerTimeVocation;
 
     public Worker() {

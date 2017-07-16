@@ -1,12 +1,15 @@
 package com.erp.system.services.project.ticket.impl;
 
 import com.erp.system.dao.project.ticket.ProjectTicketDao;
+import com.erp.system.dto.ProjectTicketDTO;
 import com.erp.system.entity.ProjectTicket;
+import com.erp.system.entity.Worker;
 import com.erp.system.services.project.ticket.ProjectTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,5 +42,22 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     @Transactional
     public List getAllProjectTickets() {
         return projectTicketDao.getAllProjectTickets();
+    }
+
+    @Override
+    @Transactional
+    public List getWorkerProjectTicketsPerfomance(Worker worker) {
+        ArrayList<ProjectTicket> listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
+        ArrayList<ProjectTicketDTO> list = new ArrayList<>();
+        for(ProjectTicket pr: listOfTickets){
+            if(pr.getEndTicketDate() == null){
+                list.add(new ProjectTicketDTO(pr.getIdProjectTicket(),pr.getNameProjectTicket(),pr.getSpecification(),pr.getStatusProjectTicket(),"Not finished"));
+            } else {
+                if(pr.getEndTicketDate().compareTo(pr.getDeadlineTicket())==1){
+                    list.add(new ProjectTicketDTO(pr.getIdProjectTicket(),pr.getNameProjectTicket(),pr.getSpecification(),pr.getStatusProjectTicket(),"Unsuccessfully"));
+                } else list.add(new ProjectTicketDTO(pr.getIdProjectTicket(),pr.getNameProjectTicket(),pr.getSpecification(),pr.getStatusProjectTicket(),"Successfully"));
+            }
+        }
+        return list;
     }
 }

@@ -50,17 +50,13 @@
             <td><form:textarea id="textzone" name="specification" path="specification" border-radius = "10" cols="50" rows="4"/>
                 <div><form:errors path="specification" style="color:red"/></div></td>
         </tr>
-        <tr height="40">
+        <tr height="10"></tr>
+        <tr height="40" hidden>
             <td>${statusTicket}</td>
             <td><form:select path="statusProjectTicket">
-                <option value="status" disabled selected>${statusTicketChoose}</option>
-                <option value="opened">${statusTicketOpened}</option>
-                <%--<option value="in_progress">${statusTicketInProgress}</option>--%>
-                <%--<option value="paused">${statusTicketPaused}</option>--%>
-                <%--<option value="ready_for_testing">${statusTicketReadyForTest}</option>--%>
-                <%--<option value="finished">${statusTicketFinished}</option>--%>
+                <option value="opened" selected>${statusTicketOpened}</option>
             </form:select>
-                <div><form:errors path="statusProjectTicket" style="color:red"/></div></td>
+                <%--<div><form:errors path="statusProjectTicket" style="color:red"/></div></td>--%>
         </tr>
         <tr height="40">
             <td>${deadlineTicket}</td>
@@ -73,7 +69,7 @@
     </table>
 </form:form>
         <br>
-<form margin-top="20px" action="/" method="get">
+<form margin-top="20px" action="${pageContext.request.contextPath}/" method="get">
     <input type="submit" value="${labelBack}">
 </form>
     </div>

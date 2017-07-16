@@ -127,7 +127,7 @@
             <td width="120">${chosenTicket.deadlineTicket}
                 <%--${chosenTicket.deadlineTicket.day}---%>
                 <%--${chosenTicket.deadlineTicket.month}</td>--%>
-            <td width="120">${chosenTicket.idWorker.nameWorker}</td>
+            <td width="120">${chosenTicket.worker.nameWorker}</td>
         </tr>
     </table>
     <table id="specificationTicket">

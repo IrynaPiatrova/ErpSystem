@@ -6,7 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
@@ -30,9 +29,9 @@
             <select name="statusProject" path="statusProjectTicket" class="selectpicker">
                 <option value="status" disabled selected>${statusTicketChoose}</option>
                 <option value="opened">${statusTicketOpened}</option>
-                <option value="in_progress">${statusTicketInProgress}</option>
+                <option value="in progress">${statusTicketInProgress}</option>
                 <option value="paused">${statusTicketPaused}</option>
-                <option value="ready_for_testing">${statusTicketReadyForTest}</option>
+                <option value="ready for testing">${statusTicketReadyForTest}</option>
                 <option value="finished">${statusTicketFinished}</option>
                 <option value="all tickets">${allTickets}</option>
                 <div><form:errors path="statusProjectTicket" style="color:red"/></div>

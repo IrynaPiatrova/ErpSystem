@@ -1,6 +1,7 @@
 package com.erp.system.services.project.ticket;
 
 import com.erp.system.entity.ProjectTicket;
+import com.erp.system.entity.Worker;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ProjectTicketService {
     ProjectTicket getProjectTicketById(long projectTicketId);
 
     List getAllProjectTickets();
+
+    List getWorkerProjectTicketsPerfomance(Worker worker);
 }

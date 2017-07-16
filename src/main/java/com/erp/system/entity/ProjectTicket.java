@@ -36,7 +36,7 @@ public class ProjectTicket implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_worker")
-    private Worker idWorker;
+    private Worker worker;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProjectTicket")
     private List<CommentsTicket> projectCommentTickets;
@@ -97,12 +97,12 @@ public class ProjectTicket implements Serializable {
         this.deadlineTicket = deadlineTicket;
     }
 
-    public Worker getIdWorker() {
-        return idWorker;
+    public Worker getWorker() {
+        return worker;
     }
 
-    public void setIdWorker(Worker idWorker) {
-        this.idWorker = idWorker;
+    public void setWorker(Worker worker) {
+        this.worker = worker;
     }
 
     public List<CommentsTicket> getProjectCommentTickets() {
@@ -123,7 +123,7 @@ public class ProjectTicket implements Serializable {
                 ", startTicketDate=" + startTicketDate +
                 ", endTicketDate=" + endTicketDate +
                 ", deadlineTicket=" + deadlineTicket +
-                ", idWorker=" + idWorker +
+                ", worker=" + worker +
                 ", projectCommentTickets=" + projectCommentTickets +
                 '}';
     }

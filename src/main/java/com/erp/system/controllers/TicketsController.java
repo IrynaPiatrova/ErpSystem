@@ -43,11 +43,6 @@ public class TicketsController {
     @Autowired
     NewTicketValidator newTicketValidator;
 
-    Worker worker = new Worker();
-    Profile profile = new Profile();
-    ProjectTicket projectTicket = new ProjectTicket();
-    CommentsTicket commentsTicket = new CommentsTicket();
-    private ArrayList<ProjectTicket> listOfTickets = new ArrayList<>();
     private ArrayList<Worker> listOfWorkers = new ArrayList<>();
     private SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private Date date = new Date();
@@ -55,14 +50,16 @@ public class TicketsController {
     private ArrayList<CommentDTO> listOfDTOComments = new ArrayList<>();
 
     @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.GET)
-    public String isSuccessAddNewTicket(Model model){
+    public String isSuccessAddNewTicket(Model model, HttpSession session){
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         model.addAttribute("ticket", new ProjectTicket());
         return "pages/addNewTicket";
     }
 
     @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.POST)
     public String isSuccessAddNewTicket(@ModelAttribute("ticket")@Valid ProjectTicket projectTicket,
-                                        BindingResult result, @RequestParam("deadlineDate") String deadlineDate) throws ParseException {
+                                        BindingResult result, @RequestParam("deadlineDate") String deadlineDate, HttpSession session) throws ParseException {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         newTicketValidator.validate(projectTicket,result);
         if (deadlineDate.length() == 0) result.rejectValue("deadlineTicket", "empty.ticket.deadlineDate");
         if (result.hasErrors()) return "pages/addNewTicket";
@@ -78,32 +75,36 @@ public class TicketsController {
         String idWorker = nameWorker.substring(0,nameWorker.indexOf("."));
         date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        worker = workerDao.getWorkerById(Long.parseLong(idWorker));
-        projectTicket = projectTicketDao.getProjectTicketById(idTicket);
+        Worker worker = workerDao.getWorkerById(Long.parseLong(idWorker));
+        ProjectTicket projectTicket = projectTicketDao.getProjectTicketById(idTicket);
         projectTicket.setStatusProjectTicket("in_progress");
         projectTicket.setStartTicketDate(sqlDate);
-        projectTicket.setIdWorker(worker);
+        projectTicket.setWorker(worker);
         System.out.println(projectTicket);
         projectTicketDao.updateProjectTicket(projectTicket);
         return "pages/main";
     }
     @RequestMapping(value = "/allTickets", method = RequestMethod.GET)
     public String allTickets(Model model,HttpSession session){
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        ArrayList<ProjectTicket> listOfTickets;
         if (MethodsForControllers.isAdmin(session)) {
             model.addAttribute("ticket", new ProjectTicket());
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
             model.addAttribute("collectionTickets", listOfTickets);
             return "pages/allTickets";
         }else {
-            worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+            Worker worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
-            model.addAttribute("collectionTickets", listOfTickets);
+            model.addAttribute(IConstants.COLLECTION_TICKETS, listOfTickets);
             model.addAttribute("ticket", new ProjectTicket());
             return "pages/allTickets";
         }
     }
     @RequestMapping(value = "/allTickets", method = RequestMethod.POST)
     public String allTickets(Model model,@RequestParam("statusProject") String status,HttpSession session) throws ServletException, IOException {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        ArrayList<ProjectTicket> listOfTickets;
         if (MethodsForControllers.isAdmin(session)){//если админ то отобразить все тикеты
             if (status.equals("all tickets")) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
@@ -112,7 +113,7 @@ public class TicketsController {
             }
         }else {//если не админ, то через сессию получаем логин,
             // а через логин получаем все тикеты того кто авторизовался
-            worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+            Worker worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
             if (status.equals("all tickets")) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
             }else{
@@ -128,12 +129,12 @@ public class TicketsController {
         // потому что при обновлении страницы они дублируются
         listOfWorkers = (ArrayList<Worker>) workerDao.getAllWorkers();
         listOfComments = (ArrayList<CommentsTicket>) commentsTicketDao.getCommentsTicketByIdTicket(var);
-        projectTicket = projectTicketDao.getProjectTicketById(var);
+        ProjectTicket projectTicket = projectTicketDao.getProjectTicketById(var);
         for (CommentsTicket m: listOfComments){
-            profile = profileDao.getProfileById(m.getIdWorker().getProfile().getIdProfile());
+            Profile profile = profileDao.getProfileById(m.getIdWorker().getProfile().getIdProfile());
             listOfDTOComments.add(new CommentDTO(m.getIdWorker().getNameWorker(),m.getComment(),profile.getPhoto()));
         }
-        model.addAttribute(IConstants.IS_WORKER_ON_TICKET_CHOOSE,isWorkerChosen(projectTicket.getIdWorker()));
+        model.addAttribute(IConstants.IS_WORKER_ON_TICKET_CHOOSE,isWorkerChosen(projectTicket.getWorker()));
         model.addAttribute(IConstants.IS_TICKET_FINISHED,isStatusNotFinish(projectTicket.getStatusProjectTicket()));
         //две модели выше реализуют методы(они лежат сразу после этого метода), которые возвращают
         //boolean, и в зависимости от того, что вернется рисуется chooseTicket.jsp
@@ -156,13 +157,15 @@ public class TicketsController {
                                @RequestParam("idTicket") long idTicket,HttpSession session,Model model){
         date = new Date();
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
-        projectTicket = projectTicketDao.getProjectTicketById(idTicket);
+        Worker worker = workerDao.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+        ProjectTicket projectTicket = projectTicketDao.getProjectTicketById(idTicket);
+        CommentsTicket commentsTicket = new CommentsTicket();
         commentsTicket.setComment(comment);
         commentsTicket.setCommentDate(sqlDate);
         commentsTicket.setIdProjectTicket(projectTicket);
         commentsTicket.setIdWorker(worker);
         commentsTicketDao.createCommentsTicket(commentsTicket);
+        ArrayList<ProjectTicket> listOfTickets;
         if (MethodsForControllers.isAdmin(session)) {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getAllProjectTickets();
         }else {
@@ -175,7 +178,7 @@ public class TicketsController {
     @RequestMapping(value = "/workerEndTicket", method = RequestMethod.POST)
     public String endTicket(@RequestParam("idTicket") long idTicket,HttpSession session){
         date = new Date();
-        projectTicket = (ProjectTicket) projectTicketDao.getProjectTicketById(idTicket);
+        ProjectTicket projectTicket = (ProjectTicket) projectTicketDao.getProjectTicketById(idTicket);
         projectTicket.setEndTicketDate(date);
         projectTicket.setStatusProjectTicket("ready_for_testing");
         projectTicketDao.updateProjectTicket(projectTicket);

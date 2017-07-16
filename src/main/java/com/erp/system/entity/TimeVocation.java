@@ -17,7 +17,7 @@ public class TimeVocation implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_worker")
-    private Worker idWorker;
+    private Worker worker;
 
     @Column(name = "start_voc_date")
     private Date startVocDate;
@@ -34,11 +34,11 @@ public class TimeVocation implements Serializable {
     }
 
     public Worker getIdWorker() {
-        return idWorker;
+        return worker;
     }
 
     public void setIdWorker(Worker idWorker) {
-        this.idWorker = idWorker;
+        this.worker = idWorker;
     }
 
     public Date getStartVocDate() {

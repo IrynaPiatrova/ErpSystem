@@ -47,8 +47,8 @@
         </table>
         <table class="form-group">
             <tr>
-                <td align="center"><strong> После изменения </strong></td>
-                <td align="center"><strong> На данный момент </strong></td>
+                <td align="center"><strong>${profileEditionAfter}</strong></td>
+                <td align="center"><strong>${profileEditionBefore}</strong></td>
             </tr>
             <tr>
                 <td>
@@ -97,11 +97,11 @@
                         <div class="col-md-4">
                             <form:select path="employmentStatus" width="200" id="chooseEmplStatus">
                                 <option value="status" disabled selected>${profileEmploymentStatusChoose}</option>
-                                <option value="${profileEmploymentStatus1}">${profileEmploymentStatus1}</option>
-                                <option value="${profileEmploymentStatus2}">${profileEmploymentStatus2}</option>
-                                <option value="${profileEmploymentStatus3}">${profileEmploymentStatus3}</option>
-                                <option value="${profileEmploymentStatus4}">${profileEmploymentStatus4}</option>
-                                <option value="${profileEmploymentStatus5}">${profileEmploymentStatus5}</option>
+                                <option value="involved">${profileEmploymentStatus1}</option>
+                                <option value="not involved">${profileEmploymentStatus2}</option>
+                                <option value="on vacation">${profileEmploymentStatus3}</option>
+                                <option value="on a sick leave">${profileEmploymentStatus4}</option>
+                                <option value="dismissed">${profileEmploymentStatus5}</option>
                             </form:select>
                             <div><form:errors path="employmentStatus" style="color:red"/></div>
                         </div>

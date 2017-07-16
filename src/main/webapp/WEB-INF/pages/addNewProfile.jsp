@@ -79,11 +79,11 @@
                 <td>${profileEmploymentStatus}</td>
                 <td><form:select path="employmentStatus" width="200">
                     <option value="status" disabled>${profileEmploymentStatusChoose}</option>
-                    <option value="${profileEmploymentStatus1}">${profileEmploymentStatus1}</option>
-                    <option value="${profileEmploymentStatus2}" selected>${profileEmploymentStatus2}</option>
-                    <option value="${profileEmploymentStatus3}">${profileEmploymentStatus3}</option>
-                    <option value="${profileEmploymentStatus4}">${profileEmploymentStatus4}</option>
-                    <option value="${profileEmploymentStatus5}">${profileEmploymentStatus5}</option>
+                    <option value="involved">${profileEmploymentStatus1}</option>
+                    <option value="not involved" selected>${profileEmploymentStatus2}</option>
+                    <option value="on vacation">${profileEmploymentStatus3}</option>
+                    <option value="on a sick leave">${profileEmploymentStatus4}</option>
+                    <option value="dismissed">${profileEmploymentStatus5}</option>
                 </form:select>
                     <div><form:errors path="employmentStatus" style="color:red"/></div>
                 </td>

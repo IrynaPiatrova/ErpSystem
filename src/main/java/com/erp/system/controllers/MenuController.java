@@ -7,6 +7,7 @@ import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.ProfileDTO;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
+import com.erp.system.services.project.ticket.ProjectTicketService;
 import com.erp.system.validators.EditProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,8 @@ public class MenuController {
     WorkerDao workerDao;
     @Autowired
     ProfileDao profileDao;
+    @Autowired
+    ProjectTicketService projectTicketService;
     @Autowired
     EditProfileValidator editProfileValidator;
 
@@ -105,41 +108,29 @@ public class MenuController {
         return "redirect:/allWorkers";
     }
 
-//    @RequestMapping(value = "/findWorkerById", params = "id", method = RequestMethod.GET)
-//    @ResponseBody
-//    public Worker findWorkerByValue(@RequestParam("id") Long id, HttpSession session, Model model, HttpServletResponse response) {
-//        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) {
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // эту ошибку потом надо отловить и отправить...
-//            return null;
-//        }
-//        Worker worker = workerDao.getWorkerById(id);
-//
-//        return workerDao.getWorkerById(id);
-//    }
-
-    @RequestMapping(value = "/findByLoginAndEditWorker", method = RequestMethod.POST)
-    public String findByLoginAndEditWorker(@RequestParam("login") String login, HttpSession session, Model model) {
+    @RequestMapping(value = "/findByIdAndEditWorker", method = RequestMethod.POST)
+    public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        Worker workerByLogin = workerDao.getWorkerByLogin(login);
-        Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
-        session.setAttribute(IConstants.PROFILE_DATA, profileById);
+        Worker worker = workerDao.getWorkerById(idWorker);
+        Profile profile = profileDao.getProfileById(worker.getProfile().getIdProfile());
+        session.setAttribute(IConstants.PROFILE_DATA, profile);
         session.setAttribute(IConstants.ADMIN_EDIT_PROFILE, true);
         return "redirect:/edit";
     }
 
-    @RequestMapping(value = "/findByLoginAndShowInfo", method = RequestMethod.POST)
-    public String findByLoginAndShowInfo(@RequestParam("login") String login, HttpSession session, Model model) {
+    @RequestMapping(value = "/findByIdAndShowInfo", method = RequestMethod.POST)
+    public String findByIdAndShowInfo(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        Worker workerByLogin = workerDao.getWorkerByLogin(login);
-        Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
-        //тут будет код по инициализации инфо о работнике
+        Worker worker = workerDao.getWorkerById(idWorker);
+        session.setAttribute(IConstants.COLLECTION_TICKETS, projectTicketService.getWorkerProjectTicketsPerfomance(worker));
+        session.setAttribute(IConstants.TEMP_WORKER, worker.getNameWorker());
         return "redirect:/showWorkerInfo";
     }
 
     @RequestMapping(value = "/showWorkerInfo", method = RequestMethod.GET)
     public String showWorkerInfo(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";// Надо подумать будет ли доступна обычному пользователю инфо о его успеваемости
-        //тут будет код по инициализации инфо о работнике
+        model.addAttribute(IConstants.COLLECTION_TICKETS, session.getAttribute(IConstants.COLLECTION_TICKETS));
         return "pages/workerInfo";
     }
 

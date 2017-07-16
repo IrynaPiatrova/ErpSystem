@@ -43,6 +43,8 @@
 <spring:message code="profile.photo" var="profilePhoto"/>
 <spring:message code="profile.photo.new" var="profilePhotoNew"/>
 <spring:message code="profile.edit" var="profileEdition"/>
+<spring:message code="profile.edit.before" var="profileEditionBefore"/>
+<spring:message code="profile.edit.after" var="profileEditionAfter"/>
 <spring:message code="worker.name" var="workerName"/>
 <spring:message code="worker.name.description" var="workerNameDescription"/>
 <spring:message code="worker.name.new" var="workerNameNew"/>
@@ -78,6 +80,7 @@
 <spring:message code="allTickets.ticket.choseWorker" var="choseWorker"/>
 <spring:message code="allTickets.ticket.deadline" var="deadlineDate"/>
 <spring:message code="allTickets.ticket.worker" var="workerTicket"/>
+<spring:message code="allTickets.ticket.perfomance" var="workerTicketPerfomance"/>
 <spring:message code="allTicket.ticket.disableWorkerEndTicket" var="disableWorkerEndTicket"/>
 <spring:message code="allTicket.ticket.disableChooseWorkerOnTicket" var="disableChooseWorkerOnTicket"/>
 <spring:message code="label.authorization" var="labelAuthorization"/>
@@ -100,4 +103,6 @@
 <spring:message code="label.searching.input" var="labelSearchInput"/>
 <spring:message code="label.edit.worker.button" var="labelEditWorkerButton"/>
 <spring:message code="label.show.worker.button" var="labelShowWorkerButton"/>
+<spring:message code="label.show.worker" var="labelShowWorker"/>
+
 
