@@ -69,3 +69,12 @@ CREATE TABLE work_log
   FOREIGN KEY (id_project_ticket) REFERENCES project_tickets(id_project_ticket) ON UPDATE CASCADE ON DELETE CASCADE ,
   FOREIGN KEY (id_worker) REFERENCES workers(id_worker) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
+CREATE TABLE chat
+(
+  id_comment INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  id_worker INT NOT NULL ,
+  comment_date DATE NOT NULL ,
+  comment VARCHAR(500) NOT NULL ,
+  FOREIGN KEY (id_worker) REFERENCES workers(id_worker) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;

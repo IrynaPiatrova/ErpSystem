@@ -37,6 +37,9 @@ public class Worker implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "worker")
     private List<TimeVocation> workerTimeVocation;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "worker")
+    private List<Chat> workerChat;
+
     public Worker() {
     }
 
@@ -109,6 +112,14 @@ public class Worker implements Serializable {
 
     public void setWorkerTimeVocation(List<TimeVocation> workerTimeVocation) {
         this.workerTimeVocation = workerTimeVocation;
+    }
+
+    public List<Chat> getWorkerChat() {
+        return workerChat;
+    }
+
+    public void setWorkerChat(List<Chat> workerChat) {
+        this.workerChat = workerChat;
     }
 
     @Override

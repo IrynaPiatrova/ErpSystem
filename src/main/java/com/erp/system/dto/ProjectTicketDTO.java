@@ -12,10 +12,6 @@ public class ProjectTicketDTO {
     private String nameProjectTicket;
     private String specification;
     private String statusProjectTicket;
-//    private Date startTicketDate;
-//    private Date endTicketDate;
-//    private Date deadlineTicket;
-//    private Worker Worker;
     private String perfomance;
 
     public ProjectTicketDTO(long idProjectTicket, String nameProjectTicket, String specification, String statusProjectTicket, String perfomance) {
@@ -60,38 +56,6 @@ public class ProjectTicketDTO {
     public void setStatusProjectTicket(String statusProjectTicket) {
         this.statusProjectTicket = statusProjectTicket;
     }
-
-//    public Date getStartTicketDate() {
-//        return startTicketDate;
-//    }
-
-//    public void setStartTicketDate(Date startTicketDate) {
-//        this.startTicketDate = startTicketDate;
-//    }
-
-//    public Date getEndTicketDate() {
-//        return endTicketDate;
-//    }
-
-//    public void setEndTicketDate(Date endTicketDate) {
-//        this.endTicketDate = endTicketDate;
-//    }
-
-//    public Date getDeadlineTicket() {
-//        return deadlineTicket;
-//    }
-
-//    public void setDeadlineTicket(Date deadlineTicket) {
-//        this.deadlineTicket = deadlineTicket;
-//    }
-
-//    public com.erp.system.entity.Worker getWorker() {
-//        return Worker;
-//    }
-
-//    public void setWorker(com.erp.system.entity.Worker worker) {
-//        Worker = worker;
-//    }
 
     public String getPerfomance() {
         return perfomance;
