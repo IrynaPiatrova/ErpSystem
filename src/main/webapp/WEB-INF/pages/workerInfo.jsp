@@ -27,7 +27,7 @@
 <body>
 <%@include file="menu.jsp" %>
 <%@include file="springMessages.jsp" %>
-<h3>${labelShowWorker} ${tempWorker}</h3>
+<h3 style="margin-left: 300px">${labelShowWorker} ${tempWorker}</h3>
 <div id="centerLayer">
     <div class="container">
         <div class="row">
@@ -76,7 +76,7 @@
         </div>
     </div>
 </div>
-<div id="piechart_3d" style="width: 900px; height: 500px; margin-left: 300px" >
+<div id="piechart_3d" style="width: 900px; height: 500px; margin-left: 300px">
 </div>
 <script type="text/javascript">
     google.charts.load("current", {packages: ["corechart"]});

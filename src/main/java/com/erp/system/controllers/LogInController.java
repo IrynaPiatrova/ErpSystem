@@ -31,6 +31,7 @@ public class LogInController {
     LoginPasswordValidator lpValidator;
     @Autowired
     ProfileService profileService;
+
     /**
      * return start page 'index.jsp'
      *

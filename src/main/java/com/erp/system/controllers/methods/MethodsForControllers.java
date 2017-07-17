@@ -1,6 +1,7 @@
 package com.erp.system.controllers.methods;
 
 import com.erp.system.constants.IConstants;
+import com.erp.system.entity.Worker;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import javax.imageio.ImageIO;
@@ -61,5 +62,12 @@ public class MethodsForControllers {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean isStatusNotFinish(String status){
+        return !(status.equals(IConstants.STATUS_READY_FOR_TESTING) || status.equals(IConstants.STATUS_FINISHED));
+    }
+    public static boolean isWorkerNotChosen(Worker worker){
+        return worker == null;
     }
 }

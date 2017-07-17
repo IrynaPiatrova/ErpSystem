@@ -1,5 +1,6 @@
 package com.erp.system.services.worker.impl;
 
+import com.erp.system.constants.IConstants;
 import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.entity.Worker;
 import com.erp.system.services.worker.WorkerService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,5 +65,18 @@ public class WorkerServiceImpl implements WorkerService {
     @Transactional
     public boolean isLoginUnique(String profileLogin) {
         return workerDao.isLoginUnique(profileLogin);
+    }
+
+    @Override
+    @Transactional
+    public List<Worker> getWorkersNotInvolved() {
+        ArrayList<Worker> listOfWorkers = (ArrayList<Worker>) workerDao.getAllWorkers();
+        ArrayList<Worker> listNotInvolvedWorkers = new ArrayList<>();
+        for (Worker list : listOfWorkers) {
+            if (IConstants.STATUS_PROFILE_NOT_INVOLVED.equals(list.getProfile().getEmploymentStatus())) {
+                listNotInvolvedWorkers.add(list);
+            }
+        }
+        return listNotInvolvedWorkers;
     }
 }

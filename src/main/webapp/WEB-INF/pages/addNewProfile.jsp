@@ -44,7 +44,7 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
 <div id="centerLayer">
     <form:form action="isSuccessAddNewProfile" method="post" modelAttribute="profile">

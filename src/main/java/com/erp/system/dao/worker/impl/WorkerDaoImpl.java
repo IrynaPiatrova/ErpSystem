@@ -26,6 +26,7 @@ public class WorkerDaoImpl implements WorkerDao {
 
     /**
      * create new Worker in DB
+     *
      * @param worker
      */
     @Override
@@ -37,6 +38,7 @@ public class WorkerDaoImpl implements WorkerDao {
 
     /**
      * cheak Worker Login and Password
+     *
      * @param login
      * @param password
      * @return boolean
@@ -64,6 +66,7 @@ public class WorkerDaoImpl implements WorkerDao {
 
     /**
      * update Worker data
+     *
      * @param worker
      */
     @Override
@@ -75,6 +78,7 @@ public class WorkerDaoImpl implements WorkerDao {
 
     /**
      * delete Worker data
+     *
      * @param worker
      */
     @Override
@@ -88,6 +92,7 @@ public class WorkerDaoImpl implements WorkerDao {
 
     /**
      * get Worker By Id
+     *
      * @param workerId
      * @return Worker
      */
@@ -98,8 +103,10 @@ public class WorkerDaoImpl implements WorkerDao {
         LOGGER.info("WorkerDaoImpl getWorkerById end");
         return worker;
     }
+
     /**
      * get Worker By login
+     *
      * @param workerLogin
      * @return Worker
      */
@@ -115,6 +122,7 @@ public class WorkerDaoImpl implements WorkerDao {
 
     /**
      * get all Workers
+     *
      * @return List<Worker>
      */
     @Override

@@ -22,56 +22,64 @@
             padding: 10px;
             overflow: auto;
         }
+
         body {
             background: #D3D3D3;
         }
-        input,select{
+
+        input, select {
             border-radius: 10px
         }
-        #textzone{
+
+        #textzone {
             border-radius: 10px;
         }
     </style>
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
 <form:form action="isSuccessAddNewTicket" method="post" modelAttribute="ticket">
-    <div id="centerLayer">
+<div id="centerLayer">
     <table>
         <tr height="40">
             <td>${nameTicket}</td>
             <td><form:input type="text" name="nameProjectTicket" path="nameProjectTicket"/>
-                <div><form:errors path="nameProjectTicket" style="color:red"/></div></td>
+                <div><form:errors path="nameProjectTicket" style="color:red"/></div>
+            </td>
         </tr>
         <tr>
             <td>${specificationTicket}</td>
-            <td><form:textarea id="textzone" name="specification" path="specification" border-radius = "10" cols="50" rows="4"/>
-                <div><form:errors path="specification" style="color:red"/></div></td>
+            <td><form:textarea id="textzone" name="specification" path="specification" border-radius="10" cols="50"
+                               rows="4"/>
+                <div><form:errors path="specification" style="color:red"/></div>
+            </td>
         </tr>
         <tr height="10"></tr>
         <tr height="40" hidden>
             <td>${statusTicket}</td>
-            <td><form:select path="statusProjectTicket">
+            <td>
+                <form:select path="statusProjectTicket">
                 <option value="opened" selected>${statusTicketOpened}</option>
-            </form:select>
-                <%--<div><form:errors path="statusProjectTicket" style="color:red"/></div></td>--%>
+                </form:select>
+                    <%--<div><form:errors path="statusProjectTicket" style="color:red"/></div></td>--%>
         </tr>
         <tr height="40">
             <td>${deadlineTicket}</td>
             <td height="30"><input type="date" name="deadlineDate" path="deadlineTicket"/>
-                <div><form:errors path="deadlineTicket" style="color:red"/></div></td>
+                <div><form:errors path="deadlineTicket" style="color:red"/></div>
+            </td>
         </tr>
         <tr>
             <td><input type="submit" value="${labelComplete}"></td>
         </tr>
     </table>
-</form:form>
-        <br>
-<form margin-top="20px" action="${pageContext.request.contextPath}/" method="get">
-    <input type="submit" value="${labelBack}">
-</form>
-    </div>
+    </form:form>
+    <br>
+    <form margin-top="20px" action="${pageContext.request.contextPath}/" method="get">
+        <input type="submit" value="${labelBack}">
+    </form>
+</div>
 </body>
 </html>

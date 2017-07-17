@@ -19,7 +19,7 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
 <div class="container">
     <c:choose>

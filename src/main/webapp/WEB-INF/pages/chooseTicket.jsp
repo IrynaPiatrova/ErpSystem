@@ -142,16 +142,24 @@
             <c:choose>
                 <c:when test="${isWorkerOnTicketNotChoosen == true}">
                     <div id="chooseWorker">
-                        <form:form action="/chooseWorkerOnTicket" method="post" onsubmit="return empty_form()">
+                        <form action="${pageContext.request.contextPath}/chooseWorkerOnTicket" method="post"
+                              onsubmit="return empty_form()">
                             <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
-                            <input list="workers" id="msg" name="nameWorker" placeholder="${employee}">
-                            <datalist id="workers">
-                                <c:forEach items="${collectionWorkers}" var="listWorker" begin="1" varStatus="status">
-                                    <option>${status.index}.${listWorker.nameWorker}</option>
-                                </c:forEach>
-                            </datalist>
+                            <select name="nameWorker" id="msg">
+                                <option value="" disabled selected>${employee}</option>
+                                <c:choose>
+                                    <c:when test="${collectionWorkers.size()==0}">
+                                        <option disabled>-${allWorkersInvolved}-</option>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:forEach items="${collectionWorkers}" var="listWorker" varStatus="status">
+                                            <option value="${listWorker.nameWorker}">${status.index+1}.${listWorker.nameWorker}</option>
+                                        </c:forEach>
+                                    </c:otherwise>
+                                </c:choose>
+                            </select>
                             <input type="submit" value="${choseWorker}">
-                        </form:form>
+                        </form>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -167,7 +175,7 @@
                     <div id="endTicket">
                         <form action="${pageContext.request.contextPath}/workerEndTicket" method="post">
                             <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
-                            <input type="submit" value="${complete}">
+                            <input type="submit" value="${completeTicket}">
                         </form>
                     </div>
                 </c:when>

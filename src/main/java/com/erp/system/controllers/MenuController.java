@@ -129,7 +129,8 @@ public class MenuController {
 
     @RequestMapping(value = "/showWorkerInfo", method = RequestMethod.GET)
     public String showWorkerInfo(Model model, HttpSession session) {
-        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";// Надо подумать будет ли доступна обычному пользователю инфо о его успеваемости
+        if (!MethodsForControllers.isLogedIn(session))
+            return "redirect:/";// Надо подумать будет ли доступна обычному пользователю инфо о его успеваемости
         model.addAttribute(IConstants.COLLECTION_TICKETS, session.getAttribute(IConstants.COLLECTION_TICKETS));
         return "pages/workerInfo";
     }
@@ -143,13 +144,21 @@ public class MenuController {
 
     @RequestMapping(value = "/logOut", method = RequestMethod.GET)
     public String logOut(HttpSession session) {
-        session.setAttribute(IConstants.IS_ADMIN, null);
-        session.setAttribute(IConstants.LOGED_AS, null);
+        session.removeAttribute(IConstants.IS_ADMIN);
+        session.removeAttribute(IConstants.LOGED_AS);
+        session.removeAttribute(IConstants.NAME_USER);
+        session.removeAttribute(IConstants.PHOTO);
+        session.removeAttribute(IConstants.PROFILE_DATA);
+        session.removeAttribute(IConstants.ADMIN_EDIT_PROFILE);
+        session.removeAttribute(IConstants.TEMP_WORKER);
+        session.removeAttribute(IConstants.COLLECTION_TICKETS);
+
         return "redirect:/";
     }
 
     /**
      * If u click "chat" in menu u will redirect to page "chat.jsp"
+     *
      * @param session
      * @return String
      */

@@ -52,13 +52,14 @@ public class ProfileDaoImpl implements ProfileDao {
         sessionFactory.getCurrentSession().save(profile);
         LOGGER.info("ProfileDaoImpl createProfile end");
     }
+
     @Override
     public boolean isEmailUnique(String profileEmail) {
         LOGGER.info("ProfileDaoImpl getEmails start");
         Query query = sessionFactory.getCurrentSession().createQuery("FROM Profile WHERE email = :email");
         query.setParameter("email", profileEmail);
         LOGGER.info("ProfileDaoImpl getEmails end");
-        return query.getResultList().size()!=0;
+        return query.getResultList().size() != 0;
     }
 
     @Override
