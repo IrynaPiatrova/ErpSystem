@@ -2,12 +2,12 @@ package com.erp.system.controllers;
 
 import com.erp.system.constants.IConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
-import com.erp.system.dao.profile.ProfileDao;
-import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.LoginPassword;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.ProjectTicket;
 import com.erp.system.entity.Worker;
+import com.erp.system.services.profile.ProfileService;
+import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,12 +26,11 @@ import javax.validation.Valid;
 @Controller
 public class LogInController {
     @Autowired
-    WorkerDao workerDao;
+    WorkerService workerService;
     @Autowired
     LoginPasswordValidator lpValidator;
     @Autowired
-    ProfileDao profileDao;
-
+    ProfileService profileService;
     /**
      * return start page 'index.jsp'
      *
@@ -58,8 +57,8 @@ public class LogInController {
         if (result.hasErrors()) return "pages/index";
         String isAdmin = IConstants.ADMIN.equals(lp.getLogin()) ? IConstants.TRUE : IConstants.FALSE;
         String login = lp.getLogin();
-        Worker workerByLogin = workerDao.getWorkerByLogin(login);
-        Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
+        Worker workerByLogin = workerService.getWorkerByLogin(login);
+        Profile profileById = profileService.getProfileById(workerByLogin.getProfile().getIdProfile());
         byte[] photo = profileById.getPhoto();
         session.setAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? photo : null);
         model.addAttribute(IConstants.IS_ADMIN, isAdmin);

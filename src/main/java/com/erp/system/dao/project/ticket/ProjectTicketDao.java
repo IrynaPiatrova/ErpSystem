@@ -19,7 +19,7 @@ public interface ProjectTicketDao {
 
     List getTicketsByStatus(String status);
 
-    List getTicketsByIdWorker(Worker Worker);
+    List getTicketsByIdWorker(Worker worker);
 
     List getTicketsByIdWorkerAndStatus(Worker worker, String status);
 

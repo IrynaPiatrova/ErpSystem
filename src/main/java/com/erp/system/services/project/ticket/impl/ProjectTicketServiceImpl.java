@@ -70,4 +70,19 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
         }
         return list;
     }
+
+    @Override
+    public List getTicketsByStatus(String status) {
+        return projectTicketDao.getTicketsByStatus(status);
+    }
+
+    @Override
+    public List getTicketsByIdWorker(Worker worker) {
+        return projectTicketDao.getTicketsByIdWorker(worker);
+    }
+
+    @Override
+    public List getTicketsByIdWorkerAndStatus(Worker worker, String status) {
+        return projectTicketDao.getTicketsByIdWorkerAndStatus(worker,status);
+    }
 }

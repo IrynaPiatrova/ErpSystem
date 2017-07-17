@@ -18,4 +18,10 @@ public interface ProjectTicketService {
     List getAllProjectTickets();
 
     List getWorkerProjectTicketsPerfomance(Worker worker);
+
+    List getTicketsByStatus(String status);
+
+    List getTicketsByIdWorker(Worker worker);
+
+    List getTicketsByIdWorkerAndStatus(Worker worker, String status);
 }

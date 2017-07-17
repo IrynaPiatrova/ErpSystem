@@ -2,12 +2,12 @@ package com.erp.system.controllers;
 
 import com.erp.system.constants.IConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
-import com.erp.system.dao.profile.ProfileDao;
-import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.ProfileDTO;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
+import com.erp.system.services.profile.ProfileService;
 import com.erp.system.services.project.ticket.ProjectTicketService;
+import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.EditProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,9 +30,9 @@ import java.io.IOException;
 @Controller
 public class MenuController {
     @Autowired
-    WorkerDao workerDao;
+    WorkerService workerService;
     @Autowired
-    ProfileDao profileDao;
+    ProfileService profileService;
     @Autowired
     ProjectTicketService projectTicketService;
     @Autowired
@@ -42,8 +42,8 @@ public class MenuController {
     public String mainPage(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         String login = (String) session.getAttribute(IConstants.LOGED_AS);
-        Worker workerByLogin = workerDao.getWorkerByLogin(login);
-        Profile profileById = profileDao.getProfileById(workerByLogin.getProfile().getIdProfile());
+        Worker workerByLogin = workerService.getWorkerByLogin(login);
+        Profile profileById = profileService.getProfileById(workerByLogin.getProfile().getIdProfile());
         byte[] photo = profileById.getPhoto();
 //        session.setAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? photo : null); // если в базе нет фото то по дефолту ссылка на файл в jsp
         session.setAttribute(IConstants.PHOTO, photo);
@@ -72,7 +72,7 @@ public class MenuController {
         profileDTO.setPosition(profile.getPosition());
         profileDTO.setDepartment(profile.getDepartment());
         editProfileValidator.validate(profileDTO, result);
-        if (workerDao.isLoginUnique(profileDTOLogin) && !profile.getWorker().getLogin().equals(profileDTOLogin))
+        if (workerService.isLoginUnique(profileDTOLogin) && !profile.getWorker().getLogin().equals(profileDTOLogin))
             result.rejectValue("worker.login", "exist.login");
         if (result.hasErrors()) return "pages/editProfile";
         try {
@@ -84,7 +84,7 @@ public class MenuController {
         profile.setEmail(profileDTO.getEmail());
         profile.getWorker().setLogin(profileDTOLogin);
         profile.getWorker().setPassword(profileDTO.getWorker().getPassword());
-        profileDao.updateProfile(profile);
+        profileService.updateProfile(profile);
         session.setAttribute(IConstants.LOGED_AS, profile.getWorker().getLogin());
         return "redirect:/profile";
     }
@@ -104,15 +104,15 @@ public class MenuController {
         profile.setEmploymentStatus(profileDTO.getEmploymentStatus());
         profile.setDepartment(profileDTO.getDepartment());
         profile.getWorker().setNameWorker(profileDTO.getWorker().getNameWorker());
-        profileDao.updateProfile(profile);
+        profileService.updateProfile(profile);
         return "redirect:/allWorkers";
     }
 
     @RequestMapping(value = "/findByIdAndEditWorker", method = RequestMethod.POST)
     public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        Worker worker = workerDao.getWorkerById(idWorker);
-        Profile profile = profileDao.getProfileById(worker.getProfile().getIdProfile());
+        Worker worker = workerService.getWorkerById(idWorker);
+        Profile profile = profileService.getProfileById(worker.getProfile().getIdProfile());
         session.setAttribute(IConstants.PROFILE_DATA, profile);
         session.setAttribute(IConstants.ADMIN_EDIT_PROFILE, true);
         return "redirect:/edit";
@@ -121,7 +121,7 @@ public class MenuController {
     @RequestMapping(value = "/findByIdAndShowInfo", method = RequestMethod.POST)
     public String findByIdAndShowInfo(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        Worker worker = workerDao.getWorkerById(idWorker);
+        Worker worker = workerService.getWorkerById(idWorker);
         session.setAttribute(IConstants.COLLECTION_TICKETS, projectTicketService.getWorkerProjectTicketsPerfomance(worker));
         session.setAttribute(IConstants.TEMP_WORKER, worker.getNameWorker());
         return "redirect:/showWorkerInfo";
@@ -137,7 +137,7 @@ public class MenuController {
     @RequestMapping(value = "/allWorkers", method = RequestMethod.GET)
     public String getAllWorker(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        model.addAttribute(IConstants.ALL_WORKERS, workerDao.getAllWorkers());
+        model.addAttribute(IConstants.ALL_WORKERS, workerService.getAllWorkers());
         return "pages/allWorkers";
     }
 

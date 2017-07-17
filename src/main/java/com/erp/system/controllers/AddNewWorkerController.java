@@ -1,10 +1,10 @@
 package com.erp.system.controllers;
 
 import com.erp.system.controllers.methods.MethodsForControllers;
-import com.erp.system.dao.profile.impl.ProfileDaoImpl;
-import com.erp.system.dao.worker.impl.WorkerDaoImpl;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
+import com.erp.system.services.profile.ProfileService;
+import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.RegistrationNewProfileValidator;
 import com.erp.system.validators.RegistrationNewWorkerValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,6 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by Roma on 18.06.2017
@@ -33,10 +31,9 @@ public class AddNewWorkerController {
     @Autowired
     RegistrationNewProfileValidator registrationNewProfileValidator;
     @Autowired
-    WorkerDaoImpl workerDao;
+    WorkerService workerService;
     @Autowired
-    ProfileDaoImpl profileDao;
-
+    ProfileService profileService;
     private Profile profileWorker = new Profile();
 
     @RequestMapping(value = "/isSuccessAddNewProfile", method = RequestMethod.GET)
@@ -70,9 +67,9 @@ public class AddNewWorkerController {
         if (result.hasErrors()) return "pages/addNewWorker";
         worker.setPassword(worker.getPassword());                                       // Для записи в БД в незашифрованном виде
 //        worker.setPassword(MethodsForControllers.convertToMD5(worker.getPassword())); // Для записи в БД в зашифрованном виде MD5
-        profileDao.createProfile(profileWorker);
+        profileService.createProfile(profileWorker);
         worker.setProfile(profileWorker);
-        workerDao.createWorker(worker);
+        workerService.createWorker(worker);
         return "pages/main";
     }
 }

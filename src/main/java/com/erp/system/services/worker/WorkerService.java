@@ -21,4 +21,6 @@ public interface WorkerService {
     List getAllWorkers();
 
     boolean isLoginPasswordValid(String login, String passowrd);
+
+    boolean isLoginUnique(String profileLogin);
 }
