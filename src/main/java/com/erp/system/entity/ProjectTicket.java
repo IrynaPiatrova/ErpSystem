@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
 @Entity()
 @Table(name = "project_tickets")
@@ -16,27 +16,27 @@ public class ProjectTicket implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idProjectTicket;
 
-    @Column(name = "name", length = 64)
+    @Column(name = "name", length = 100)
     private String nameProjectTicket;
 
-    @Column(name = "specification", length = 64)
+    @Column(name = "specification", length = 500)
     private String specification;
 
     @Column(name = "status", length = 64)
     private String statusProjectTicket;
 
     @Column(name = "start_ticket_date")
-    private Date startTicketDate;
+    private String startTicketDate;
 
     @Column(name = "end_ticket_date")
-    private Date endTicketDate;
+    private String endTicketDate;
 
     @Column(name = "deadline")
-    private Date deadlineTicket;
+    private String deadlineTicket;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_worker")
-    private Worker idWorker;
+    private Worker worker;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProjectTicket")
     private List<CommentsTicket> projectCommentTickets;
@@ -73,36 +73,36 @@ public class ProjectTicket implements Serializable {
         this.statusProjectTicket = statusProjectTicket;
     }
 
-    public Date getStartTicketDate() {
+    public String getStartTicketDate() {
         return startTicketDate;
     }
 
-    public void setStartTicketDate(Date startTicketDate) {
+    public void setStartTicketDate(String startTicketDate) {
         this.startTicketDate = startTicketDate;
     }
 
-    public Date getEndTicketDate() {
+    public String getEndTicketDate() {
         return endTicketDate;
     }
 
-    public void setEndTicketDate(Date endTicketDate) {
+    public void setEndTicketDate(String endTicketDate) {
         this.endTicketDate = endTicketDate;
     }
 
-    public Date getDeadlineTicket() {
+    public String getDeadlineTicket() {
         return deadlineTicket;
     }
 
-    public void setDeadlineTicket(Date deadlineTicket) {
+    public void setDeadlineTicket(String deadlineTicket) {
         this.deadlineTicket = deadlineTicket;
     }
 
-    public Worker getIdWorker() {
-        return idWorker;
+    public Worker getWorker() {
+        return worker;
     }
 
-    public void setIdWorker(Worker idWorker) {
-        this.idWorker = idWorker;
+    public void setWorker(Worker worker) {
+        this.worker = worker;
     }
 
     public List<CommentsTicket> getProjectCommentTickets() {
@@ -111,5 +111,20 @@ public class ProjectTicket implements Serializable {
 
     public void setProjectCommentTickets(List<CommentsTicket> projectCommentTickets) {
         this.projectCommentTickets = projectCommentTickets;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectTicket{" +
+                "idProjectTicket=" + idProjectTicket +
+                ", nameProjectTicket='" + nameProjectTicket + '\'' +
+                ", specification='" + specification + '\'' +
+                ", statusProjectTicket='" + statusProjectTicket + '\'' +
+                ", startTicketDate=" + startTicketDate +
+                ", endTicketDate=" + endTicketDate +
+                ", deadlineTicket=" + deadlineTicket +
+                ", worker=" + worker +
+                ", projectCommentTickets=" + projectCommentTickets +
+                '}';
     }
 }

@@ -46,4 +46,9 @@ public class CommentsTicketServiceImpl implements CommentsTicketService {
     public List getAllCommentsTickets() {
         return commentsTicketDao.getAllCommentsTickets();
     }
+
+    @Override
+    public List getCommentsTicketByIdTicket(long idTicket) {
+        return commentsTicketDao.getCommentsTicketByIdTicket(idTicket);
+    }
 }

@@ -3,12 +3,10 @@ package com.erp.system.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
-//Поменял дату на тип String, нужно подумать можно ли без изменения
 @Entity()
 @Table(name = "profiles")
 public class Profile implements Serializable {
@@ -18,15 +16,15 @@ public class Profile implements Serializable {
     private long idProfile;
 
     @Column(name = "start_date")
-    private Date startDateProfile;
+    private String startDateProfile;
 
-    @Column(name = "position", length = 64)
+    @Column(name = "position", length = 100)
     private String position;
 
-    @Column(name = "employment_status", length = 64)
+    @Column(name = "employment_status", length = 50)
     private String employmentStatus;
 
-    @Column(name = "department", length = 64)
+    @Column(name = "department", length = 50)
     private String department;
 
     @Column(name = "telephone", length = 30)
@@ -38,10 +36,21 @@ public class Profile implements Serializable {
     @Column(name = "photo")
     private byte[] photo;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProfile")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "profile")
     private Worker worker;
 
     public Profile() {
+    }
+
+    public Profile(String startDateProfile, String position, String employmentStatus, String department, String telephone, String email, byte[] photo, Worker worker) {
+        this.startDateProfile = startDateProfile;
+        this.position = position;
+        this.employmentStatus = employmentStatus;
+        this.department = department;
+        this.telephone = telephone;
+        this.email = email;
+        this.photo = photo;
+        this.worker = worker;
     }
 
     public long getIdProfile() {
@@ -52,11 +61,11 @@ public class Profile implements Serializable {
         this.idProfile = idProfile;
     }
 
-    public Date getStartDateProfile() {
+    public String getStartDateProfile() {
         return startDateProfile;
     }
 
-    public void setStartDateProfile(Date startDateProfile) {
+    public void setStartDateProfile(String startDateProfile) {
         this.startDateProfile = startDateProfile;
     }
 

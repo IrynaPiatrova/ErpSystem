@@ -24,7 +24,7 @@ public class WorkLog implements Serializable {
     private Worker idWorker;
 
     @Column(name = "start_log_date")
-    private Date startLogDate;
+    private String startLogDate;
 
     @Column(name = "spent_time")
     private String spentTime;
@@ -53,11 +53,11 @@ public class WorkLog implements Serializable {
         this.idWorker = idWorker;
     }
 
-    public Date getStartLogDate() {
+    public String getStartLogDate() {
         return startLogDate;
     }
 
-    public void setStartLogDate(Date startLogDate) {
+    public void setStartLogDate(String startLogDate) {
         this.startLogDate = startLogDate;
     }
 

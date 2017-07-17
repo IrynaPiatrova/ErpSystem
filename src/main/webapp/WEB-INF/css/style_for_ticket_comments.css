@@ -1,0 +1,67 @@
+.tableTicket {
+    width: auto;
+}
+
+#centerLayer {
+    align-content: center;
+    position: absolute;
+    margin-left: 10%;
+    margin-top: 5%;
+    margin-right: 10%;
+    padding: 10px;
+    overflow: auto;
+}
+
+#specificationTicket {
+    margin-top: 6%;
+    width: 60%;
+    align-content: center;
+}
+
+#chooseWorker {
+    margin-top: 3%;
+}
+
+#allComments {
+    width: 100%;
+    overflow: auto;
+    margin-top: 2%;
+}
+
+#allCommentsPhoto {
+    float: left;
+}
+
+#allCommentsComment {
+    margin-left: 3%;
+}
+
+#writeComment {
+    margin-top: 5%;
+    width: 750px;
+    height: 50px;
+}
+
+#comment_photo {
+    align-content: center;
+    width: 60px;
+    float: left;
+}
+
+#comment_comment {
+    align-content: center;
+    width: 640px;
+    margin-left: 3%;
+}
+
+#comment_submit {
+    align-content: center;
+    width: 50px;
+    float: right;
+    margin-right: 15%;
+    margin-bottom: 25%;
+}
+
+#endTicket {
+    margin-top: 3%;
+}

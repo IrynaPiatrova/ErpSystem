@@ -23,7 +23,7 @@ public class CommentsTicket implements Serializable {
     @JoinColumn(name = "id_worker")
     private Worker idWorker;
 
-    @Column(name = "comment")
+    @Column(name = "comment", length = 500)
     private String comment;
 
     @Column(name = "comment_date")

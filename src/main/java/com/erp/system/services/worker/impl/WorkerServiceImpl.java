@@ -58,4 +58,10 @@ public class WorkerServiceImpl implements WorkerService {
     public boolean isLoginPasswordValid(String login, String passowrd) {
         return workerDao.isLoginPasswordValid(login, passowrd);
     }
+
+    @Override
+    @Transactional
+    public boolean isLoginUnique(String profileLogin) {
+        return workerDao.isLoginUnique(profileLogin);
+    }
 }

@@ -99,4 +99,9 @@
     <!--<bean id="workerDaoImple" class="com.erp.system.dao.worker.impl.WorkerDaoImpl"/>-->
     <!--<bean id="profDaoImpl" class="com.erp.system.dao.profile.impl.ProfileDaoImpl" />-->
 
+    <!--необзодим для получения с клиента файлов-->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
+
 </beans>

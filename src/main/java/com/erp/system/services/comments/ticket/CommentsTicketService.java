@@ -17,4 +17,6 @@ public interface CommentsTicketService {
     CommentsTicket getCommentsTicketById(long commentsTicketId);
 
     List getAllCommentsTickets();
+
+    List getCommentsTicketByIdTicket(long idTicket);
 }

@@ -1,0 +1,40 @@
+.row {
+    margin-top: 40px;
+    padding: 0 10px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.panel-heading div {
+    margin-top: -18px;
+    font-size: 15px;
+}
+
+.panel-heading div span {
+    margin-left: 5px;
+}
+
+.panel-body {
+    display: none;
+}
+
+div.panel.panel-default {
+    border-color: #404040;
+    width: 1200px;
+}
+
+div.panel-heading {
+    background-color: #363636;
+    border-color: #363636;
+    background-image: none;
+}
+
+.hover_Row {
+    background-color: darkgrey;
+}
+
+.clicked_Row {
+    background-color: darkgrey;
+}

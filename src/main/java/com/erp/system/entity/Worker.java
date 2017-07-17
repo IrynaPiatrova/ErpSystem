@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by klinster on 25.06.2017.
+ * Created by klinster on 25.06.2017
  */
 @Entity()
 @Table(name = "workers")
@@ -15,7 +15,7 @@ public class Worker implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idWorker;
 
-    @Column(name = "name", length = 64)
+    @Column(name = "name", length = 50)
     private String nameWorker;
 
     @Column(name = "login", length = 64)
@@ -26,25 +26,28 @@ public class Worker implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_profile")
-    private Profile idProfile;
+    private Profile profile;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idWorker")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "worker")
     private List<ProjectTicket> workerProjectTickets;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idWorker")
     private List<CommentsTicket> workerCommentsTickets;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idWorker")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "worker")
     private List<TimeVocation> workerTimeVocation;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "worker")
+    private List<Chat> workerChat;
 
     public Worker() {
     }
 
-    public Worker(String nameWorker, String login, String password, Profile idProfile) {
+    public Worker(String nameWorker, String login, String password, Profile profile) {
         this.nameWorker = nameWorker;
         this.login = login;
         this.password = password;
-        this.idProfile = idProfile;
+        this.profile = profile;
     }
 
     public long getIdWorker() {
@@ -79,12 +82,12 @@ public class Worker implements Serializable {
         this.password = password;
     }
 
-    public void setIdProfile(Profile idProfile) {
-        this.idProfile = idProfile;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
-    public long getIdProfile() {
-        return idProfile.getIdProfile();
+    public Profile getProfile() {
+        return profile;
     }
 
     public List<ProjectTicket> getWorkerProjectTickets() {
@@ -109,6 +112,14 @@ public class Worker implements Serializable {
 
     public void setWorkerTimeVocation(List<TimeVocation> workerTimeVocation) {
         this.workerTimeVocation = workerTimeVocation;
+    }
+
+    public List<Chat> getWorkerChat() {
+        return workerChat;
+    }
+
+    public void setWorkerChat(List<Chat> workerChat) {
+        this.workerChat = workerChat;
     }
 
     @Override

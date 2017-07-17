@@ -21,4 +21,7 @@ public interface WorkerDao {
     List getAllWorkers();
 
     boolean isLoginPasswordValid(String login, String passowrd);
+
+    boolean isLoginUnique(String profileLogin);
+
 }

@@ -52,6 +52,16 @@ public class WorkerDaoImpl implements WorkerDao {
         return query.getResultList().size() != 0;
     }
 
+    @Override
+    public boolean isLoginUnique(String profileLogin) {
+        LOGGER.info("ProfileDaoImpl getLogin start");
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM Worker WHERE login = :login");
+        query.setParameter("login", profileLogin);
+        LOGGER.info("ProfileDaoImpl getLogin end");
+        return query.getResultList().size() != 0;
+    }
+
+
     /**
      * update Worker data
      * @param worker
@@ -83,19 +93,23 @@ public class WorkerDaoImpl implements WorkerDao {
      */
     @Override
     public Worker getWorkerById(long workerId) {
-        LOGGER.info("WorkerDaoImpl getProfileById start");
+        LOGGER.info("WorkerDaoImpl getWorkerById start");
         Worker worker = sessionFactory.getCurrentSession().get(Worker.class, workerId);
-        LOGGER.info("WorkerDaoImpl getProfileById end");
+        LOGGER.info("WorkerDaoImpl getWorkerById end");
         return worker;
     }
-
+    /**
+     * get Worker By login
+     * @param workerLogin
+     * @return Worker
+     */
     @Override
     public Worker getWorkerByLogin(String workerLogin) {
-        LOGGER.info("WorkerDaoImpl getProfileById start");
+        LOGGER.info("WorkerDaoImpl getWorkerByLogin start");
         Query query = sessionFactory.getCurrentSession().createQuery("from Worker where login = :login");
         query.setParameter("login", workerLogin);
         Worker worker = (Worker) query.getResultList().get(0);
-        LOGGER.info("WorkerDaoImpl getProfileById end");
+        LOGGER.info("WorkerDaoImpl getWorkerByLogin end");
         return worker;
     }
 
@@ -108,6 +122,7 @@ public class WorkerDaoImpl implements WorkerDao {
         LOGGER.info("WorkerDaoImpl getAllWorkers start");
         Query query = sessionFactory.getCurrentSession().createQuery("from Worker");
         LOGGER.info("WorkerDaoImpl getAllWorkers end");
-        return query.getResultList();
+        return (List<Worker>) query.getResultList();
     }
+
 }

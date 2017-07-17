@@ -9,7 +9,7 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
- * Created by John on 22.06.2017.
+ * Created by John on 22.06.2017
  */
 @Component
 public class LoginPasswordValidator implements Validator {
@@ -26,7 +26,8 @@ public class LoginPasswordValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "empty.login", "Please enter your login");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "empty.password", "Please enter your password");
         LoginPassword loginPassword = (LoginPassword) object;
-        if (!workerDao.isLoginPasswordValid(loginPassword.getLogin(),loginPassword.getPassword())){
+        if (!workerDao.isLoginPasswordValid(loginPassword.getLogin(),loginPassword.getPassword())){                             //для проверки нешифрованного пароля
+//        if (!workerDao.isLoginPasswordValid(loginPassword.getLogin(), MethodsForControllers.convertToMD5(loginPassword.getPassword()))){   // для проверки шифрованного пароля
             errors.rejectValue("password", "err.login.password", "Incorrect login or password.");
         }
     }
