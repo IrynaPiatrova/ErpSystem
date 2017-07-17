@@ -3,7 +3,7 @@ package com.erp.system.constants;
 /**
  * Created by John on 04.07.2017
  */
-public class IConstants {
+public class ModelConstants {
     public static final String ADMIN = "admin";
     public static final String TRUE = "true";
     public static final String FALSE = "false";
@@ -20,4 +20,5 @@ public class IConstants {
     public static final String IS_WORKER_ON_TICKET_NOT_CHOOSEN = "isWorkerOnTicketNotChoosen";
     public static final String COLLECTION_TICKETS = "collectionTickets";
     public static final String TEMP_WORKER = "tempWorker";
+    public static final String MESSAGE = "message";
 }

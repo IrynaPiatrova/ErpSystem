@@ -1,6 +1,6 @@
 package com.erp.system.controllers;
 
-import com.erp.system.constants.IConstants;
+import com.erp.system.constants.ModelConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dto.CommentDTO;
 import com.erp.system.entity.CommentsTicket;
@@ -51,27 +51,28 @@ public class TicketsController {
     private ArrayList<CommentDTO> listOfDTOComments = new ArrayList<>();
 
     @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.GET)
-    public String isSuccessAddNewTicket(Model model, HttpSession session){
+    public String isSuccessAddNewTicket(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         model.addAttribute("ticket", new ProjectTicket());
         return "pages/addNewTicket";
     }
 
     @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.POST)
-    public String isSuccessAddNewTicket(@ModelAttribute("ticket")@Valid ProjectTicket projectTicket,
+    public String isSuccessAddNewTicket(@ModelAttribute("ticket") @Valid ProjectTicket projectTicket,
                                         BindingResult result, @RequestParam("deadlineDate") String deadlineDate, HttpSession session) throws ParseException {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        newTicketValidator.validate(projectTicket,result);
+        newTicketValidator.validate(projectTicket, result);
         if (deadlineDate.length() == 0) result.rejectValue("deadlineTicket", "empty.ticket.deadlineDate");
         if (result.hasErrors()) return "pages/addNewTicket";
         projectTicket.setDeadlineTicket(deadlineDate);
         projectTicketService.createProjectTicket(projectTicket);
         return "pages/main";
     }
+
     @RequestMapping(value = "/chooseWorkerOnTicket", method = RequestMethod.POST)
     public String chooseWorkerOnTicket(@RequestParam("nameWorker") String nameWorker,
                                        @RequestParam("idTicket") long idTicket) throws ParseException {
-        String idWorker = nameWorker.substring(0,nameWorker.indexOf("."));
+        String idWorker = nameWorker.substring(0, nameWorker.indexOf("."));
         Worker worker = workerService.getWorkerById(Long.parseLong(idWorker));
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
         projectTicket.setStatusProjectTicket("in_progress");
@@ -82,8 +83,9 @@ public class TicketsController {
         projectTicketService.updateProjectTicket(projectTicket);
         return "pages/main";
     }
+
     @RequestMapping(value = "/allTickets", method = RequestMethod.GET)
-    public String allTickets(Model model,HttpSession session){
+    public String allTickets(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         ArrayList<ProjectTicket> listOfTickets;
         if (MethodsForControllers.isAdmin(session)) {
@@ -91,72 +93,75 @@ public class TicketsController {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getAllProjectTickets();
             model.addAttribute("collectionTickets", listOfTickets);
             return "pages/allTickets";
-        }else {
-            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+        } else {
+            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
-            model.addAttribute(IConstants.COLLECTION_TICKETS, listOfTickets);
+            model.addAttribute(ModelConstants.COLLECTION_TICKETS, listOfTickets);
             model.addAttribute("ticket", new ProjectTicket());
             return "pages/allTickets";
         }
     }
+
     @RequestMapping(value = "/allTickets", method = RequestMethod.POST)
-    public String allTickets(Model model,@RequestParam("statusProject") String status,HttpSession session) throws ServletException, IOException {
+    public String allTickets(Model model, @RequestParam("statusProject") String status, HttpSession session) throws ServletException, IOException {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         ArrayList<ProjectTicket> listOfTickets;
-        if (MethodsForControllers.isAdmin(session)){//если админ то отобразить все тикеты
+        if (MethodsForControllers.isAdmin(session)) {//если админ то отобразить все тикеты
             if (status.equals("all tickets")) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getAllProjectTickets();
-            }else{
+            } else {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByStatus(status);
             }
-        }else {//если не админ, то через сессию получаем логин,
+        } else {//если не админ, то через сессию получаем логин,
             // а через логин получаем все тикеты того кто авторизовался
-            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
             if (status.equals("all tickets")) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
-            }else{
-                listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(worker,status);
+            } else {
+                listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(worker, status);
             }
         }
-        model.addAttribute("collectionTickets",listOfTickets);
+        model.addAttribute("collectionTickets", listOfTickets);
         return "pages/allTickets";
     }
+
     @RequestMapping(value = "/chooseTicket{var}")
-    public String chooseTicket(@PathVariable("var") long var, Model model, HttpSession session){
+    public String chooseTicket(@PathVariable("var") long var, Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         listOfDTOComments.clear();//здесь очищаются список с комментариями,
         // потому что при обновлении страницы они дублируются
         listOfWorkers = (ArrayList<Worker>) workerService.getAllWorkers();
         listOfComments = (ArrayList<CommentsTicket>) commentsTicketService.getCommentsTicketByIdTicket(var);
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(var);
-        for (CommentsTicket m: listOfComments){
+        for (CommentsTicket m : listOfComments) {
             Profile profile = profileService.getProfileById(m.getIdWorker().getProfile().getIdProfile());
-            listOfDTOComments.add(new CommentDTO(m.getIdWorker().getNameWorker(),m.getComment(),profile.getPhoto(),m.getCommentDate()));
+            listOfDTOComments.add(new CommentDTO(m.getIdWorker().getNameWorker(), m.getComment(), profile.getPhoto(), m.getCommentDate()));
         }
-        model.addAttribute(IConstants.IS_WORKER_ON_TICKET_NOT_CHOOSEN,isWorkerNotChosen(projectTicket.getWorker()));
-        model.addAttribute(IConstants.IS_TICKET_NOT_FINISHED,isStatusNotFinish(projectTicket.getStatusProjectTicket()));
+        model.addAttribute(ModelConstants.IS_WORKER_ON_TICKET_NOT_CHOOSEN, isWorkerNotChosen(projectTicket.getWorker()));
+        model.addAttribute(ModelConstants.IS_TICKET_NOT_FINISHED, isStatusNotFinish(projectTicket.getStatusProjectTicket()));
         //две модели выше реализуют методы(они лежат сразу после этого метода), которые возвращают
         //boolean, и в зависимости от того, что вернется рисуется chooseTicket.jsp
         model.addAttribute("collectionWorkers", listOfWorkers);
-        model.addAttribute("chosenTicket",projectTicket);
-        model.addAttribute("workerPhoto",session.getAttribute(IConstants.PHOTO));
-        model.addAttribute("collectionOfComments",listOfDTOComments);
+        model.addAttribute("chosenTicket", projectTicket);
+        model.addAttribute("workerPhoto", session.getAttribute(ModelConstants.PHOTO));
+        model.addAttribute("collectionOfComments", listOfDTOComments);
         return "pages/chooseTicket";
     }
 
-    public boolean isStatusNotFinish(String status){
+    public boolean isStatusNotFinish(String status) {
         return !(status.equals("ready_for_testing") || status.equals("finished"));
     }
-    public boolean isWorkerNotChosen(Worker worker){
+
+    public boolean isWorkerNotChosen(Worker worker) {
         return worker == null;
     }
 
     @RequestMapping(value = "/writeComment", method = RequestMethod.POST)
     public String writeComment(@RequestParam("text_comment") String comment,
-                               @RequestParam("idTicket") long idTicket,HttpSession session,Model model){
+                               @RequestParam("idTicket") long idTicket, HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         date = new Date();
-        Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+        Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
         CommentsTicket commentsTicket = new CommentsTicket();
         commentsTicket.setComment(comment);
@@ -167,15 +172,15 @@ public class TicketsController {
         ArrayList<ProjectTicket> listOfTickets;
         if (MethodsForControllers.isAdmin(session)) {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getAllProjectTickets();
-        }else {
+        } else {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
         }
-        model.addAttribute("collectionTickets",listOfTickets);
+        model.addAttribute("collectionTickets", listOfTickets);
         return "pages/allTickets";//надо придумать как сделать return на эту же страницу
     }
 
     @RequestMapping(value = "/workerEndTicket", method = RequestMethod.POST)
-    public String endTicket(@RequestParam("idTicket") long idTicket,HttpSession session){
+    public String endTicket(@RequestParam("idTicket") long idTicket, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
         Date now = Calendar.getInstance().getTime();

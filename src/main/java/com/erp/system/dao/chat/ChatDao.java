@@ -12,5 +12,5 @@ public interface ChatDao {
 
     Chat getCommentById(long idComment);
 
-    List getAllComments();
+    List<Chat> getAllComments();
 }

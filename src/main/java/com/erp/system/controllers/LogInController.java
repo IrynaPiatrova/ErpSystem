@@ -1,6 +1,6 @@
 package com.erp.system.controllers;
 
-import com.erp.system.constants.IConstants;
+import com.erp.system.constants.ModelConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dto.LoginPassword;
 import com.erp.system.entity.Profile;
@@ -39,7 +39,7 @@ public class LogInController {
      */
     @RequestMapping(value = {"", "/", "/welcome"}, method = RequestMethod.GET)
     public String indexPage(Model model) {
-        model.addAttribute(IConstants.LOG_PASS, new LoginPassword());
+        model.addAttribute(ModelConstants.LOG_PASS, new LoginPassword());
         return "pages/index";
     }
 
@@ -51,20 +51,20 @@ public class LogInController {
      * @return String
      */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String checkUserAuthorization(@ModelAttribute(IConstants.LOG_PASS) @Valid LoginPassword lp,
+    public String checkUserAuthorization(@ModelAttribute(ModelConstants.LOG_PASS) @Valid LoginPassword lp,
                                          BindingResult result, Model model, HttpSession session) {
         lpValidator.validate(lp, result);
         if (result.hasErrors()) return "pages/index";
-        String isAdmin = IConstants.ADMIN.equals(lp.getLogin()) ? IConstants.TRUE : IConstants.FALSE;
+        String isAdmin = ModelConstants.ADMIN.equals(lp.getLogin()) ? ModelConstants.TRUE : ModelConstants.FALSE;
         String login = lp.getLogin();
         Worker workerByLogin = workerService.getWorkerByLogin(login);
         Profile profileById = profileService.getProfileById(workerByLogin.getProfile().getIdProfile());
         byte[] photo = profileById.getPhoto();
-        session.setAttribute(IConstants.PHOTO, photo != null && photo.length > 0 ? photo : null);
-        model.addAttribute(IConstants.IS_ADMIN, isAdmin);
-        session.setAttribute(IConstants.NAME_USER, workerByLogin.getNameWorker());
-        session.setAttribute(IConstants.LOGED_AS, login);
-        session.setAttribute(IConstants.IS_ADMIN, isAdmin);
+        session.setAttribute(ModelConstants.PHOTO, photo != null && photo.length > 0 ? photo : null);
+        model.addAttribute(ModelConstants.IS_ADMIN, isAdmin);
+        session.setAttribute(ModelConstants.NAME_USER, workerByLogin.getNameWorker());
+        session.setAttribute(ModelConstants.LOGED_AS, login);
+        session.setAttribute(ModelConstants.IS_ADMIN, isAdmin);
         return "pages/main";
     }
 

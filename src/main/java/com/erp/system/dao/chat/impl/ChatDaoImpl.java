@@ -38,7 +38,7 @@ public class ChatDaoImpl implements ChatDao{
     }
 
     @Override
-    public List getAllComments() {
+    public List<Chat> getAllComments() {
         LOGGER.info("ChatDaoImpl getCommentById start");
         Query query = sessionFactory.getCurrentSession().createQuery("from Chat");
         LOGGER.info("ChatDaoImpl getCommentById end");

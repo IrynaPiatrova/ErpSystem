@@ -1,6 +1,6 @@
 package com.erp.system.controllers.methods;
 
-import com.erp.system.constants.IConstants;
+import com.erp.system.constants.ModelConstants;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import javax.imageio.ImageIO;
@@ -30,11 +30,11 @@ public class MethodsForControllers {
     }
 
     public static Boolean isLogedIn(HttpSession session) {
-        return session.getAttribute(IConstants.LOGED_AS) != null;
+        return session.getAttribute(ModelConstants.LOGED_AS) != null;
     }
 
     public static Boolean isAdmin(HttpSession session) {
-        return IConstants.TRUE.equals(session.getAttribute(IConstants.IS_ADMIN));
+        return ModelConstants.TRUE.equals(session.getAttribute(ModelConstants.IS_ADMIN));
     }
 
     public static byte[] returnDefaultPhotoBytes(InputStream inputStream) throws IOException {
