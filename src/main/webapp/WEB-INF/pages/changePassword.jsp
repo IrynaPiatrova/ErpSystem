@@ -19,25 +19,38 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<form:form action="change" modelAttribute="profile">
-    <p>${keyWord}</p>
-    <table>
-        <tr>
-            <td>Ответ на ключевой вопрос</td>
-            <td><input type="text" name="answerOnKeyWord"></td>
-            <div><form:errors path="answerOnKeyWord" style="color:red"/></div>
-        </tr>
-        <tr>
-            <td>Введите новый пароль</td>
-            <td><input type="text" name="newPassword"></td>
-            <div><form:errors path="password" style="color:red"/></div>
-        </tr>
-        <tr>
-            <td>Повторите пароль</td>
-            <td><input type="text" name="repeatNewPassword"></td>
-            <div><form:errors path="password" style="color:red"/></div>
-        </tr>
-    </table>
-</form:form>
+<c:when test="${logedAs == true}">
+    <h4>Не Залогинен</h4>
+</c:when>
+<c:otherwise>
+    <form:form action="change" modelAttribute="profile">
+        <h4>${profile.keyWord}</h4>
+        <table>
+            <tr>
+                <td>Ответ на ключевой вопрос</td>
+                <td><input type="text" name="answerOnKeyWord">
+                    <div><form:errors path="answerOnKeyWord" style="color:red"/></div></td>
+            </tr>
+
+            <tr>
+                <td>Введите новый пароль</td>
+                <td><input type="text" name="newPassword">
+                    <div><form:errors path="worker.password" style="color:red"/></div></td>
+            </tr>
+
+            <tr>
+                <td>Повторите пароль</td>
+                <td><input type="text" name="repeatNewPassword">
+                    <div><form:errors path="worker.password" style="color:red"/></div></td>
+            </tr>
+
+            <tr>
+                <td>
+                    <input type="submit" value="Подтвердить">
+                </td>
+            </tr>
+        </table>
+    </form:form>
+</c:otherwise>
 </body>
 </html>

@@ -136,9 +136,9 @@
                 <p>для восстановления пароля</p></td>
             <td><form:select name="keyWord" path="keyWord" width="200">
                 <option value="status" disabled selected>${profileEmploymentStatusChoose}</option>
-                <option value="status 1">Девичья фамилия матери</option>
-                <option value="status 2">Город где вы родились</option>
-                <option value="status 3">Любимое блюдо</option>
+                <option value="Девичья фамилия матери">Девичья фамилия матери</option>
+                <option value="Город где вы родились">Город где вы родились</option>
+                <option value="Любимое блюдо">Любимое блюдо</option>
             </form:select></td>
         </tr>
 

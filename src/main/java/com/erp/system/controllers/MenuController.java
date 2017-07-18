@@ -60,13 +60,17 @@ public class MenuController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     //это метод для изменения СВОЕГО профиля (или пользователь меняет свой профиль, или админ свой)
-    public String editProfile(@ModelAttribute(IConstants.PROFILE) @Valid ProfileDTO profileDTO, @RequestParam("photo") MultipartFile photo, HttpSession session, BindingResult result) {
+    public String editProfile(@ModelAttribute(IConstants.PROFILE) @Valid ProfileDTO profileDTO,
+                              @RequestParam("photo") MultipartFile photo,
+                              @RequestParam("answerOnKeyWord") String answerOnKeyWord, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
         String profileDTOLogin = profileDTO.getWorker().getLogin();
         profileDTO.setEmploymentStatus(profile.getEmploymentStatus());
         profileDTO.setPosition(profile.getPosition());
         profileDTO.setDepartment(profile.getDepartment());
+        profileDTO.setWorker(profile.getWorker());
+//        if (answerOnKeyWord.length()<=0) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
         editProfileValidator.validate(profileDTO, result);
         if (workerDao.isLoginUnique(profileDTOLogin) && !profile.getWorker().getLogin().equals(profileDTOLogin))
             result.rejectValue("worker.login", "exist.login");
@@ -79,7 +83,8 @@ public class MenuController {
         profile.setTelephone(profileDTO.getTelephone());
         profile.setEmail(profileDTO.getEmail());
         profile.getWorker().setLogin(profileDTOLogin);
-        profile.getWorker().setPassword(profileDTO.getWorker().getPassword());
+        profile.setKeyWord(profileDTO.getKeyWord());
+        profile.setAnswerOnKeyWord(answerOnKeyWord);
         profileDao.updateProfile(profile);
         session.setAttribute(IConstants.LOGED_AS, profile.getWorker().getLogin());
         return "redirect:/profile";
@@ -107,6 +112,7 @@ public class MenuController {
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
     public String changePassword(Model model, HttpSession session){
         model.addAttribute(IConstants.PROFILE, session.getAttribute(IConstants.PROFILE_DATA));
+        model.addAttribute(IConstants.LOGED_AS, session.getAttribute(IConstants.LOGED_AS));
         return "pages/changePassword";
     }
 
@@ -114,15 +120,16 @@ public class MenuController {
     public String change(@ModelAttribute(IConstants.PROFILE)@Valid ProfileDTO profileDTO,
                          BindingResult result, @RequestParam("repeatNewPassword") String repeatNewPassword,
                          @RequestParam("newPassword") String newPassword, HttpSession session){
-        if (newPassword.length()<= 0)result.rejectValue("password", "empty.password");
-        if (repeatNewPassword.length() <= 0)result.rejectValue("password", "empty.newPassword");
-        if (profileDTO.getAnswer_on_keyWord().length()<= 0) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
+        if (newPassword.length()<= 0)result.rejectValue("worker.password", "empty.password");
+        if (repeatNewPassword.length() <= 0)result.rejectValue("worker.password", "empty.newPassword");
+        if (profileDTO.getAnswerOnKeyWord().length()<= 0) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
         if (result.hasErrors()) return "pages/changePassword";
         Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
-        if (!profileDTO.getAnswer_on_keyWord().equals(profile.getAnswerOnKeyWord())) result.rejectValue("answerOnKeyWord", "incorrect.keyWord");
-        if (!newPassword.equals(repeatNewPassword)) result.rejectValue("password","notsame.password");
+        if (!profileDTO.getAnswerOnKeyWord().equals(profile.getAnswerOnKeyWord())) result.rejectValue("answerOnKeyWord", "incorrect.keyWord");
+        if (!newPassword.equals(repeatNewPassword)) result.rejectValue("worker.password","notsame.password");
         if (result.hasErrors()) return "pages/changePassword";
-        System.out.println(profile);
+        profile.getWorker().setPassword(newPassword);
+        profileDao.updateProfile(profile);
         return "pages/main";
     }
 //    @RequestMapping(value = "/findWorker", method = RequestMethod.GET)

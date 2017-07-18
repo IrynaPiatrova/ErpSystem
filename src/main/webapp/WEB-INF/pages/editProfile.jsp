@@ -46,6 +46,8 @@
 <spring:message code="worker.name.new" var="workerNameNew"/>
 <spring:message code="worker.login.new" var="workerLoginNew"/>
 <spring:message code="worker.password.new" var="workerPasswordNew"/>
+<spring:message code="empty.answerOnKeyWord" var="answerOnKeyWord"/>
+<spring:message code="profile.keyQuestion" var="keyAnswer"/>
 
 
 <div class="container">
@@ -187,6 +189,30 @@
                 </div>
                 <div><form:errors path="email" style="color:red"/></div>
             </div>
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="inputEmail"><p>Выберите ключевой вопрос</p>
+                    <p>для восстановления пароля</p></label>
+                <div class="col-md-4">
+                    <form:select class="form-control input-md" id="inputKeyWord" name="textinput" path="keyWord" width="200">
+                        <option value="status" disabled selected>${keyAnswer}</option>
+                        <option value="Mother's girls surname">Девичья фамилия матери</option>
+                        <option value="What's city where you born">Город где вы родились</option>
+                        <option value="Favourite eat">Любимое блюдо</option>
+                    </form:select>
+                </div>
+                <div><form:errors path="keyWord" style="color:red"/></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="inputEmail">Введите ответ на вопрос</label>
+                <div class="col-md-4">
+                    <input class="form-control input-md" type="text" autocomplete="off"
+                                id="inputAnswerOnKeyWord"
+                                name="answerOnKeyWord"/>
+                </div>
+                <div><form:errors path="answerOnKeyWord" style="color:red"/></div>
+            </div>
+
             <div class="form-group">
                 <label class="col-md-4 control-label" for="inputPhoto">${profilePhotoNew}</label>
                 <div class="col-md-4">

@@ -17,9 +17,10 @@ public class ProfileDTO {
     private String position;
     private String employmentStatus;
     private String department;
-    private Worker worker;
     private String keyWord;
-    private String answer_on_keyWord;
+    private String answerOnKeyWord;
+    private Worker worker;
+
 
     public ProfileDTO() {
     }
@@ -104,11 +105,28 @@ public class ProfileDTO {
         this.keyWord = keyWord;
     }
 
-    public String getAnswer_on_keyWord() {
-        return answer_on_keyWord;
+    public String getAnswerOnKeyWord() {
+        return answerOnKeyWord;
     }
 
-    public void setAnswer_on_keyWord(String answer_on_keyWord) {
-        this.answer_on_keyWord = answer_on_keyWord;
+    public void setAnswerOnKeyWord(String answerOnKeyWord) {
+        this.answerOnKeyWord = answerOnKeyWord;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileDTO{" +
+                "idProfile=" + idProfile +
+                ", startDateProfile=" + startDateProfile +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", photo=" + photo +
+                ", position='" + position + '\'' +
+                ", employmentStatus='" + employmentStatus + '\'' +
+                ", department='" + department + '\'' +
+                ", keyWord='" + keyWord + '\'' +
+                ", answerOnKeyWord='" + answerOnKeyWord + '\'' +
+                ", worker=" + worker +
+                '}';
     }
 }
