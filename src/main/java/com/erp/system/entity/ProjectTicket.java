@@ -34,7 +34,8 @@ public class ProjectTicket implements Serializable {
     @Column(name = "deadline")
     private String deadlineTicket;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_worker")
     private Worker worker;
 

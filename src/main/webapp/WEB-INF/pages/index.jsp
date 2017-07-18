@@ -21,7 +21,7 @@
 </head>
 
 <body>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
 <div class="body"></div>
 <div class="grad"></div>

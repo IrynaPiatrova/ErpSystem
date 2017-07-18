@@ -25,7 +25,7 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
 <div class="container">
     <div class="row">
@@ -79,17 +79,20 @@
                 <table>
                     <tr>
                         <td>
-                            <form action="${pageContext.request.contextPath}/findByIdAndEditWorker" method="post" id="formButton">
+                            <form action="${pageContext.request.contextPath}/findByIdAndEditWorker" method="post"
+                                  id="formButton">
                                 <p/>
                                 <input type="hidden" name="idWorker" id="idWorker" value="">
-                                <input type="hidden" id="editButton" value="Редактировать профиль" class="btn btn-default">
+                                <input type="hidden" id="editButton" value="Редактировать профиль"
+                                       class="btn btn-default">
                             </form>
                         </td>
                         <td>
                             <form action="${pageContext.request.contextPath}/findByIdAndShowInfo" method="post">
                                 <p/>
                                 <input type="hidden" name="idWorker" id="idWorkerToShow" value="">
-                                <input type="hidden" id="editButtonToShow" value="Дополнительная информация" class="btn btn-default">
+                                <input type="hidden" id="editButtonToShow" value="Дополнительная информация"
+                                       class="btn btn-default">
                             </form>
                         </td>
                     </tr>

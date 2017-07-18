@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
 <nav class="navbar navbar-inverse">
     <div class="container">
@@ -45,7 +45,8 @@
                 <li><a href="main">${labelMain}</a></li>
                 <li/>
                 <c:if test="${isAdmin}">
-                    <li class="dropdown"><a href="${pageContext.request.contextPath}/allWorkers" class="dropdown-toggle" data-toggle="dropdown">${labelWorkersChoose}<b
+                    <li class="dropdown"><a href="${pageContext.request.contextPath}/allWorkers" class="dropdown-toggle"
+                                            data-toggle="dropdown">${labelWorkersChoose}<b
                             class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="${pageContext.request.contextPath}/addNewWorker">${labelWorkersAdd}</a></li>
@@ -58,10 +59,12 @@
                 <li><a href="${pageContext.request.contextPath}/profile">${labelProfile}</a></li>
                 <c:choose>
                     <c:when test="${isAdmin}">
-                        <li class="dropdown"><a href="${pageContext.request.contextPath}/allTickets" class="dropdown-toggle" data-toggle="dropdown">${labelTicketsChoose}<b
+                        <li class="dropdown"><a href="${pageContext.request.contextPath}/allTickets"
+                                                class="dropdown-toggle" data-toggle="dropdown">${labelTicketsChoose}<b
                                 class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a href="${pageContext.request.contextPath}/addNewTicket">${labelTicketsAdd}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/addNewTicket">${labelTicketsAdd}</a>
+                                </li>
                                 <li><a href="${pageContext.request.contextPath}/allTickets">${labelTicketsAll}</a></li>
                             </ul>
                         </li>

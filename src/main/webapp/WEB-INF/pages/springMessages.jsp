@@ -53,7 +53,8 @@
 <spring:message code="worker.login.new" var="workerLoginNew"/>
 <spring:message code="worker.password" var="workerPassword"/>
 <spring:message code="worker.password.new" var="workerPasswordNew"/>
-<spring:message code="worker.end.ticket" var="complete"/>
+<spring:message code="worker.end.ticket" var="completeTicket"/>
+<spring:message code="allWorkers.involved" var="allWorkersInvolved"/>
 <spring:message code="ticket.name" var="nameTicket"/>
 <spring:message code="ticket.specification" var="specificationTicket"/>
 <spring:message code="ticket.status" var="statusTicket"/>

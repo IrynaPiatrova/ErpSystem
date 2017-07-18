@@ -21,11 +21,11 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
 <div id="centerLayer">
     <div class="container">
-        <form:form action="allTickets" method="post" modelAttribute="ticket" >
+        <form:form action="allTickets" method="post" modelAttribute="ticket">
             <select name="statusProject" path="statusProjectTicket" class="selectpicker">
                 <option value="all tickets" selected>${allTickets}</option>
                 <option value="opened">${statusTicketOpened}</option>

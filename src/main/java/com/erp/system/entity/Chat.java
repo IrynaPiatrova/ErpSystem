@@ -21,7 +21,8 @@ public class Chat implements Serializable {
     @Column(name = "comment", length = 500)
     private String comment;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_worker")
     private Worker worker;
 

@@ -150,8 +150,15 @@ public class MenuController {
 
     @RequestMapping(value = "/logOut", method = RequestMethod.GET)
     public String logOut(HttpSession session) {
-        session.setAttribute(ModelConstants.IS_ADMIN, null);
-        session.setAttribute(ModelConstants.LOGED_AS, null);
+        session.removeAttribute(ModelConstants.IS_ADMIN);
+        session.removeAttribute(ModelConstants.LOGED_AS);
+        session.removeAttribute(ModelConstants.NAME_USER);
+        session.removeAttribute(ModelConstants.PHOTO);
+        session.removeAttribute(ModelConstants.PROFILE_DATA);
+        session.removeAttribute(ModelConstants.ADMIN_EDIT_PROFILE);
+        session.removeAttribute(ModelConstants.TEMP_WORKER);
+        session.removeAttribute(ModelConstants.COLLECTION_TICKETS);
+
         return "redirect:/";
     }
 

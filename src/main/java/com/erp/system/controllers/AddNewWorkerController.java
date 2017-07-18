@@ -37,12 +37,13 @@ public class AddNewWorkerController {
     private Profile profileWorker = new Profile();
 
     @RequestMapping(value = "/isSuccessAddNewProfile", method = RequestMethod.GET)
-    public String isSuccessAddNewProfile(Model model){
+    public String isSuccessAddNewProfile(Model model) {
         model.addAttribute("profile", new Profile());
         return "pages/addNewProfile";
     }
+
     @RequestMapping(value = "/isSuccessAddNewWorker", method = RequestMethod.GET)
-    public String isSuccessAddNewWorker(Model model){
+    public String isSuccessAddNewWorker(Model model) {
         model.addAttribute("worker", new Worker());
         return "pages/addNewWorker";
     }

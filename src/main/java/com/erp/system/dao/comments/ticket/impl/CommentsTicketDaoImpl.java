@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 @Transactional
 public class CommentsTicketDaoImpl implements CommentsTicketDao {
-    protected static final Logger LOGGER = Logger.getLogger(CommentsTicketDaoImpl .class);
+    protected static final Logger LOGGER = Logger.getLogger(CommentsTicketDaoImpl.class);
 
     @Resource(name = "sessionFactory")
     private SessionFactory sessionFactory;

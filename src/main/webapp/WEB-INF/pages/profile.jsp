@@ -19,7 +19,7 @@
 </head>
 <body>
 <%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp"%>
+<%@include file="springMessages.jsp" %>
 
 <form action="edit" method="get"><input type="submit" class="btn btn-default btn-lg" value="${profileEdition}"></form>
 <div class="container">
@@ -28,18 +28,18 @@
         <tr>
             <%--если нет в базе фото то по дефолту--%>
             <%--<c:choose>--%>
-                <%--<c:when test="${photo == null}">--%>
-                    <%--<td>--%>
-                        <%--<div class="col-sm-2 col-md-2"><img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png"--%>
-                                                            <%--class="img-rounded img-responsive"></div>--%>
-                    <%--</td>--%>
-                <%--</c:when>--%>
-                <%--<c:otherwise>--%>
-                    <td>
-                        <div class="col-sm-2 col-md-2"><img src="<mytag:convertImage imageByte="${photo}"/>"
-                                                            class="img-rounded img-responsive"></div>
-                    </td>
-                <%--</c:otherwise>--%>
+            <%--<c:when test="${photo == null}">--%>
+            <%--<td>--%>
+            <%--<div class="col-sm-2 col-md-2"><img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png"--%>
+            <%--class="img-rounded img-responsive"></div>--%>
+            <%--</td>--%>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
+            <td>
+                <div class="col-sm-2 col-md-2"><img src="<mytag:convertImage imageByte="${photo}"/>"
+                                                    class="img-rounded img-responsive"></div>
+            </td>
+            <%--</c:otherwise>--%>
             <%--</c:choose>--%>
 
 

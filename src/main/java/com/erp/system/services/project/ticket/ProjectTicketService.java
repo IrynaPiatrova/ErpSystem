@@ -1,5 +1,6 @@
 package com.erp.system.services.project.ticket;
 
+import com.erp.system.entity.CommentsTicket;
 import com.erp.system.entity.ProjectTicket;
 import com.erp.system.entity.Worker;
 
@@ -24,4 +25,8 @@ public interface ProjectTicketService {
     List getTicketsByIdWorker(Worker worker);
 
     List getTicketsByIdWorkerAndStatus(Worker worker, String status);
+
+    void performTicket(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket);
+
+    void appointWorker(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket);
 }
