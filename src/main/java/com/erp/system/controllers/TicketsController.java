@@ -1,6 +1,6 @@
 package com.erp.system.controllers;
 
-import com.erp.system.constants.IConstants;
+import com.erp.system.constants.ModelConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dto.CommentDTO;
 import com.erp.system.entity.CommentsTicket;
@@ -86,9 +86,9 @@ public class TicketsController {
             model.addAttribute("collectionTickets", listOfTickets);
             return "pages/allTickets";
         } else {
-            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
-            model.addAttribute(IConstants.COLLECTION_TICKETS, listOfTickets);
+            model.addAttribute(ModelConstants.COLLECTION_TICKETS, listOfTickets);
             model.addAttribute("ticket", new ProjectTicket());
             return "pages/allTickets";
         }
@@ -99,7 +99,7 @@ public class TicketsController {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         ArrayList<ProjectTicket> listOfTickets;
         if (MethodsForControllers.isAdmin(session)) {//если админ то отобразить все тикеты
-            if (status.equals(IConstants.ALL_TICKETS)) {
+            if (status.equals(ModelConstants.ALL_TICKETS)) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getAllProjectTickets();
             } else {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByStatus(status);
@@ -107,7 +107,7 @@ public class TicketsController {
         } else {//если не админ, то через сессию получаем логин,
             // а через логин получаем все тикеты того кто авторизовался
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
-            if (status.equals(IConstants.ALL_TICKETS)) {
+            if (status.equals(ModelConstants.ALL_TICKETS)) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
             } else {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(worker, status);
@@ -128,11 +128,11 @@ public class TicketsController {
             Profile profile = profileService.getProfileById(m.getIdWorker().getProfile().getIdProfile());
             listOfDTOComments.add(new CommentDTO(m.getIdWorker().getNameWorker(), m.getComment(), profile.getPhoto(), m.getCommentDate()));
         }
-        model.addAttribute(IConstants.IS_WORKER_ON_TICKET_NOT_CHOOSEN, MethodsForControllers.isWorkerNotChosen(projectTicket.getWorker()));
-        model.addAttribute(IConstants.IS_TICKET_NOT_FINISHED, MethodsForControllers.isStatusNotFinish(projectTicket.getStatusProjectTicket()));
+        model.addAttribute(ModelConstants.IS_WORKER_ON_TICKET_NOT_CHOOSEN, MethodsForControllers.isWorkerNotChosen(projectTicket.getWorker()));
+        model.addAttribute(ModelConstants.IS_TICKET_NOT_FINISHED, MethodsForControllers.isStatusNotFinish(projectTicket.getStatusProjectTicket()));
         model.addAttribute("collectionWorkers", workerService.getWorkersNotInvolved());
         model.addAttribute("chosenTicket", projectTicket);
-        model.addAttribute("workerPhoto", session.getAttribute(IConstants.PHOTO));
+        model.addAttribute("workerPhoto", session.getAttribute(ModelConstants.PHOTO));
         model.addAttribute("collectionOfComments", listOfDTOComments);
         return "pages/chooseTicket";
     }
