@@ -24,6 +24,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -185,5 +186,18 @@ public class MenuController {
             chatArrayList.add(new ChatDTO(nameWorker, chat.getComment(), photo, userLogin.equals(chat.getWorker().getLogin())));
         }
         return chatArrayList;
+    }
+
+    /**
+     * For add message
+     * @param textMessage
+     * @param session
+     * @return String
+     */
+    @RequestMapping(value = "/addMessage", method = RequestMethod.GET)
+    public String addMessahe(@RequestParam("textMessage") String textMessage, HttpSession session){
+        String userLogin = (String) session.getAttribute(ModelConstants.LOGED_AS);
+        chatDao.createComment(new Chat(new Date(),textMessage, workerService.getWorkerByLogin(userLogin)));
+        return "redirect:/chat";
     }
 }
