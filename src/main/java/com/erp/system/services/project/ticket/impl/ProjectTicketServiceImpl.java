@@ -1,6 +1,6 @@
 package com.erp.system.services.project.ticket.impl;
 
-import com.erp.system.constants.IConstants;
+import com.erp.system.constants.ModelConstants;
 import com.erp.system.dao.comments.ticket.CommentsTicketDao;
 import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.project.ticket.ProjectTicketDao;
@@ -106,9 +106,9 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     public void performTicket(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket) {
         Date now = Calendar.getInstance().getTime();
         projectTicket.setEndTicketDate(oldDateFormat.format(now));
-        projectTicket.setStatusProjectTicket(IConstants.STATUS_READY_FOR_TESTING);
-        worker.getProfile().setEmploymentStatus(IConstants.STATUS_PROFILE_NOT_INVOLVED);
-        commentsTicket.setComment(projectTicket.getNameProjectTicket() + " is " + IConstants.STATUS_READY_FOR_TESTING);
+        projectTicket.setStatusProjectTicket(ModelConstants.STATUS_READY_FOR_TESTING);
+        worker.getProfile().setEmploymentStatus(ModelConstants.STATUS_PROFILE_NOT_INVOLVED);
+        commentsTicket.setComment(projectTicket.getNameProjectTicket() + " is " + ModelConstants.STATUS_READY_FOR_TESTING);
         commentsTicket.setCommentDate(now);
         commentsTicket.setIdProjectTicket(projectTicket);
         commentsTicket.setIdWorker(worker);
@@ -121,10 +121,10 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     @Transactional
     public void appointWorker(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket) {
         Date now = Calendar.getInstance().getTime();
-        projectTicket.setStatusProjectTicket(IConstants.STATUS_IN_PROGRESS);
+        projectTicket.setStatusProjectTicket(ModelConstants.STATUS_IN_PROGRESS);
         projectTicket.setStartTicketDate(oldDateFormat.format(now));
         projectTicket.setWorker(worker);
-        worker.getProfile().setEmploymentStatus(IConstants.STATUS_PROFILE_INVOLVED);
+        worker.getProfile().setEmploymentStatus(ModelConstants.STATUS_PROFILE_INVOLVED);
         commentsTicket.setComment(projectTicket.getNameProjectTicket() + " is appointed to " + worker.getNameWorker());
         commentsTicket.setCommentDate(now);
         commentsTicket.setIdProjectTicket(projectTicket);

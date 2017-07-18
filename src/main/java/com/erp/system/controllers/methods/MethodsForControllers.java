@@ -65,7 +65,7 @@ public class MethodsForControllers {
     }
 
     public static boolean isStatusNotFinish(String status){
-        return !(status.equals(IConstants.STATUS_READY_FOR_TESTING) || status.equals(IConstants.STATUS_FINISHED));
+        return !(status.equals(ModelConstants.STATUS_READY_FOR_TESTING) || status.equals(ModelConstants.STATUS_FINISHED));
     }
     public static boolean isWorkerNotChosen(Worker worker){
         return worker == null;

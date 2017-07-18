@@ -1,6 +1,6 @@
 package com.erp.system.services.worker.impl;
 
-import com.erp.system.constants.IConstants;
+import com.erp.system.constants.ModelConstants;
 import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.entity.Worker;
 import com.erp.system.services.worker.WorkerService;
@@ -73,7 +73,7 @@ public class WorkerServiceImpl implements WorkerService {
         ArrayList<Worker> listOfWorkers = (ArrayList<Worker>) workerDao.getAllWorkers();
         ArrayList<Worker> listNotInvolvedWorkers = new ArrayList<>();
         for (Worker list : listOfWorkers) {
-            if (IConstants.STATUS_PROFILE_NOT_INVOLVED.equals(list.getProfile().getEmploymentStatus())) {
+            if (ModelConstants.STATUS_PROFILE_NOT_INVOLVED.equals(list.getProfile().getEmploymentStatus())) {
                 listNotInvolvedWorkers.add(list);
             }
         }

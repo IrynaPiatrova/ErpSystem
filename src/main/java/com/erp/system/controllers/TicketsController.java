@@ -23,9 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -106,7 +104,7 @@ public class TicketsController {
             }
         } else {//если не админ, то через сессию получаем логин,
             // а через логин получаем все тикеты того кто авторизовался
-            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
             if (status.equals(ModelConstants.ALL_TICKETS)) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
             } else {
@@ -142,7 +140,7 @@ public class TicketsController {
                                @RequestParam("idTicket") long idTicket, HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Date date = new Date();
-        Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+        Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
         CommentsTicket commentsTicket = new CommentsTicket();
         commentsTicket.setComment(comment);
@@ -163,7 +161,7 @@ public class TicketsController {
     @RequestMapping(value = "/workerEndTicket", method = RequestMethod.POST)
     public String endTicket(@RequestParam("idTicket") long idTicket, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(IConstants.LOGED_AS));
+        Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
         CommentsTicket commentsTicket = new CommentsTicket();
         projectTicketService.performTicket(projectTicket, worker, commentsTicket);

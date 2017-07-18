@@ -136,7 +136,7 @@ public class MenuController {
     public String showWorkerInfo(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session))
             return "redirect:/";// Надо подумать будет ли доступна обычному пользователю инфо о его успеваемости
-        model.addAttribute(ModelConstants.COLLECTION_TICKETS, session.getAttribute(IConstants.COLLECTION_TICKETS));
+        model.addAttribute(ModelConstants.COLLECTION_TICKETS, session.getAttribute(ModelConstants.COLLECTION_TICKETS));
         return "pages/workerInfo";
     }
 
