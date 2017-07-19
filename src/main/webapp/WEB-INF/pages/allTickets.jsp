@@ -11,18 +11,18 @@
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
 <html>
 <head>
-    <title>Все тикеты</title>
     <meta charset="UTF-8">
+    <title>Все тикеты</title>
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="springMessages.jsp" %>
+    <%@include file="menu.jsp" %>
     <style>
         <%@include file='../css/table.css' %>
     </style>
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body>
 <div id="centerLayer">
     <div class="container">
         <form:form action="allTickets" method="post" modelAttribute="ticket">

@@ -176,11 +176,13 @@ public class MenuController {
 
     /**
      * return all Workers messages
+     *
      * @return List<ChatDTO>
      */
     @RequestMapping(value = "/messages", method = RequestMethod.GET)
     @ResponseBody
     public List<ChatDTO> getAllMessages(HttpSession session) throws IOException {
+//        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/"; надо подумать как установить ограничение на вход в этот метод тем кто не авторизовалсяя
         chatArrayList.clear();
         for (Chat chat : chatDao.getAllComments()) {
             String userLogin = (String) session.getAttribute(ModelConstants.LOGED_AS);
@@ -209,4 +211,22 @@ public class MenuController {
         }
         return "redirect:/chat";
     }
+
+//    @RequestMapping(value = "/createRequestVacation", method = RequestMethod.POST)
+//    public String createRequestVacation(  Param1, Param2     , HttpSession session){
+//        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+//        // сохранение в БД информации предварительного запроса
+//        // который после подтверждения админом будет записан в БД окончательно
+//
+//        return "redirect: /main";
+//    }
+//
+//    @RequestMapping(value = "/createRequestSickLeave", method = RequestMethod.POST)
+//    public String createRequestSickLeave( Param1, Param2          , HttpSession session){
+//        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+//        // сохранение в БД информации предварительного запроса
+//        // который после подтверждения админом будет записан в БД окончательно
+//
+//        return "redirect: /main";
+//    }
 }

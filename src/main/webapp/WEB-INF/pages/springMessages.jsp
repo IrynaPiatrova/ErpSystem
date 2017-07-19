@@ -57,6 +57,7 @@
 <spring:message code="allWorkers.involved" var="allWorkersInvolved"/>
 <spring:message code="ticket.name" var="nameTicket"/>
 <spring:message code="ticket.specification" var="specificationTicket"/>
+<spring:message code="ticket.specification.description" var="specificationTicketDescription"/>
 <spring:message code="ticket.status" var="statusTicket"/>
 <spring:message code="ticket.status.description" var="statusTicketDescription"/>
 <spring:message code="ticket.status.choose" var="statusTicketChoose"/>
@@ -105,6 +106,12 @@
 <spring:message code="label.edit.worker.button" var="labelEditWorkerButton"/>
 <spring:message code="label.show.worker.button" var="labelShowWorkerButton"/>
 <spring:message code="label.show.worker" var="labelShowWorker"/>
+<spring:message code="label.actual.ticket" var="labelActualTicket"/>
+<spring:message code="label.actual.ticket.no" var="labelActualTicketNo"/>
+<spring:message code="label.request.sickLeave" var="labelRequestSickLeave"/>
+<spring:message code="label.request.vacation" var="labelRequestVacation"/>
+<spring:message code="label.createRequest" var="labelCreateRequest"/>
+<spring:message code="label.createRequestChoose" var="labelCreateRequestChoose"/>
 <spring:message code="chat.message.input.name" var="inputMessage"/>
 
 

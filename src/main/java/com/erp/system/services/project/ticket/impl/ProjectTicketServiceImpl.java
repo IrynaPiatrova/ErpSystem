@@ -59,7 +59,7 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     }
 
     @Override
-    @Transactional
+    @Transactional // метод получения таблицы тикетов сотрудника с указанием успешности выполнения
     public List getWorkerProjectTicketsPerfomance(Worker worker) {
         ArrayList<ProjectTicket> listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
         ArrayList<ProjectTicketDTO> list = new ArrayList<>();
@@ -102,7 +102,7 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     }
 
     @Override
-    @Transactional
+    @Transactional // метод завершения тикета сотрудником
     public void performTicket(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket) {
         Date now = Calendar.getInstance().getTime();
         projectTicket.setEndTicketDate(oldDateFormat.format(now));
@@ -118,7 +118,7 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     }
 
     @Override
-    @Transactional
+    @Transactional // метод назначения на тикет сотрудника
     public void appointWorker(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket) {
         Date now = Calendar.getInstance().getTime();
         projectTicket.setStatusProjectTicket(ModelConstants.STATUS_IN_PROGRESS);

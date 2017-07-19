@@ -12,15 +12,15 @@
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
 <html>
 <head>
-    <title>Профиль</title>
     <meta charset="UTF-8">
+    <title>Профиль</title>
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body>
 <form action="edit" method="get"><input type="submit" class="btn btn-default btn-lg" value="${profileEdition}"></form>
 <div class="container">
     <table class="table table-striped">

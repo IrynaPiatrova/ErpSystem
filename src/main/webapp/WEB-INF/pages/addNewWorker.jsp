@@ -11,10 +11,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <%@include file="head.jsp" %>
     <title>Добавление нового сотрудника</title>
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
     <style>
         #centerLayer {
             position: absolute;
@@ -38,10 +39,8 @@
         }
     </style>
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body>
 <div id="centerLayer">
     <form:form id="form" action="isSuccessAddNewWorker" method="post" modelAttribute="worker">
         <table>

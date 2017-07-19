@@ -7,6 +7,7 @@ import com.erp.system.entity.Profile;
 import com.erp.system.entity.ProjectTicket;
 import com.erp.system.entity.Worker;
 import com.erp.system.services.profile.ProfileService;
+import com.erp.system.services.project.ticket.ProjectTicketService;
 import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 /**
  * Created by John on 16.06.2017
@@ -31,6 +33,8 @@ public class LogInController {
     LoginPasswordValidator lpValidator;
     @Autowired
     ProfileService profileService;
+    @Autowired
+    ProjectTicketService projectTicketService;
 
     /**
      * return start page 'index.jsp'
@@ -66,6 +70,17 @@ public class LogInController {
         session.setAttribute(ModelConstants.NAME_USER, workerByLogin.getNameWorker());
         session.setAttribute(ModelConstants.LOGED_AS, login);
         session.setAttribute(ModelConstants.IS_ADMIN, isAdmin);
+        // тут инициализация информации на главной
+        // для админа: список тикетов со статусом opened, ready for testing, с истекающим сроком выполнения (дней 5); список запросов от пользователей,..
+        // для юзера: текущий тикет, возможность послать запрос на отпуск/больничный,..
+        if (MethodsForControllers.isAdmin(session)) {
+
+
+            return "pages/main";
+        }
+        ArrayList<ProjectTicket> listOfTickets;
+        listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(workerByLogin, ModelConstants.STATUS_IN_PROGRESS);
+        model.addAttribute("collectionTickets", listOfTickets);
         return "pages/main";
     }
 
@@ -77,17 +92,11 @@ public class LogInController {
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String mainPage(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        ArrayList<ProjectTicket> listOfTickets;
+        Worker workerByLogin = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
+        listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(workerByLogin, ModelConstants.STATUS_IN_PROGRESS);
+        model.addAttribute("collectionTickets", listOfTickets);
         return "pages/main";
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    // Это будет тестовый метод где будем пробовать новые фичи, чтобы не создавать всегда заново для проверки
-    public String testMethod(HttpSession session) {
-        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session))
-            return "redirect:/";//только админ
-
-        //каждый наш метод должен начинаться с проверки на осуществление авторизации (пять строк выше), а дальше логика метода
-        return "";
     }
 
     /**
@@ -95,13 +104,15 @@ public class LogInController {
      * @return String
      */
     @RequestMapping(value = "/addNewWorker", method = RequestMethod.GET)
-    public String addNewWorker(Model model) {
+    public String addNewWorker(Model model, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         model.addAttribute("profile", new Profile());
         return "pages/addNewProfile";
     }
 
     @RequestMapping(value = "/addNewTicket", method = RequestMethod.GET)
-    public String addNewTicket(Model model) {
+    public String addNewTicket(Model model, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         model.addAttribute("ticket", new ProjectTicket());
         return "pages/addNewTicket";
     }

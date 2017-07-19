@@ -16,6 +16,8 @@
     <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
     <script type="text/javascript"></script>
     <style>
         <%@include file='../css/style_for_ticket_comments.css' %>
@@ -41,10 +43,8 @@
         }
     </script>
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body>
 <div id="centerLayer">
     <h4>${nameTicket}: ${chosenTicket.nameProjectTicket}</h4>
     <table class="tableTicket">

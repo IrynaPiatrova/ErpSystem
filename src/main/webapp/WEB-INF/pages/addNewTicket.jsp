@@ -11,9 +11,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <title>Создание новой задачи</title>
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
-    <title>Создание новой задачи</title>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
     <style>
         #centerLayer {
             position: absolute;
@@ -36,10 +38,8 @@
         }
     </style>
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body>
 <form:form action="isSuccessAddNewTicket" method="post" modelAttribute="ticket">
 <div id="centerLayer">
     <table>

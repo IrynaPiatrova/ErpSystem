@@ -13,6 +13,7 @@
     <meta charset="UTF-8">
     <title>Main Page</title>
     <%@include file="head.jsp" %>
+    <%@include file="springMessages.jsp" %>
     <style>
         <%@include file='../css/style_for_authorization.css' %>
     </style>
@@ -21,8 +22,6 @@
 </head>
 
 <body>
-<%@include file="springMessages.jsp" %>
-
 <div class="body"></div>
 <div class="grad"></div>
 <div class="header">
