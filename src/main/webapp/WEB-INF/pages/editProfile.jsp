@@ -12,15 +12,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Профиль</title>
     <meta charset="UTF-8">
+    <title>Профиль</title>
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
+    <%@include file="ScriptListOfPositions.jsp" %>
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body>
 <div class="container">
     <c:choose>
     <c:when test="${adminEditProfile}">
@@ -53,9 +54,9 @@
             <tr>
                 <td>
                     <div>
-                        <label class="col-md-4 control-label" for="chooseDepartment">${profileDepartment}</label>
+                        <label class="col-md-4 control-label" for="level">${profileDepartment}</label>
                         <div class="col-md-4">
-                            <form:select path="department" width="200" id="chooseDepartment">
+                            <form:select path="department" width="200" id="level" onchange="showPositions(this.value)">
                                 <option value="department" disabled selected>${profileDepartmentChoose}</option>
                                 <option value="development">${profileDepartmentDevelopers}</option>
                                 <option value="testing">${profileDepartmentTesters}</option>
@@ -72,15 +73,11 @@
             <tr>
                 <td>
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="choosePosition">${profilePosition}</label>
+                        <label class="col-md-4 control-label" for="positions">${profilePosition}</label>
                         <div class="col-md-4">
-                            <form:select path="position" width="200" id="choosePosition">
+                            <form:select path="position" width="200" id="positions">
                                 <option value="position" disabled selected>${profilePositionChoose}</option>
-                                <option value="junior developer">${profilePositionJuniordeveloper}</option>
-                                <option value="middle developer">${profilePositionMiddleDeveloper}</option>
-                                <option value="senior developer">${profilePositionSeniorDeveloper}</option>
-                                <option value="QAEngineer">${profilePositionQAEngineer}</option>
-                                <option value="designer">${profilePositionDesigner}</option>
+
                             </form:select>
                             <div><form:errors path="position" style="color:red"/></div>
                         </div>

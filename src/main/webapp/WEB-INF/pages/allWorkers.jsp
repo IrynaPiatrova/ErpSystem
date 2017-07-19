@@ -14,19 +14,16 @@
     <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <%@include file="scriptTableWorkers.jsp" %>
     <style>
         <%@include file='../css/table.css' %>
     </style>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <%@include file="scriptTableWorkers.jsp" %>
-
-
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body>
 <div class="container">
     <div class="row">
         <div class="col-md-6">

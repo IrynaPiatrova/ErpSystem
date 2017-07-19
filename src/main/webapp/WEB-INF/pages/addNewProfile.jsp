@@ -11,10 +11,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <%@include file="head.jsp" %>
     <title>Добавление нового сотрудника</title>
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
+    <%@include file="ScriptListOfPositions.jsp" %>
     <style>
         #centerLayer {
             position: absolute;
@@ -42,16 +44,14 @@
         }
     </style>
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body onload="showNames('development')">
 <div id="centerLayer">
     <form:form action="isSuccessAddNewProfile" method="post" modelAttribute="profile">
         <table>
             <tr height="40">
                 <td>${profileDepartment}</td>
-                <td><form:select path="department" width="200">
+                <td><form:select path="department" width="200" id="level" onchange="showPositions(this.value)">
                     <option value="department" disabled selected>${profileDepartmentChoose}</option>
                     <option value="development">${profileDepartmentDevelopers}</option>
                     <option value="testing">${profileDepartmentTesters}</option>
@@ -63,13 +63,9 @@
 
             <tr height="40">
                 <td>${profilePosition}</td>
-                <td><form:select path="position" width="200">
+                <td><form:select path="position" width="200" id="positions">
                     <option value="position" disabled selected>${profilePositionChoose}</option>
-                    <option value="junior developer">${profilePositionJuniordeveloper}</option>
-                    <option value="middle developer">${profilePositionMiddleDeveloper}</option>
-                    <option value="senior developer">${profilePositionSeniorDeveloper}</option>
-                    <option value="QAEngineer">${profilePositionQAEngineer}</option>
-                    <option value="designer">${profilePositionDesigner}</option>
+
                 </form:select>
                     <div><form:errors path="position" style="color:red"/></div>
                 </td>

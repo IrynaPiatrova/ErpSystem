@@ -15,6 +15,8 @@
     <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
     <style>
         <%@include file='../css/table.css' %>
     </style>
@@ -25,8 +27,6 @@
 </head>
 
 <body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 <h3 style="margin-left: 300px">${labelShowWorker} ${tempWorker}</h3>
 <div id="centerLayer">
     <div class="container">

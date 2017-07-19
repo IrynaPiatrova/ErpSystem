@@ -12,10 +12,12 @@
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
 <html>
 <head>
-    <title>Title</title>
     <meta charset="UTF-8">
+    <title>Title</title>
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="menu.jsp" %>
+    <%@include file="springMessages.jsp" %>
     <style>
         <%@include file='../css/chat.css' %>
     </style>
@@ -61,10 +63,8 @@
         }
     </script>
 </head>
-<body>
-<%@include file="menu.jsp" %>
-<%@include file="springMessages.jsp" %>
 
+<body>
 <div class="main_section">
     <div class="container">
         <div class="chat_container">
