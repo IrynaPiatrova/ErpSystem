@@ -170,7 +170,7 @@ public class MenuController {
      */
     @RequestMapping(value = "/chat", method = RequestMethod.GET)
     public String findWorker(HttpSession session) {
-        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         return "pages/chat";
     }
 
@@ -202,9 +202,11 @@ public class MenuController {
      * @return String
      */
     @RequestMapping(value = "/addMessage", method = RequestMethod.GET)
-    public String addMessahe(@RequestParam("textMessage") String textMessage, HttpSession session){
-        String userLogin = (String) session.getAttribute(ModelConstants.LOGED_AS);
-        chatDao.createComment(new Chat(new Date(),textMessage, workerService.getWorkerByLogin(userLogin)));
+    public String addMessage(@RequestParam("textMessage") String textMessage, Model model, HttpSession session){
+        if(textMessage != null){
+            String userLogin = (String) session.getAttribute(ModelConstants.LOGED_AS);
+            chatDao.createComment(new Chat(new Date(),textMessage, workerService.getWorkerByLogin(userLogin)));
+        }
         return "redirect:/chat";
     }
 }

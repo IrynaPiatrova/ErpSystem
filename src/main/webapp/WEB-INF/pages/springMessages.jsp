@@ -105,5 +105,6 @@
 <spring:message code="label.edit.worker.button" var="labelEditWorkerButton"/>
 <spring:message code="label.show.worker.button" var="labelShowWorkerButton"/>
 <spring:message code="label.show.worker" var="labelShowWorker"/>
+<spring:message code="chat.message.input.name" var="inputMessage"/>
 
 
