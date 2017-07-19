@@ -71,38 +71,19 @@
             <div class="col-sm-9 message_section">
                 <div class="row">
                     <div class="chat_area">
-                        <ul class="list-unstyled" id="lists">
-                           <%-- <li class="left clearfix">
-                                &lt;%&ndash;<c:forEach items="${selectCategory}" var="message" >&ndash;%&gt;
-                                <span class="chat-img1 pull-left">
-                      &lt;%&ndash;<span class="chat-img1 pull-right">&ndash;%&gt;
-                      <img src="<mytag:convertImage imageByte="${listComment.photo}"/>" class="img-circle" id="photo">
-                      </span>
-                                <div class="chat-body1 clearfix">
-                                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text.
-                                        It has roots
-                                        in a piece of classical Latin literature from 45 BC, making it over 2000
-                                        years
-                                        old. Richard McClintock, a Latin professor at Hampden-Sydney College in
-                                        Virginia.</p>
-                                    <div class="chat_time pull-right" id="time">09:40PM</div>
-                                    &lt;%&ndash;<div class="chat_time pull-left">09:40PM</div>&ndash;%&gt;
-                                </div>
-                                &lt;%&ndash;</c:forEach>&ndash;%&gt;
-                            </li>
-                            <li class="left clearfix">--%>
-                        </ul>
-                    </div><!--chat_area-->
-
+                        <ul class="list-unstyled" id="lists"></ul>
+                    </div>
                     <div class="message_write">
-                        <textarea class="form-control" placeholder="type a message"></textarea>
-                        <div class="clearfix"></div>
-                        <div class="chat_bottom">
-                            <a href="#" class="btn btn-default">Send</a>
-                        </div>
+                        <form:form action="addMessage" method="GET">
+                            <input type="text" name="textMessage" class="form-control" placeholder="type a message"/>
+                            <div class="clearfix"></div>
+                            <div class="chat_bottom">
+                                <input type="submit" value="Submit" class="btn btn-default">
+                            </div>
+                        </form:form>
                     </div>
                 </div>
-            </div> <!--message_section-->
+            </div>
         </div>
     </div>
 </div>
