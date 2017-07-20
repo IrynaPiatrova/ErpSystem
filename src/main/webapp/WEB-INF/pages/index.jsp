@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -36,6 +37,14 @@
                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACFCAMAAAApQEceAAAAD1BMVEX////VKx4AOaZUesNGNHkRZge8AAAAhUlEQVR4nO3PQQ3AMAwAsXQbf8wlsccpshl4BgAAAAAAAAAAfvIuMc8SIjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI1IjUiNSI18y0xZwmRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakRqRGpEakZo1kQtIGmsJ+yo/MAAAAABJRU5ErkJggg=="
                     width="8%" height="10%"></a>
     </span>
+    <div>
+        <a href="/changePassword">Забыли пароль?</a>
+    </div>
+    <c:if test="${successChangePassword == true}">
+        <div>
+            <p>Пароль успешно изменен</p>
+        </div>
+    </c:if>
     <br><br>
     <form:form class="form-inline" action="main" method="post" modelAttribute="logPass">
         <form:input type="text" placeholder="${username}" autocomplete="off" path="login"/>

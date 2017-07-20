@@ -3,6 +3,7 @@ package com.erp.system.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by klinster on 25.06.2017
@@ -36,6 +37,12 @@ public class Profile implements Serializable {
     @Column(name = "photo")
     private byte[] photo;
 
+    @Column(name = "key_word")
+    private String keyWord;
+
+    @Column(name = "answer_on_key_word")
+    private String answerOnKeyWord;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "profile")
     private Worker worker;
 
@@ -50,6 +57,8 @@ public class Profile implements Serializable {
         this.telephone = telephone;
         this.email = email;
         this.photo = photo;
+        this.keyWord = keyWord;
+        this.answerOnKeyWord = answerOnKeyWord;
         this.worker = worker;
     }
 
@@ -125,6 +134,21 @@ public class Profile implements Serializable {
         this.worker = worker;
     }
 
+    public String getKeyWord() {
+        return keyWord;
+    }
+
+    public void setKeyWord(String keyWord) {
+        this.keyWord = keyWord;
+    }
+
+    public String getAnswerOnKeyWord() {
+        return answerOnKeyWord;
+    }
+
+    public void setAnswerOnKeyWord(String answerOnKeyWord) {
+        this.answerOnKeyWord = answerOnKeyWord;
+    }
 
     @Override
     public String toString() {

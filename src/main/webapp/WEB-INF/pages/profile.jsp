@@ -67,6 +67,11 @@
         </tr>
         </tbody>
     </table>
+    <c:if test="${successChangePassword == true}">
+        <div>
+            <p>Пароль успешно изменен</p>
+        </div>
+    </c:if>
 </div>
 </body>
 </html>

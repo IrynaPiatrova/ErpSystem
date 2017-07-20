@@ -12,16 +12,45 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <meta charset="UTF-8">
     <title>Профиль</title>
+    <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
     <%@include file="springMessages.jsp" %>
     <%@include file="ScriptListOfPositions.jsp" %>
 </head>
-
 <body>
+<%@include file="menu.jsp" %>
+
+<spring:message code="profile.position" var="profilePosition"/>
+<spring:message code="profile.position.choose" var="profilePositionChoose"/>
+<spring:message code="profile.position.juniordeveloper" var="profilePositionJuniordeveloper"/>
+<spring:message code="profile.position.middleDeveloper" var="profilePositionMiddleDeveloper"/>
+<spring:message code="profile.position.seniorDeveloper" var="profilePositionSeniorDeveloper"/>
+<spring:message code="profile.position.QAEngineer" var="profilePositionQAEngineer"/>
+<spring:message code="profile.position.designer" var="profilePositionDesigner"/>
+<spring:message code="profile.department" var="profileDepartment"/>
+<spring:message code="profile.department.choose" var="profileDepartmentChoose"/>
+<spring:message code="profile.department.developers" var="profileDepartmentDevelopers"/>
+<spring:message code="profile.department.testers" var="profileDepartmentTesters"/>
+<spring:message code="profile.department.designers" var="profileDepartmentDesigners"/>
+<spring:message code="profile.employmentStatus" var="profileEmploymentStatus"/>
+<spring:message code="profile.employmentStatus.choose" var="profileEmploymentStatusChoose"/>
+<spring:message code="profile.employmentStatus.1" var="profileEmploymentStatus1"/>
+<spring:message code="profile.employmentStatus.2" var="profileEmploymentStatus2"/>
+<spring:message code="profile.employmentStatus.3" var="profileEmploymentStatus3"/>
+<spring:message code="profile.employmentStatus.4" var="profileEmploymentStatus4"/>
+<spring:message code="profile.telephone.new" var="profileTelephoneNew"/>
+<spring:message code="profile.email.new" var="profileEmailNew"/>
+<spring:message code="profile.photo.new" var="profilePhotoNew"/>
+<spring:message code="profile.edit" var="profileEdition"/>
+<spring:message code="label.complete" var="labelComplete"/>
+<spring:message code="worker.name.new" var="workerNameNew"/>
+<spring:message code="worker.login.new" var="workerLoginNew"/>
+<spring:message code="worker.password.new" var="workerPasswordNew"/>
+
+
 <div class="container">
     <c:choose>
     <c:when test="${adminEditProfile}">
@@ -133,14 +162,14 @@
                 </div>
                 <div><form:errors path="worker.login" style="color:red"/></div>
             </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputPassword">${workerPasswordNew}</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="worker.password"
-                                id="inputPassword" name="textinput"/>
-                </div>
-                <div><form:errors path="worker.password" style="color:red"/></div>
-            </div>
+            <%--<div class="form-group">--%>
+                <%--<label class="col-md-4 control-label" for="inputPassword">${workerPasswordNew}</label>--%>
+                <%--<div class="col-md-4">--%>
+                    <%--<form:input class="form-control input-md" type="text" autocomplete="off" path="worker.password"--%>
+                                <%--id="inputPassword" name="textinput"/>--%>
+                <%--</div>--%>
+                <%--<div><form:errors path="worker.password" style="color:red"/></div>--%>
+            <%--</div>--%>
             <div class="form-group">
                 <label class="col-md-4 control-label" for="inputTelephone">${profileTelephoneNew}</label>
                 <div class="col-md-4">
@@ -159,6 +188,30 @@
                 <div><form:errors path="email" style="color:red"/></div>
             </div>
             <div class="form-group">
+                <label class="col-md-4 control-label" for="inputEmail"><p>Выберите ключевой вопрос</p>
+                    <p>для восстановления пароля</p></label>
+                <div class="col-md-4">
+                    <form:select class="form-control input-md" id="inputKeyWord" name="textinput" path="keyWord" width="200">
+                        <option value="status" disabled selected>${keyAnswer}</option>
+                        <option value="Mother's girls surname">Девичья фамилия матери</option>
+                        <option value="What's city where you born">Город где вы родились</option>
+                        <option value="Favourite eat">Любимое блюдо</option>
+                    </form:select>
+                </div>
+                <div><form:errors path="keyWord" style="color:red"/></div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="inputEmail">Введите ответ на вопрос</label>
+                <div class="col-md-4">
+                    <input class="form-control input-md" type="text" autocomplete="off"
+                                id="inputAnswerOnKeyWord"
+                                name="answerOnKeyWord"/>
+                </div>
+                <div><form:errors path="answerOnKeyWord" style="color:red"/></div>
+            </div>
+
+            <div class="form-group">
                 <label class="col-md-4 control-label" for="inputPhoto">${profilePhotoNew}</label>
                 <div class="col-md-4">
                     <form:input id="inputPhoto" name="photo" class="input-file" type="file" path="photo"
@@ -174,6 +227,11 @@
 
         </fieldset>
         </form:form>
+        <div class="form-group">
+            <form action="changePassword">
+                <input type="submit" value="change password">
+            </form>
+        </div>
         </c:otherwise>
         </c:choose>
 </div>
