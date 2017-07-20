@@ -18,12 +18,12 @@ public class WorkLog implements Serializable {
     //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_project_ticket")
-    private ProjectTicket idProjectTicket;
+    private ProjectTicket ProjectTicket;
 
     //    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_worker")
-    private Worker idWorker;
+    private Worker Worker;
 
     @Column(name = "start_log_date")
     private String startLogDate;
@@ -39,20 +39,20 @@ public class WorkLog implements Serializable {
         this.idWorkLog = idWorkLog;
     }
 
-    public ProjectTicket getIdProjectTicket() {
-        return idProjectTicket;
+    public ProjectTicket getProjectTicket() {
+        return ProjectTicket;
     }
 
-    public void setIdProjectTicket(ProjectTicket idProjectTicket) {
-        this.idProjectTicket = idProjectTicket;
+    public void setProjectTicket(ProjectTicket idProjectTicket) {
+        this.ProjectTicket = idProjectTicket;
     }
 
-    public Worker getIdWorker() {
-        return idWorker;
+    public Worker getWorker() {
+        return Worker;
     }
 
-    public void setIdWorker(Worker idWorker) {
-        this.idWorker = idWorker;
+    public void setWorker(Worker idWorker) {
+        this.Worker = idWorker;
     }
 
     public String getStartLogDate() {

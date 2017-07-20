@@ -5,6 +5,7 @@ import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dto.LoginPassword;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.ProjectTicket;
+import com.erp.system.entity.TimeVocation;
 import com.erp.system.entity.Worker;
 import com.erp.system.services.profile.ProfileService;
 import com.erp.system.services.project.ticket.ProjectTicketService;
@@ -81,6 +82,7 @@ public class LogInController {
         ArrayList<ProjectTicket> listOfTickets;
         listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(workerByLogin, ModelConstants.STATUS_IN_PROGRESS);
         model.addAttribute("collectionTickets", listOfTickets);
+        model.addAttribute("vacation", new TimeVocation());
         return "pages/main";
     }
 
@@ -96,6 +98,7 @@ public class LogInController {
         Worker workerByLogin = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
         listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(workerByLogin, ModelConstants.STATUS_IN_PROGRESS);
         model.addAttribute("collectionTickets", listOfTickets);
+        model.addAttribute("vacation", new TimeVocation());
         return "pages/main";
     }
 

@@ -24,7 +24,13 @@ public class TimeVocation implements Serializable {
     private String startVocDate;
 
     @Column(name = "end_voc_date")
-    private Date endVocDate;
+    private String endVocDate;
+
+    @Column(name = "type")
+    private String type;
+
+    @Column(name = "is_confirmed")
+    private Boolean isConfirmed;
 
     public long getIdTimeVocation() {
         return idTimeVocation;
@@ -32,14 +38,6 @@ public class TimeVocation implements Serializable {
 
     public void setIdTimeVocation(long idTimeVocation) {
         this.idTimeVocation = idTimeVocation;
-    }
-
-    public Worker getIdWorker() {
-        return worker;
-    }
-
-    public void setIdWorker(Worker idWorker) {
-        this.worker = idWorker;
     }
 
     public String getStartVocDate() {
@@ -50,11 +48,35 @@ public class TimeVocation implements Serializable {
         this.startVocDate = startVocDate;
     }
 
-    public Date getEndVocDate() {
+    public String getEndVocDate() {
         return endVocDate;
     }
 
-    public void setEndVocDate(Date endVocDate) {
+    public void setEndVocDate(String endVocDate) {
         this.endVocDate = endVocDate;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Boolean getConfirmed() {
+        return isConfirmed;
+    }
+
+    public void setConfirmed(Boolean confirmed) {
+        isConfirmed = confirmed;
     }
 }

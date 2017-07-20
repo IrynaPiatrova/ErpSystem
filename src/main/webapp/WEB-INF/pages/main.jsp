@@ -77,6 +77,7 @@
             <div style="margin-left: 10px">
                 <button class="btn btn-default" id="requestButton"
                         style="margin-bottom: 20px; margin-left: 70px">${labelCreateRequest}</button>
+                <div style="color: crimson; font-size: large">${vacationValidation}</div>
                 <table>
                     <tr>
                         <td>
@@ -92,42 +93,44 @@
                     </tr>
                 </table>
 
-                <form:form action="/createRequestSickLeave" method="post" modelAttribute="XXXXXXXXXXXXXXXXXXXX">
+                <form:form action="/createRequestVocation" method="post" modelAttribute="vacation">
                     <table id="sickLeaveTR" style="display: none">
                         <tr>
                             <td>Start date sick leave</td>
-                            <td><input type="date" name="StartDate" path="XXXXXXXX" height="30"/>
-                                <div><form:errors path="XXXXXXXX" style="color:red"/></div>
+                            <td><form:input type="date" name="StartDate" path="startVocDate" height="30"/>
+                                <div><form:errors path="startVocDate" style="color:red"/></div>
                             </td>
                         </tr>
                         <tr>
                             <td>End date sick leave</td>
-                            <td><input type="date" name="EndDate" path="XXXXXXXXX" height="30"/>
-                                <div><form:errors path="XXXXXXXXXX" style="color:red"/></div>
+                            <td><form:input type="date" name="EndDate" path="endVocDate" height="30"/>
+                                <div><form:errors path="endVocDate" style="color:red"/></div>
                             </td>
                         </tr>
                         <tr>
+                            <form:input type="hidden" path="type" value="sick leave"/>
                             <input type="hidden" id="requestSickLeaveButton" value="${labelCreateRequest}"
                                    class="btn btn-default">
                         </tr>
                     </table>
                 </form:form>
 
-                <form:form action="/createRequestVacation" method="post" modelAttribute="YYYYYYYYYYYYYYYYYYYYY">
+                <form:form action="/createRequestVocation" method="post" modelAttribute="vacation">
                     <table id="vacationTR" style="display: none">
                         <tr>
                             <td>Start date vacation</td>
-                            <td><input type="date" name="StartDate" path="YYYYYYYY" height="30"/>
-                                <div><form:errors path="YYYYYYYY" style="color:red"/></div>
+                            <td><form:input type="date" name="StartDate" path="startVocDate" height="30"/>
+                                <div><form:errors path="startVocDate" style="color:red"/></div>
                             </td>
                         </tr>
                         <tr>
                             <td>End date vacation</td>
-                            <td><input type="date" name="EndDate" path="YYYYYYYYYY" height="30"/>
-                                <div><form:errors path="YYYYYYYYYY" style="color:red"/></div>
+                            <td><form:input type="date" name="EndDate" path="endVocDate" height="30"/>
+                                <div><form:errors path="endVocDate" style="color:red"/></div>
                             </td>
                         </tr>
                         <tr>
+                            <form:input type="hidden" path="type" value="vacation"/>
                             <input type="hidden" id="requestVacationButton" value="${labelCreateRequest}"
                                    class="btn btn-default">
                         </tr>

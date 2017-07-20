@@ -7,11 +7,14 @@ import com.erp.system.dto.ChatDTO;
 import com.erp.system.dto.ProfileDTO;
 import com.erp.system.entity.Chat;
 import com.erp.system.entity.Profile;
+import com.erp.system.entity.TimeVocation;
 import com.erp.system.entity.Worker;
 import com.erp.system.services.profile.ProfileService;
 import com.erp.system.services.project.ticket.ProjectTicketService;
+import com.erp.system.services.time.vocation.TimeVocationService;
 import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.EditProfileValidator;
+import com.erp.system.validators.TimeVocationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,9 +43,14 @@ public class MenuController {
     @Autowired
     ChatDao chatDao;
     @Autowired
+    TimeVocationService timeVocationService;
+    @Autowired
     ProjectTicketService projectTicketService;
     @Autowired
     EditProfileValidator editProfileValidator;
+    @Autowired
+    TimeVocationValidator timeVocationValidator;
+
     private List<ChatDTO> chatArrayList = new ArrayList<>();
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -199,34 +207,38 @@ public class MenuController {
 
     /**
      * For add message
+     *
      * @param textMessage
      * @param session
      * @return String
      */
     @RequestMapping(value = "/addMessage", method = RequestMethod.GET)
-    public String addMessage(@RequestParam("textMessage") String textMessage, Model model, HttpSession session){
-        if(textMessage != null){
+    public String addMessage(@RequestParam("textMessage") String textMessage, Model model, HttpSession session) {
+        if (textMessage != null) {
             String userLogin = (String) session.getAttribute(ModelConstants.LOGED_AS);
-            chatDao.createComment(new Chat(new Date(),textMessage, workerService.getWorkerByLogin(userLogin)));
+            chatDao.createComment(new Chat(new Date(), textMessage, workerService.getWorkerByLogin(userLogin)));
         }
         return "redirect:/chat";
     }
 
-//    @RequestMapping(value = "/createRequestVacation", method = RequestMethod.POST)
-//    public String createRequestVacation(  Param1, Param2     , HttpSession session){
-//        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-//        // сохранение в БД информации предварительного запроса
-//        // который после подтверждения админом будет записан в БД окончательно
-//
-//        return "redirect: /main";
-//    }
-//
-//    @RequestMapping(value = "/createRequestSickLeave", method = RequestMethod.POST)
-//    public String createRequestSickLeave( Param1, Param2          , HttpSession session){
-//        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-//        // сохранение в БД информации предварительного запроса
-//        // который после подтверждения админом будет записан в БД окончательно
-//
-//        return "redirect: /main";
-//    }
+    @RequestMapping(value = "/createRequestVocation", method = RequestMethod.POST)
+    public String createRequestSickLeave(@ModelAttribute(ModelConstants.VACATION) @Valid TimeVocation timeVocation, BindingResult result, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        // сохранение в БД информации предварительного запроса
+        // который после подтверждения админом будет записан в БД окончательно
+        timeVocationValidator.validate(timeVocation, result);
+        if (result.hasErrors()) {
+            if (result.hasFieldErrors("startVocDate")) {
+                session.setAttribute(ModelConstants.VACATION_VALIDATION, "Please choose start date");
+            } else {
+                if (result.hasFieldErrors("endVocDate")) {
+                    session.setAttribute(ModelConstants.VACATION_VALIDATION, "Please choose correct end date");
+                }
+            }
+            return "redirect: /main";
+        }
+        Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
+        timeVocationService.createTimeVocation(timeVocation, worker);
+        return "redirect: /main";
+    }
 }
