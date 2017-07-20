@@ -3,6 +3,7 @@ package com.erp.system.controllers;
 import com.erp.system.constants.IConstants;
 import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.worker.WorkerDao;
+import com.erp.system.dto.LoginPassword;
 import com.erp.system.dto.ProfileDTO;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -70,7 +72,6 @@ public class MenuController {
         profileDTO.setPosition(profile.getPosition());
         profileDTO.setDepartment(profile.getDepartment());
         profileDTO.setWorker(profile.getWorker());
-//        if (answerOnKeyWord.length()<=0) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
         editProfileValidator.validate(profileDTO, result);
         if (workerDao.isLoginUnique(profileDTOLogin) && !profile.getWorker().getLogin().equals(profileDTOLogin))
             result.rejectValue("worker.login", "exist.login");
@@ -109,28 +110,67 @@ public class MenuController {
         return "redirect:/allWorkers";
     }
 
+    @RequestMapping(value = "/isLoginExist", method = RequestMethod.GET)
+    public String isLoginExist(Model model){
+        model.addAttribute("worker", new Worker());
+        return "pages/changePassword";
+    }
+
+    @RequestMapping(value = "/isLoginExist", method = RequestMethod.POST)
+    public String isLoginExist(@ModelAttribute("worker")@Valid Worker worker, BindingResult result, Model model, HttpSession session){
+        if (worker.getLogin().isEmpty()){
+            result.rejectValue("login","empty.login");
+            return "pages/changePassword";
+        }
+        worker = workerDao.getWorkerByLogin(worker.getLogin());
+        if (worker == null) result.rejectValue("login","not.used.login");
+        if (result.hasErrors()) return "pages/changePassword";
+        if (worker.getProfile().getKeyWord() == null || worker.getProfile().getAnswerOnKeyWord() == null) result.rejectValue("login","exist.keyWord");
+        if (result.hasErrors()) return "pages/changePassword";
+        model.addAttribute(IConstants.PROFILE, worker.getProfile());
+        model.addAttribute("keyWord", worker.getProfile().getKeyWord());
+        model.addAttribute(IConstants.LOGED_AS, IConstants.TRUE);
+        session.setAttribute("login", worker.getLogin());
+        return "pages/changePassword";
+    }
+
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
     public String changePassword(Model model, HttpSession session){
-        model.addAttribute(IConstants.PROFILE, session.getAttribute(IConstants.PROFILE_DATA));
+        Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
+        model.addAttribute(IConstants.PROFILE, profile);
         model.addAttribute(IConstants.LOGED_AS, session.getAttribute(IConstants.LOGED_AS));
+        if (session.getAttribute(IConstants.LOGED_AS) != null) model.addAttribute("keyWord", profile.getKeyWord());
         return "pages/changePassword";
     }
 
     @RequestMapping(value = "/change", method = RequestMethod.POST)
     public String change(@ModelAttribute(IConstants.PROFILE)@Valid ProfileDTO profileDTO,
                          BindingResult result, @RequestParam("repeatNewPassword") String repeatNewPassword,
-                         @RequestParam("newPassword") String newPassword, HttpSession session){
+                         @RequestParam("newPassword") String newPassword, HttpSession session, Model model){
+        if (session.getAttribute(IConstants.LOGED_AS) == null) model.addAttribute(IConstants.LOGED_AS, IConstants.TRUE);
         if (newPassword.length()<= 0)result.rejectValue("worker.password", "empty.password");
         if (repeatNewPassword.length() <= 0)result.rejectValue("worker.password", "empty.newPassword");
         if (profileDTO.getAnswerOnKeyWord().length()<= 0) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
+        Profile profile;
+        if (session.getAttribute(IConstants.LOGED_AS) != null) {
+            profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
+        }else {
+            Worker worker = workerDao.getWorkerByLogin((String) session.getAttribute("login"));
+            profile = worker.getProfile();
+        }
         if (result.hasErrors()) return "pages/changePassword";
-        Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
         if (!profileDTO.getAnswerOnKeyWord().equals(profile.getAnswerOnKeyWord())) result.rejectValue("answerOnKeyWord", "incorrect.keyWord");
         if (!newPassword.equals(repeatNewPassword)) result.rejectValue("worker.password","notsame.password");
         if (result.hasErrors()) return "pages/changePassword";
         profile.getWorker().setPassword(newPassword);
         profileDao.updateProfile(profile);
-        return "pages/main";
+        model.addAttribute("successChangePassword", IConstants.TRUE);
+        if (session.getAttribute(IConstants.LOGED_AS) != null) {
+            return "pages/profile";
+        }else {
+            model.addAttribute("logPass", new LoginPassword());
+            return "pages/index";
+        }
     }
 //    @RequestMapping(value = "/findWorker", method = RequestMethod.GET)
 //    public String findWorker(HttpSession session) {

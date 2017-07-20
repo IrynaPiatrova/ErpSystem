@@ -108,9 +108,14 @@ public class WorkerDaoImpl implements WorkerDao {
         LOGGER.info("WorkerDaoImpl getWorkerByLogin start");
         Query query = sessionFactory.getCurrentSession().createQuery("from Worker where login = :login");
         query.setParameter("login", workerLogin);
-        Worker worker = (Worker) query.getResultList().get(0);
-        LOGGER.info("WorkerDaoImpl getWorkerByLogin end");
-        return worker;
+        if (query.getResultList().size()>0) {
+            Worker worker = (Worker) query.getResultList().get(0);
+            LOGGER.info("WorkerDaoImpl getWorkerByLogin end");
+            return worker;
+        }else {
+            LOGGER.info("WorkerDaoImpl getWorkerByLogin end");
+            return null;
+        }
     }
 
     /**

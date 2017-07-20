@@ -16,41 +16,84 @@
     <meta charset="UTF-8">
     <%@include file="head.jsp" %>
     <%@include file="bootstrapLinks.jsp" %>
+    <style>
+        #centerLayer {
+            position: absolute;
+            margin-left: 30%;
+            margin-top: 10%;
+            padding: 10px;
+            overflow: auto;
+        }
+        #mainContent{
+            margin-top: 5%;
+        }
+    </style>
 </head>
 <body>
-<%@include file="menu.jsp" %>
-<c:when test="${logedAs == true}">
-    <h4>Не Залогинен</h4>
+<spring:message code="exist.keyWord" var="keywordExist"/>
+<c:choose>
+<c:when test="${logedAs == null}">
+    <div id="centerLayer">
+        <form:form action="isLoginExist" modelAttribute="worker">
+            <table>
+                <tr>
+                    <td>Введите логин</td>
+                    <td><input type="text" name="login" autocomplete="off">
+                        <div><form:errors path="login" style="color:red"/></div></td>
+                </tr>
+                <tr>
+                    <td><input type="submit"></td>
+                </tr>
+            </table>
+        </form:form>
+    </div>
 </c:when>
 <c:otherwise>
+    <c:if test="${logedAs != true}">
+        <%@include file="menu.jsp" %>
+    </c:if>
     <form:form action="change" modelAttribute="profile">
-        <h4>${profile.keyWord}</h4>
-        <table>
-            <tr>
-                <td>Ответ на ключевой вопрос</td>
-                <td><input type="text" name="answerOnKeyWord">
-                    <div><form:errors path="answerOnKeyWord" style="color:red"/></div></td>
-            </tr>
+        <div id="centerLayer">
+        <div>
+            <c:choose>
+                <c:when test="${keyWord == null}">
+                    <h4>${keywordExist}</h4>
+                </c:when>
+                <c:otherwise>
+                    <h4>${keyWord}</h4>
+                        <div id="mainContent">
+                            <table>
 
-            <tr>
-                <td>Введите новый пароль</td>
-                <td><input type="text" name="newPassword">
-                    <div><form:errors path="worker.password" style="color:red"/></div></td>
-            </tr>
+                                <tr>
+                                    <td>Ответ на ключевой вопрос</td>
+                                    <td><input type="text" name="answerOnKeyWord">
+                                        <div><form:errors path="answerOnKeyWord" style="color:red"/></div></td>
+                                </tr>
 
-            <tr>
-                <td>Повторите пароль</td>
-                <td><input type="text" name="repeatNewPassword">
-                    <div><form:errors path="worker.password" style="color:red"/></div></td>
-            </tr>
+                                <tr>
+                                    <td>Введите новый пароль</td>
+                                    <td><input type="password" name="newPassword"></td>
+                                </tr>
 
-            <tr>
-                <td>
-                    <input type="submit" value="Подтвердить">
-                </td>
-            </tr>
-        </table>
+                                <tr>
+                                    <td>Повторите пароль</td>
+                                    <td><input type="password" name="repeatNewPassword">
+                                        <div><form:errors path="worker.password" style="color:red"/></div></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <input type="submit" value="Подтвердить">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+        </div>
     </form:form>
 </c:otherwise>
+</c:choose>
 </body>
 </html>
