@@ -32,4 +32,7 @@ public class ModelConstants {
     public static final String STATUS_PROFILE_ON_VOCATION = "on vacation";
     public static final String STATUS_PROFILE_ON_SICK_LEAVE = "on a sick leave";
     public static final String STATUS_PROFILE_DISSMISSED = "dismissed";
+    public static final String VACATION = "vacation";
+    public static final String VACATION_VALIDATION = "vacationValidation";
+    public static final String SICK_LEAVE = "sick leave";
 }

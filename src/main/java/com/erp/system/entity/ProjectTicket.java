@@ -42,6 +42,9 @@ public class ProjectTicket implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "idProjectTicket")
     private List<CommentsTicket> projectCommentTickets;
 
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "ProjectTicket")
+    private List<WorkLog> projectWorklog;
+
     public long getIdProjectTicket() {
         return idProjectTicket;
     }
@@ -112,6 +115,14 @@ public class ProjectTicket implements Serializable {
 
     public void setProjectCommentTickets(List<CommentsTicket> projectCommentTickets) {
         this.projectCommentTickets = projectCommentTickets;
+    }
+
+    public List<WorkLog> getProjectWorklog() {
+        return projectWorklog;
+    }
+
+    public void setProjectWorklog(List<WorkLog> projectWorklog) {
+        this.projectWorklog = projectWorklog;
     }
 
     @Override

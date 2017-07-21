@@ -8,7 +8,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,7 +31,7 @@ public class RegistrationNewProfileValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "department", "empty.department", "Please enter worker's department");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telephone", "empty.telephone", "Please enter worker's telephone");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "empty.email", "Please enter worker's email");
-        String emailPattern = "^[A-Za-z0-9-]+([._A-Za-z0-9-])*@([A-Za-z0-9-]+).[a-zа-я]{2,6}";//возможно потом вынесу в отдельный класс
+        String emailPattern = "^[A-Za-z0-9-]+([._A-Za-z0-9-])*@([A-Za-z0-9-]+).[a-zа-я]{2,6}";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(profile.getEmail());
         if (!matcher.matches()) errors.rejectValue("email", "not.valid.email");
