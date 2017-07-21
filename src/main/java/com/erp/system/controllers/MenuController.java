@@ -1,25 +1,34 @@
 package com.erp.system.controllers;
 
-import com.erp.system.constants.IConstants;
+import com.erp.system.constants.ModelConstants;
+import com.erp.system.controllers.methods.MethodsForControllers;
+import com.erp.system.dao.chat.ChatDao;
 import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.worker.WorkerDao;
+import com.erp.system.dto.ChatDTO;
+import com.erp.system.dto.LoginPassword;
 import com.erp.system.dto.ProfileDTO;
+import com.erp.system.entity.Chat;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.Worker;
+import com.erp.system.services.profile.ProfileService;
+import com.erp.system.services.project.ticket.ProjectTicketService;
+import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.EditProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -111,7 +120,16 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/findByIdAndEditWorker", method = RequestMethod.POST)
-    public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) {
+    public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) throws IOException {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        Worker worker = workerService.getWorkerById(idWorker);
+        Profile profile = profileService.getProfileById(worker.getProfile().getIdProfile());
+        session.setAttribute(ModelConstants.PROFILE_DATA, profile);
+        session.setAttribute(ModelConstants.ADMIN_EDIT_PROFILE, true);
+        return "redirect:/edit";
+
+    }
+
     @RequestMapping(value = "/isLoginExist", method = RequestMethod.GET)
     public String isLoginExist(Model model){
         model.addAttribute("worker", new Worker());
@@ -124,40 +142,40 @@ public class MenuController {
             result.rejectValue("login","empty.login");
             return "pages/changePassword";
         }
-        worker = workerDao.getWorkerByLogin(worker.getLogin());
+        worker = workerService.getWorkerByLogin(worker.getLogin());
         if (worker == null) result.rejectValue("login","not.used.login");
         if (result.hasErrors()) return "pages/changePassword";
         if (worker.getProfile().getKeyWord() == null || worker.getProfile().getAnswerOnKeyWord() == null) result.rejectValue("login","exist.keyWord");
         if (result.hasErrors()) return "pages/changePassword";
-        model.addAttribute(IConstants.PROFILE, worker.getProfile());
+        model.addAttribute(ModelConstants.PROFILE, worker.getProfile());
         model.addAttribute("keyWord", worker.getProfile().getKeyWord());
-        model.addAttribute(IConstants.LOGED_AS, IConstants.TRUE);
+        model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
         session.setAttribute("login", worker.getLogin());
         return "pages/changePassword";
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
     public String changePassword(Model model, HttpSession session){
-        Profile profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
-        model.addAttribute(IConstants.PROFILE, profile);
-        model.addAttribute(IConstants.LOGED_AS, session.getAttribute(IConstants.LOGED_AS));
-        if (session.getAttribute(IConstants.LOGED_AS) != null) model.addAttribute("keyWord", profile.getKeyWord());
+        Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+        model.addAttribute(ModelConstants.PROFILE, profile);
+        model.addAttribute(ModelConstants.LOGED_AS, session.getAttribute(ModelConstants.LOGED_AS));
+        if (session.getAttribute(ModelConstants.LOGED_AS) != null) model.addAttribute("keyWord", profile.getKeyWord());
         return "pages/changePassword";
     }
 
     @RequestMapping(value = "/change", method = RequestMethod.POST)
-    public String change(@ModelAttribute(IConstants.PROFILE)@Valid ProfileDTO profileDTO,
+    public String change(@ModelAttribute(ModelConstants.PROFILE)@Valid ProfileDTO profileDTO,
                          BindingResult result, @RequestParam("repeatNewPassword") String repeatNewPassword,
                          @RequestParam("newPassword") String newPassword, HttpSession session, Model model){
-        if (session.getAttribute(IConstants.LOGED_AS) == null) model.addAttribute(IConstants.LOGED_AS, IConstants.TRUE);
+        if (session.getAttribute(ModelConstants.LOGED_AS) == null) model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
         if (newPassword.length()<= 0)result.rejectValue("worker.password", "empty.password");
         if (repeatNewPassword.length() <= 0)result.rejectValue("worker.password", "empty.newPassword");
         if (profileDTO.getAnswerOnKeyWord().length()<= 0) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
         Profile profile;
-        if (session.getAttribute(IConstants.LOGED_AS) != null) {
-            profile = (Profile) session.getAttribute(IConstants.PROFILE_DATA);
+        if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
+            profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
         }else {
-            Worker worker = workerDao.getWorkerByLogin((String) session.getAttribute("login"));
+            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
             profile = worker.getProfile();
         }
         if (result.hasErrors()) return "pages/changePassword";
@@ -165,43 +183,16 @@ public class MenuController {
         if (!newPassword.equals(repeatNewPassword)) result.rejectValue("worker.password","notsame.password");
         if (result.hasErrors()) return "pages/changePassword";
         profile.getWorker().setPassword(newPassword);
-        profileDao.updateProfile(profile);
-        model.addAttribute("successChangePassword", IConstants.TRUE);
-        if (session.getAttribute(IConstants.LOGED_AS) != null) {
+        profileService.updateProfile(profile);
+        model.addAttribute("successChangePassword", ModelConstants.TRUE);
+        if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             return "pages/profile";
         }else {
             model.addAttribute("logPass", new LoginPassword());
             return "pages/index";
         }
     }
-//    @RequestMapping(value = "/findWorker", method = RequestMethod.GET)
-//    public String findWorker(HttpSession session) {
-//        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-//        return "pages/findWorker";
-//    }
 
-
-//    @RequestMapping(value = "/findWorkerById", params = "id", method = RequestMethod.GET)
-//    @ResponseBody
-//    public Worker findWorkerByValue(@RequestParam("id") Long id, HttpSession session, Model model, HttpServletResponse response) {
-//        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) {
-//            response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // эту ошибку потом надо отловить и отправить...
-//            return null;
-//        }
-//        Worker worker = workerDao.getWorkerById(id);
-//
-//        return workerDao.getWorkerById(id);
-//    }
-
-    @RequestMapping(value = "/findWorkerByLogin", method = RequestMethod.POST)
-    public String findWorkerByValue(@RequestParam("login") String login, HttpSession session, Model model) {
-        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        Worker worker = workerService.getWorkerById(idWorker);
-        Profile profile = profileService.getProfileById(worker.getProfile().getIdProfile());
-        session.setAttribute(ModelConstants.PROFILE_DATA, profile);
-        session.setAttribute(ModelConstants.ADMIN_EDIT_PROFILE, true);
-        return "redirect:/edit";
-    }
 
     @RequestMapping(value = "/findByIdAndShowInfo", method = RequestMethod.POST)
     public String findByIdAndShowInfo(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) {
