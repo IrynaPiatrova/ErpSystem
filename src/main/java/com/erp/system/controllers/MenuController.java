@@ -221,11 +221,9 @@ public class MenuController {
         return "redirect:/chat";
     }
 
-    @RequestMapping(value = "/createRequestVocation", method = RequestMethod.POST)
-    public String createRequestSickLeave(@ModelAttribute(ModelConstants.VACATION) @Valid TimeVocation timeVocation, BindingResult result, HttpSession session) {
+    @RequestMapping(value = "/createRequestVacation", method = RequestMethod.POST)
+    public String createRequestVacation(@ModelAttribute(ModelConstants.VACATION) @Valid TimeVocation timeVocation, BindingResult result, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        // сохранение в БД информации предварительного запроса
-        // который после подтверждения админом будет записан в БД окончательно
         timeVocationValidator.validate(timeVocation, result);
         if (result.hasErrors()) {
             if (result.hasFieldErrors("startVocDate")) {
@@ -239,6 +237,21 @@ public class MenuController {
         }
         Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
         timeVocationService.createTimeVocation(timeVocation, worker);
+        return "redirect: /main";
+    }
+
+    @RequestMapping(value = "/vacationResponse", method = RequestMethod.POST)
+    public String vacationResponse(@RequestParam("choice") String choice, @RequestParam("idTimeVacation") long idTimeVacation, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        TimeVocation timeVocation = timeVocationService.getTimeVacationById(idTimeVacation);
+        if ("accept".equals(choice)) {
+            timeVocation.setConfirmed(1);
+            timeVocationService.updateTimeVocation(timeVocation);
+            return "redirect: /main";
+        } else {
+            timeVocation.setConfirmed(0);
+            timeVocationService.updateTimeVocation(timeVocation);
+        }
         return "redirect: /main";
     }
 }

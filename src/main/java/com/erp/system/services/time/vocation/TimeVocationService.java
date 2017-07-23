@@ -13,7 +13,11 @@ public interface TimeVocationService {
 
     void updateTimeVocation(TimeVocation timeVocation);
 
-    List<TimeVocation> getTimeVocationsByWorker(Worker worker);
+    List getTimeVocationsByWorker(Worker worker);
 
     void checkStatusWorkers();
+
+    List getAllNotConfirmedTimeVocations();
+
+    TimeVocation getTimeVacationById(long idTimeVacation);
 }

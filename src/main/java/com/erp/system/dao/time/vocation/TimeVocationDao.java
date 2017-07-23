@@ -21,4 +21,5 @@ public interface TimeVocationDao {
     List getAllNotConfirmedTimeVocations();
 
     List getAllConfirmedTimeVocations();
+    TimeVocation getTimeVacationById(long idTimeVacation);
 }

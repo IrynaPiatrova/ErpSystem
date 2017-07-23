@@ -13,12 +13,13 @@ public class ModelConstants {
     public static final String PROFILE_DATA = "profileData";
     public static final String LOGED_AS = "logedAs";
     public static final String PROFILE = "profile";
+    public static final String TICKET = "ticket";
+    public static final String COLLECTION_TICKETS = "collectionTickets";
     public static final String ALL_WORKERS = "allWorkers";
     public static final String PHOTO = "photo";
     public static final String ADMIN_EDIT_PROFILE = "adminEditProfile";
     public static final String IS_TICKET_NOT_FINISHED = "isTicketNotFinished";
     public static final String IS_WORKER_ON_TICKET_NOT_CHOOSEN = "isWorkerOnTicketNotChoosen";
-    public static final String COLLECTION_TICKETS = "collectionTickets";
     public static final String TEMP_WORKER = "tempWorker";
     public static final String MESSAGE = "message";
     public static final String ALL_TICKETS = "all tickets";
@@ -33,6 +34,7 @@ public class ModelConstants {
     public static final String STATUS_PROFILE_ON_SICK_LEAVE = "on a sick leave";
     public static final String STATUS_PROFILE_DISSMISSED = "dismissed";
     public static final String VACATION = "vacation";
+    public static final String COLLECTION_VACATION = "collectionVacation";
     public static final String VACATION_VALIDATION = "vacationValidation";
     public static final String SICK_LEAVE = "sick leave";
 }

@@ -5,10 +5,7 @@ import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.project.ticket.ProjectTicketDao;
 import com.erp.system.dao.time.vocation.TimeVocationDao;
 import com.erp.system.dao.work.log.WorkLogDao;
-import com.erp.system.entity.ProjectTicket;
-import com.erp.system.entity.TimeVocation;
-import com.erp.system.entity.WorkLog;
-import com.erp.system.entity.Worker;
+import com.erp.system.entity.*;
 import com.erp.system.services.time.vocation.TimeVocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +42,7 @@ public class TimeVocationServiceImpl implements TimeVocationService {
             timeVocation.setEndVocDate(null);
         }
         timeVocation.setWorker(worker);
-//        timeVocation.setConfirmed(0); // это будет если админ отказал в запросе
+        timeVocation.setConfirmed(null);
         timeVocationDao.createTimeVocation(timeVocation);
     }
 
@@ -57,7 +54,7 @@ public class TimeVocationServiceImpl implements TimeVocationService {
 
     @Override
     @Transactional
-    public List<TimeVocation> getTimeVocationsByWorker(Worker worker) {
+    public List getTimeVocationsByWorker(Worker worker) {
         return timeVocationDao.getTimeVocationsByWorker(worker);
     }
 
@@ -70,26 +67,45 @@ public class TimeVocationServiceImpl implements TimeVocationService {
                 Date start = oldDateFormat.parse(timeVocation.getStartVocDate());
                 Date now = Calendar.getInstance().getTime();
                 Date nowDate = oldDateFormat.parse(oldDateFormat.format(now));
-                if (start.compareTo(nowDate) == 0) {
+                Profile profile = timeVocation.getWorker().getProfile();
+                if (start.compareTo(nowDate) == 0) { // если наступила дата начала отпуска/болезни
                     if (ModelConstants.SICK_LEAVE.equals(timeVocation.getType())) {
-                        timeVocation.getWorker().getProfile().setEmploymentStatus(ModelConstants.STATUS_PROFILE_ON_SICK_LEAVE);
+                        profile.setEmploymentStatus(ModelConstants.STATUS_PROFILE_ON_SICK_LEAVE);
                     } else {
-                        timeVocation.getWorker().getProfile().setEmploymentStatus(ModelConstants.STATUS_PROFILE_ON_VOCATION);
+                        profile.setEmploymentStatus(ModelConstants.STATUS_PROFILE_ON_VOCATION);
                     }
                     profileDao.updateProfile(timeVocation.getWorker().getProfile());
-                    WorkLog workLog;
-                    if(workLogDao.getWorklogByWorkerStarted(timeVocation.getWorker())!=null){
-                        workLog = workLogDao.getWorklogByWorkerStarted(timeVocation.getWorker());
+                    if (workLogDao.getWorklogByWorkerStarted(timeVocation.getWorker()) != null) {
+                        WorkLog workLog = workLogDao.getWorklogByWorkerStarted(timeVocation.getWorker());
                         long dateStartedLog = oldDateFormat.parse(workLog.getStartLogDate()).getTime();
                         long nowDateLog = nowDate.getTime();
-                        workLog.setSpentTime(String.valueOf((nowDateLog-dateStartedLog)/86400000));
+                        workLog.setSpentTime(String.valueOf((nowDateLog - dateStartedLog) / 86400000));
                         workLogDao.updateWorkLog(workLog);
                     }
-                    ProjectTicket projectTicket;
-                    if(projectTicketDao.getTicketsByWorkerAndStatus(timeVocation.getWorker(), ModelConstants.STATUS_IN_PROGRESS).size()!=0){
-                        projectTicket = (ProjectTicket) projectTicketDao.getTicketsByWorkerAndStatus(timeVocation.getWorker(), ModelConstants.STATUS_IN_PROGRESS).get(0);
+                    if (projectTicketDao.getTicketsByWorkerAndStatus(timeVocation.getWorker(), ModelConstants.STATUS_IN_PROGRESS).size() != 0) {
+                        ProjectTicket projectTicket = (ProjectTicket) projectTicketDao.getTicketsByWorkerAndStatus(timeVocation.getWorker(), ModelConstants.STATUS_IN_PROGRESS).get(0);
                         projectTicket.setStatusProjectTicket(ModelConstants.STATUS_PAUSED);
                         projectTicketDao.updateProjectTicket(projectTicket);
+                    }
+                }
+                Date end = oldDateFormat.parse(timeVocation.getEndVocDate());
+                if (end.compareTo(nowDate) == 0) { // если наступила дата окончания отпуска/болезни
+                    if (projectTicketDao.getTicketsByWorkerAndStatus(timeVocation.getWorker(), ModelConstants.STATUS_PAUSED).size() != 0) {
+                        profile.setEmploymentStatus(ModelConstants.STATUS_PROFILE_INVOLVED);
+                        ProjectTicket projectTicket = (ProjectTicket) projectTicketDao.getTicketsByWorkerAndStatus(timeVocation.getWorker(), ModelConstants.STATUS_PAUSED).get(0);
+                        projectTicket.setStatusProjectTicket(ModelConstants.STATUS_IN_PROGRESS);
+                        WorkLog workLog = new WorkLog();
+                        workLog.setWorker(timeVocation.getWorker());
+                        workLog.setProjectTicket(projectTicket);
+                        workLog.setStartLogDate(oldDateFormat.format(now));
+                        profileDao.updateProfile(profile);
+                        projectTicketDao.updateProjectTicket(projectTicket);
+                        workLogDao.createWorkLog(workLog);
+                    } else {
+                        if (projectTicketDao.getTicketsByWorker(timeVocation.getWorker()).size() == 0) {
+                            profile.setEmploymentStatus(ModelConstants.STATUS_PROFILE_NOT_INVOLVED);
+                            profileDao.updateProfile(profile);
+                        }
                     }
                 }
             } catch (ParseException e) {
@@ -97,6 +113,15 @@ public class TimeVocationServiceImpl implements TimeVocationService {
             }
 
         }
-        // написать про инициализацию если дата окончания отпуска/болезни закончилась то меняются статусы работника и тикета, записывается в work_log запись новая о раотнике, тикете и времени старта если у него был активный тикет до этого
+    }
+
+    @Override
+    public List getAllNotConfirmedTimeVocations() {
+        return timeVocationDao.getAllNotConfirmedTimeVocations();
+    }
+
+    @Override
+    public TimeVocation getTimeVacationById(long idTimeVacation) {
+        return timeVocationDao.getTimeVacationById(idTimeVacation);
     }
 }

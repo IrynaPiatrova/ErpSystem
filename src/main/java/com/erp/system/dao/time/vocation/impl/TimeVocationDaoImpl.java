@@ -71,7 +71,7 @@ public class TimeVocationDaoImpl implements TimeVocationDao {
     @Override
     public List getAllNotConfirmedTimeVocations() {
         LOGGER.info("TimeVocationDaoImpl getAllNotConfirmedTimeVocations start");
-        Query query = sessionFactory.getCurrentSession().createQuery("from TimeVocation where is_confirmed = 0");
+        Query query = sessionFactory.getCurrentSession().createQuery("from TimeVocation where is_confirmed = null");
         LOGGER.info("TimeVocationDaoImpl getAllNotConfirmedTimeVocations end");
         return query.getResultList();
     }
@@ -82,5 +82,13 @@ public class TimeVocationDaoImpl implements TimeVocationDao {
         Query query = sessionFactory.getCurrentSession().createQuery("from TimeVocation where is_confirmed = 1");
         LOGGER.info("TimeVocationDaoImpl getAllConfirmedTimeVocations end");
         return query.getResultList();
+    }
+
+    @Override
+    public TimeVocation getTimeVacationById(long idTimeVacation) {
+        LOGGER.info("TimeVocationDaoImpl getTimeVacationById start");
+        TimeVocation timeVocation = sessionFactory.getCurrentSession().get(TimeVocation.class, idTimeVacation);
+        LOGGER.info("TimeVocationDaoImpl getTimeVacationById end");
+        return timeVocation;
     }
 }

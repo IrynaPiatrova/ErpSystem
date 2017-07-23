@@ -54,6 +54,9 @@
 <spring:message code="worker.password" var="workerPassword"/>
 <spring:message code="worker.password.new" var="workerPasswordNew"/>
 <spring:message code="worker.end.ticket" var="completeTicket"/>
+<spring:message code="admin.reject.ticket" var="rejectTicket"/>
+<spring:message code="admin.reject.vacation" var="rejectVacation"/>
+<spring:message code="admin.accept.vacation" var="acceptVacation"/>
 <spring:message code="allWorkers.involved" var="allWorkersInvolved"/>
 <spring:message code="ticket.name" var="nameTicket"/>
 <spring:message code="ticket.specification" var="specificationTicket"/>
@@ -108,10 +111,18 @@
 <spring:message code="label.show.worker" var="labelShowWorker"/>
 <spring:message code="label.actual.ticket" var="labelActualTicket"/>
 <spring:message code="label.actual.ticket.no" var="labelActualTicketNo"/>
+<spring:message code="label.ticket.no" var="labelTicketNo"/>
+<spring:message code="label.notAppointedAndReady.tickets" var="labelNotAppointedAndReadyTickets"/>
+<spring:message code="label.vacation.type" var="labelVacationType"/>
 <spring:message code="label.request.sickLeave" var="labelRequestSickLeave"/>
 <spring:message code="label.request.vacation" var="labelRequestVacation"/>
 <spring:message code="label.createRequest" var="labelCreateRequest"/>
 <spring:message code="label.createRequestChoose" var="labelCreateRequestChoose"/>
+<spring:message code="label.requests" var="labelRequests"/>
+<spring:message code="label.requests" var="labelRequests"/>
+<spring:message code="vacation.start" var="absenceStart"/>
+<spring:message code="vacation.end" var="absenceEnd"/>
+<spring:message code="label.vacation.no" var="labelVacationNo"/>
 <spring:message code="chat.message.input.name" var="inputMessage"/>
 
 

@@ -164,7 +164,22 @@
                 </c:when>
                 <c:otherwise>
                     <div id="chooseWorker">
-                        <h4>${disableChooseWorkerOnTicket}</h4>
+                        <c:choose>
+                            <c:when test="${chosenTicket.statusProjectTicket.equals('ready for testing')}">
+                                <form action="${pageContext.request.contextPath}/finishTicket" method="post">
+                                    <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
+                                    <input type="submit" value="${completeTicket}">
+                                </form>
+
+                                <form action="${pageContext.request.contextPath}/rejectFinishingTicket" method="post">
+                                    <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
+                                    <input type="submit" value="${rejectTicket}">
+                                </form>
+                            </c:when>
+                            <c:otherwise>
+                                <h4>${disableChooseWorkerOnTicket}</h4>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </c:otherwise>
             </c:choose>
@@ -173,7 +188,7 @@
             <c:choose>
                 <c:when test="${isTicketNotFinished == true}">
                     <div id="endTicket">
-                        <form action="${pageContext.request.contextPath}/workerEndTicket" method="post">
+                        <form action="${pageContext.request.contextPath}/finishTicket" method="post">
                             <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
                             <input type="submit" value="${completeTicket}">
                         </form>

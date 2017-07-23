@@ -33,6 +33,98 @@
 <div class="container">
     <c:choose>
         <c:when test="${isAdmin}">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">${labelNotAppointedAndReadyTickets}</h3>
+                        </div>
+                        <table class="table table-hover" id="dev-table1">
+                            <thead>
+                            <tr>
+                                <th>${nameTicket}</th>
+                                <th>${specificationTicketDescription}</th>
+                                <th>${statusTicketDescription}</th>
+                            </tr>
+                            <c:choose>
+                            <c:when test="${collectionTickets.size()==0}">
+                            <tr>
+                                <td> ${labelTicketNo} </td>
+                            </tr>
+                            </c:when>
+                            <c:otherwise>
+                            <c:forEach items="${collectionTickets}" var="listTickets">
+                            <tr class="clickable"
+                                onclick="location.href='/chooseTicket${listTickets.idProjectTicket}'">
+                                <td hidden>${listTickets.idProjectTicket}</td>
+                                <td>${listTickets.nameProjectTicket}</td>
+                                <td>${listTickets.specification}</td>
+                                <td>${listTickets.statusProjectTicket}</td>
+                            </tr>
+                            </c:forEach>
+                            </c:otherwise>
+                            </c:choose>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-left: 50px"/>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">${labelRequests}</h3>
+                        </div>
+                        <table class="table table-hover" id="dev-table2">
+                            <thead>
+                            <tr>
+                                <th>${workerNameDescription}</th>
+                                <th>${labelVacationType}</th>
+                                <th>${absenceStart}</th>
+                                <th>${absenceEnd}</th>
+                            </tr>
+                            <c:choose>
+                            <c:when test="${collectionVacation.size()==0}">
+                            <tr>
+                                <td> ${labelVacationNo} </td>
+                            </tr>
+                            </c:when>
+                            <c:otherwise>
+                            <c:forEach items="${collectionVacation}" var="listVacations">
+                            <tr class="rowLink">
+                                <td class="choosedId" hidden>${listVacations.idTimeVocation}</td>
+                                <td>${listVacations.worker.nameWorker}</td>
+                                <td>${listVacations.type}</td>
+                                <td>${listVacations.startVocDate}</td>
+                                <td>${listVacations.endVocDate}</td>
+                            </tr>
+                            </c:forEach>
+                            </c:otherwise>
+                            </c:choose>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-left: 10px">
+                <table>
+                    <tr>
+                        <form action="${pageContext.request.contextPath}/vacationResponse" method="post"
+                              id="formButton">
+                            <p/>
+                            <input type="hidden" name="idTimeVacation" id="idTimeVacation" value="">
+                            <input type="hidden" name="choice" id="choice" value="">
+                            <td>
+                                <input type="hidden" id="acceptButton" value="${acceptVacation}"
+                                       class="btn btn-default">
+                            </td>
+                            <td style="margin-left: 20px">
+                                <input type="hidden" id="rejectButton" value="${rejectVacation}"
+                                       class="btn btn-default">
+                            </td>
+                        </form>
+                    </tr>
+                </table>
+            </div>
 
 
         </c:when>
@@ -93,16 +185,16 @@
                     </tr>
                 </table>
 
-                <form:form action="/createRequestVocation" method="post" modelAttribute="vacation">
+                <form:form action="/createRequestVacation" method="post" modelAttribute="vacation" id="form1">
                     <table id="sickLeaveTR" style="display: none">
                         <tr>
-                            <td>Start date sick leave</td>
+                            <td>${absenceStart}</td>
                             <td><form:input type="date" name="StartDate" path="startVocDate" height="30"/>
                                 <div><form:errors path="startVocDate" style="color:red"/></div>
                             </td>
                         </tr>
                         <tr>
-                            <td>End date sick leave</td>
+                            <td>${absenceEnd}</td>
                             <td><form:input type="date" name="EndDate" path="endVocDate" height="30"/>
                                 <div><form:errors path="endVocDate" style="color:red"/></div>
                             </td>
@@ -113,16 +205,18 @@
                                    class="btn btn-default">
                         </tr>
                     </table>
+                </form:form>
 
+                <form:form action="/createRequestVacation" method="post" modelAttribute="vacation" id="form2">
                     <table id="vacationTR" style="display: none">
                         <tr>
-                            <td>Start date vacation</td>
+                            <td>${absenceStart}</td>
                             <td><form:input type="date" name="StartDate" path="startVocDate" height="30"/>
                                 <div><form:errors path="startVocDate" style="color:red"/></div>
                             </td>
                         </tr>
                         <tr>
-                            <td>End date vacation</td>
+                            <td>${absenceEnd}</td>
                             <td><form:input type="date" name="EndDate" path="endVocDate" height="30"/>
                                 <div><form:errors path="endVocDate" style="color:red"/></div>
                             </td>
@@ -157,6 +251,26 @@
         document.getElementById("sickLeaveButton").type = "hidden";
         document.getElementById("vacationTR").style.display = 'table';
         document.getElementById("requestVacationButton").type = "submit";
+    });
+    $(document).on('click', '#requestSickLeaveButton', function () {
+        document.getElementById("form2").parentNode.removeChild(document.getElementById("form2"));
+    });
+    $(document).on('click', '#requestVacationButton', function () {
+        document.getElementById("form1").parentNode.removeChild(document.getElementById("form1"));
+    });
+</script>
+<script>
+    $(document).on('click', '.rowLink', function () {
+        var choosedId = $(this).find('td.choosedId').html();
+        document.getElementById("idTimeVacation").value = choosedId;
+        document.getElementById("acceptButton").type = "submit";
+        document.getElementById("rejectButton").type = "submit";
+    });
+    $(document).on('click', '#acceptButton', function () {
+        document.getElementById("choice").value = "accept";
+    });
+    $(document).on('click', '#rejectButton', function () {
+        document.getElementById("choice").value = "reject";
     });
 </script>
 </body>
