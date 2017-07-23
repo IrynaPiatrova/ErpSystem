@@ -57,7 +57,7 @@ CREATE TABLE time_vocations
   start_voc_date DATE NOT NULL ,
   end_voc_date DATE DEFAULT NULL ,
   type VARCHAR(30) NOT NULL ,
-  is_confirmed TINYINT(1) DEFAULT '0' ,
+  is_confirmed TINYINT(1) DEFAULT NULL ,
   FOREIGN KEY (id_worker) REFERENCES workers(id_worker) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 

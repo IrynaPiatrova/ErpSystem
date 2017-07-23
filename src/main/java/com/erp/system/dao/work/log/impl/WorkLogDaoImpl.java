@@ -2,6 +2,7 @@ package com.erp.system.dao.work.log.impl;
 
 import com.erp.system.dao.work.log.WorkLogDao;
 import com.erp.system.entity.WorkLog;
+import com.erp.system.entity.Worker;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -76,10 +77,34 @@ public class WorkLogDaoImpl implements WorkLogDao {
      * @return List<WorkLog>
      */
     @Override
-    public List<WorkLog> getAllWorkLogs() {
+    public List getAllWorkLogs() {
         LOGGER.info("WorkerDaoImpl getAllWorkers start");
-        Query query = sessionFactory.getCurrentSession().createQuery("from Worker");
+        Query query = sessionFactory.getCurrentSession().createQuery("from WorkLog");
         LOGGER.info("WorkerDaoImpl getAllWorkers end");
         return query.getResultList();
     }
+
+    @Override
+    public List getWorklogsByWorker(Worker worker) {
+        LOGGER.info("WorkerDaoImpl getWorklogsByWorker start");
+        Query query = sessionFactory.getCurrentSession().createQuery("from WorkLog where id_worker =:worker");
+        query.setParameter("worker", worker);
+        LOGGER.info("WorkerDaoImpl getWorklogsByWorker end");
+        return query.getResultList();
+    }
+
+    @Override
+    public WorkLog getWorklogByWorkerStarted(Worker worker) {
+        LOGGER.info("WorkLogDaoImpl getWorklogByWorkerStarted start");
+        Query query = sessionFactory.getCurrentSession().createQuery("from WorkLog where id_worker =:worker AND spent_time = null");
+        query.setParameter("worker", worker);
+        LOGGER.info("WorkLogDaoImpl getWorklogByWorkerStarted end");
+        WorkLog workLog = null;
+        if(query.getResultList().size()!=0){
+            return (WorkLog) query.getResultList().get(0);
+        } else {
+            return workLog;
+        }
+    }
+
 }

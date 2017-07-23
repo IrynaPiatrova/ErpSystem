@@ -11,7 +11,7 @@ import java.util.Date;
 @Table(name = "time_vocations")
 public class TimeVocation implements Serializable {
     @Id
-    @Column(name = "id")
+    @Column(name = "id_time_vocation")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long idTimeVocation;
 
@@ -30,7 +30,7 @@ public class TimeVocation implements Serializable {
     private String type;
 
     @Column(name = "is_confirmed")
-    private Boolean isConfirmed;
+    private Integer isConfirmed;
 
     public long getIdTimeVocation() {
         return idTimeVocation;
@@ -72,11 +72,11 @@ public class TimeVocation implements Serializable {
         this.type = type;
     }
 
-    public Boolean getConfirmed() {
+    public Integer getConfirmed() {
         return isConfirmed;
     }
 
-    public void setConfirmed(Boolean confirmed) {
+    public void setConfirmed(Integer confirmed) {
         isConfirmed = confirmed;
     }
 }

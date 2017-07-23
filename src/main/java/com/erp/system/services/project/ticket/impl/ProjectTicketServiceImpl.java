@@ -4,9 +4,11 @@ import com.erp.system.constants.ModelConstants;
 import com.erp.system.dao.comments.ticket.CommentsTicketDao;
 import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.project.ticket.ProjectTicketDao;
+import com.erp.system.dao.work.log.WorkLogDao;
 import com.erp.system.dto.ProjectTicketDTO;
 import com.erp.system.entity.CommentsTicket;
 import com.erp.system.entity.ProjectTicket;
+import com.erp.system.entity.WorkLog;
 import com.erp.system.entity.Worker;
 import com.erp.system.services.project.ticket.ProjectTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     CommentsTicketDao commentsTicketDao;
     @Autowired
     ProfileDao profileDao;
+    @Autowired
+    WorkLogDao workLogDao;
 
     SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -61,7 +65,7 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     @Override
     @Transactional // метод получения таблицы тикетов сотрудника с указанием успешности выполнения
     public List getWorkerProjectTicketsPerfomance(Worker worker) {
-        ArrayList<ProjectTicket> listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByIdWorker(worker);
+        ArrayList<ProjectTicket> listOfTickets = (ArrayList<ProjectTicket>) projectTicketDao.getTicketsByWorker(worker);
         ArrayList<ProjectTicketDTO> list = new ArrayList<>();
         for (ProjectTicket pr : listOfTickets) {
             if (pr.getEndTicketDate() == null) {
@@ -92,13 +96,13 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     @Override
     @Transactional
     public List getTicketsByIdWorker(Worker worker) {
-        return projectTicketDao.getTicketsByIdWorker(worker);
+        return projectTicketDao.getTicketsByWorker(worker);
     }
 
     @Override
     @Transactional
     public List getTicketsByIdWorkerAndStatus(Worker worker, String status) {
-        return projectTicketDao.getTicketsByIdWorkerAndStatus(worker, status);
+        return projectTicketDao.getTicketsByWorkerAndStatus(worker, status);
     }
 
     @Override
@@ -129,8 +133,15 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
         commentsTicket.setCommentDate(now);
         commentsTicket.setIdProjectTicket(projectTicket);
         commentsTicket.setIdWorker(worker);
+        WorkLog workLog = new WorkLog();
+        workLog.setProjectTicket(projectTicket);
+        workLog.setWorker(worker);
+        workLog.setStartLogDate(oldDateFormat.format(now));
         profileDao.updateProfile(worker.getProfile());
         commentsTicketDao.createCommentsTicket(commentsTicket);
         projectTicketDao.updateProjectTicket(projectTicket);
+        workLogDao.createWorkLog(workLog);
     }
+
+    // надо написатьм метод подтверждения завершения тикета админом
 }

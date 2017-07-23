@@ -9,6 +9,7 @@ import com.erp.system.entity.TimeVocation;
 import com.erp.system.entity.Worker;
 import com.erp.system.services.profile.ProfileService;
 import com.erp.system.services.project.ticket.ProjectTicketService;
+import com.erp.system.services.time.vocation.TimeVocationService;
 import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.LoginPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +32,13 @@ public class LogInController {
     @Autowired
     WorkerService workerService;
     @Autowired
-    LoginPasswordValidator lpValidator;
+    TimeVocationService timeVocationService;
     @Autowired
     ProfileService profileService;
     @Autowired
     ProjectTicketService projectTicketService;
+    @Autowired
+    LoginPasswordValidator lpValidator;
 
     /**
      * return start page 'index.jsp'
@@ -59,6 +62,7 @@ public class LogInController {
     @RequestMapping(value = "/main", method = RequestMethod.POST)
     public String checkUserAuthorization(@ModelAttribute(ModelConstants.LOG_PASS) @Valid LoginPassword lp,
                                          BindingResult result, Model model, HttpSession session) {
+        timeVocationService.checkStatusWorkers();
         lpValidator.validate(lp, result);
         if (result.hasErrors()) return "pages/index";
         String isAdmin = ModelConstants.ADMIN.equals(lp.getLogin()) ? ModelConstants.TRUE : ModelConstants.FALSE;
@@ -74,6 +78,7 @@ public class LogInController {
         // тут инициализация информации на главной
         // для админа: список тикетов со статусом opened, ready for testing, с истекающим сроком выполнения (дней 5); список запросов от пользователей,..
         // для юзера: текущий тикет, возможность послать запрос на отпуск/больничный,..
+        // обновление статуса работника на отпуск или больничный при достижении заданной даты
         if (MethodsForControllers.isAdmin(session)) {
 
 

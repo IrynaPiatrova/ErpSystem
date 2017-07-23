@@ -113,9 +113,7 @@
                                    class="btn btn-default">
                         </tr>
                     </table>
-                </form:form>
 
-                <form:form action="/createRequestVocation" method="post" modelAttribute="vacation">
                     <table id="vacationTR" style="display: none">
                         <tr>
                             <td>Start date vacation</td>
@@ -136,6 +134,7 @@
                         </tr>
                     </table>
                 </form:form>
+
             </div>
         </c:otherwise>
     </c:choose>

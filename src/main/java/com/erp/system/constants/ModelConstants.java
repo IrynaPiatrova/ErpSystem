@@ -24,7 +24,7 @@ public class ModelConstants {
     public static final String ALL_TICKETS = "all tickets";
     public static final String STATUS_OPENED = "opened";
     public static final String STATUS_IN_PROGRESS = "in progress";
-    public static final String STATUS_PAUSED = "opened";
+    public static final String STATUS_PAUSED = "paused";
     public static final String STATUS_READY_FOR_TESTING = "ready for testing";
     public static final String STATUS_FINISHED = "finished";
     public static final String STATUS_PROFILE_INVOLVED = "involved";

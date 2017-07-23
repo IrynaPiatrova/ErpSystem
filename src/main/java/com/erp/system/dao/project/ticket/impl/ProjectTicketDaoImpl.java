@@ -81,7 +81,7 @@ public class ProjectTicketDaoImpl implements ProjectTicketDao {
     }
 
     @Override
-    public List getTicketsByIdWorker(Worker worker) {
+    public List getTicketsByWorker(Worker worker) {
         LOGGER.info("ProjectTicketDaoImpl getTicketsById start");
         Query query = sessionFactory.getCurrentSession().createQuery("from ProjectTicket where id_worker =:worker");
         query.setParameter("worker", worker);
@@ -90,7 +90,7 @@ public class ProjectTicketDaoImpl implements ProjectTicketDao {
     }
 
     @Override
-    public List getTicketsByIdWorkerAndStatus(Worker worker, String status) {
+    public List getTicketsByWorkerAndStatus(Worker worker, String status) {
         LOGGER.info("ProjectTicketDaoImpl getTicketsByIdAndStatus start");
         Query query = sessionFactory.getCurrentSession().createQuery("from ProjectTicket where id_worker =:worker AND status =:status");
         query.setParameter("worker", worker);
