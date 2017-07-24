@@ -10,6 +10,7 @@
 
 <spring:message code="username" var="username"/>
 <spring:message code="password" var="password"/>
+<spring:message code="forgot.password" var="forgotPassword"/>
 <spring:message code="profile.position" var="profilePosition"/>
 <spring:message code="profile.position.description" var="profilePositionDescription"/>
 <spring:message code="profile.position.choose" var="profilePositionChoose"/>
@@ -143,3 +144,4 @@
 <spring:message code="choose.key.question2" var="chooseKeyQuestion2"/>
 <spring:message code="choose.key.question3" var="chooseKeyQuestion3"/>
 <spring:message code="write.answer.on.question" var="writeAnswerOnQuestion"/>
+

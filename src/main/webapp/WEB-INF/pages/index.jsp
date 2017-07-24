@@ -38,7 +38,7 @@
                     width="8%" height="10%"></a>
     </span>
     <div>
-        <a href="/changePassword">Забыли пароль?</a>
+        <a href="/changePassword">${forgotPassword}</a>
     </div>
     <c:if test="${successChangePassword == true}">
         <div>

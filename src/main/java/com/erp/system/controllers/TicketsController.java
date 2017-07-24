@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -57,7 +58,12 @@ public class TicketsController {
                                         BindingResult result, @RequestParam("deadlineDate") String deadlineDate, HttpSession session) throws ParseException {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         newTicketValidator.validate(projectTicket, result);
+        Date todayDate = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         if (deadlineDate.length() == 0) result.rejectValue("deadlineTicket", "empty.ticket.deadlineDate");
+        if (result.hasErrors()) return "pages/addNewTicket";
+        Date dateOfDeadline = simpleDateFormat.parse(deadlineDate);
+        if (dateOfDeadline.compareTo(todayDate) == -1) result.rejectValue("deadlineTicket", "before.ticket.deadlineDate");
         if (result.hasErrors()) return "pages/addNewTicket";
         projectTicket.setDeadlineTicket(deadlineDate);
         projectTicketService.createProjectTicket(projectTicket);
