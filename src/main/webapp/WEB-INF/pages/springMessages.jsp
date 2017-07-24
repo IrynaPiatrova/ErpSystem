@@ -113,5 +113,22 @@
 <spring:message code="label.createRequest" var="labelCreateRequest"/>
 <spring:message code="label.createRequestChoose" var="labelCreateRequestChoose"/>
 <spring:message code="chat.message.input.name" var="inputMessage"/>
-
-
+<spring:message code="profile.keyQuestion" var="keyQuestion"/>
+        <%--for changePassword.jsp--%>
+<spring:message code="repeat.new.password" var="repeatNewPassword"/>
+<spring:message code="write.new.password" var="newPassword"/>
+<spring:message code="answer.on.key.question" var="keyQuestionAnswer"/>
+<spring:message code="write.login" var="writeLogin"/>
+<spring:message code="change.password" var="changePassword"/>
+<spring:message code="exist.keyWord" var="keywordExist"/>
+        <%--for profile.jsp--%>
+<spring:message code="success.change.password" var="successChangePas"/>
+<spring:message code="success.change.keyWord" var="successChangeKey"/>
+        <%--for changeKeyWord.jsp--%>
+<spring:message code="changeKeyWord" var="changeKeyWord"/>
+<spring:message code="write.password" var="writePassword"/>
+<spring:message code="choose.key.question" var="chooseKeyQuestion"/>
+<spring:message code="choose.key.question1" var="chooseKeyQuestion1"/>
+<spring:message code="choose.key.question2" var="chooseKeyQuestion2"/>
+<spring:message code="choose.key.question3" var="chooseKeyQuestion3"/>
+<spring:message code="write.answer.on.question" var="writeAnswerOnQuestion"/>

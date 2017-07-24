@@ -69,7 +69,12 @@
     </table>
     <c:if test="${successChangePassword == true}">
         <div>
-            <p>Пароль успешно изменен</p>
+            <p>${successChangePas}</p>
+        </div>
+    </c:if>
+    <c:if test="${successChangeKeyWord == true}">
+        <div>
+            <p>${successChangeKey}</p>
         </div>
     </c:if>
 </div>

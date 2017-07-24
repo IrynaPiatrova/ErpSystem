@@ -42,7 +42,7 @@
     </div>
     <c:if test="${successChangePassword == true}">
         <div>
-            <p>Пароль успешно изменен</p>
+            <p>${successChangePas}</p>
         </div>
     </c:if>
     <br><br>

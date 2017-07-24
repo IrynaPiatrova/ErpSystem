@@ -18,6 +18,7 @@ import com.erp.system.services.time.vocation.TimeVocationService;
 import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.EditProfileValidator;
 import com.erp.system.validators.TimeVocationValidator;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,9 +102,6 @@ public class MenuController {
         profile.setTelephone(profileDTO.getTelephone());
         profile.setEmail(profileDTO.getEmail());
         profile.getWorker().setLogin(profileDTOLogin);
-        profile.setKeyWord(profileDTO.getKeyWord());
-        profile.setAnswerOnKeyWord(answerOnKeyWord);
-        profileService.updateProfile(profile);
         session.setAttribute(ModelConstants.LOGED_AS, profile.getWorker().getLogin());
         return "redirect:/profile";
     }
@@ -171,14 +169,8 @@ public class MenuController {
         return "pages/changePassword";
     }
 
-    @RequestMapping(value = "/change", method = RequestMethod.POST)
-    public String change(@ModelAttribute(ModelConstants.PROFILE)@Valid ProfileDTO profileDTO,
-                         BindingResult result, @RequestParam("repeatNewPassword") String repeatNewPassword,
-                         @RequestParam("newPassword") String newPassword, HttpSession session, Model model){
-        if (session.getAttribute(ModelConstants.LOGED_AS) == null) model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
-        if (newPassword.length()<= 0)result.rejectValue("worker.password", "empty.password");
-        if (repeatNewPassword.length() <= 0)result.rejectValue("worker.password", "empty.newPassword");
-        if (profileDTO.getAnswerOnKeyWord().length()<= 0) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
+    @RequestMapping(value = "/changePas", method = RequestMethod.GET)
+    public String change(Model model, HttpSession session){
         Profile profile;
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
@@ -186,6 +178,26 @@ public class MenuController {
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
             profile = worker.getProfile();
         }
+        model.addAttribute("keyWord", profile.getKeyWord());
+        return "pages/changePassword";
+    }
+
+    @RequestMapping(value = "/changePas", method = RequestMethod.POST)
+    public String change(@ModelAttribute(ModelConstants.PROFILE)@Valid ProfileDTO profileDTO,
+                         BindingResult result, @RequestParam("repeatNewPassword") String repeatNewPassword,
+                         @RequestParam("newPassword") String newPassword, HttpSession session, Model model){
+        if (session.getAttribute(ModelConstants.LOGED_AS) == null) model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
+        if (newPassword.isEmpty())result.rejectValue("worker.password", "empty.password");
+        if (repeatNewPassword.isEmpty())result.rejectValue("worker.password", "empty.newPassword");
+        if (profileDTO.getAnswerOnKeyWord().isEmpty()) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
+        Profile profile;
+        if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
+            profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+        }else {
+            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
+            profile = worker.getProfile();
+        }
+        model.addAttribute("keyWord", profile.getKeyWord());
         if (result.hasErrors()) return "pages/changePassword";
         if (!profileDTO.getAnswerOnKeyWord().equals(profile.getAnswerOnKeyWord())) result.rejectValue("answerOnKeyWord", "incorrect.keyWord");
         if (!newPassword.equals(repeatNewPassword)) result.rejectValue("worker.password","notsame.password");
@@ -201,6 +213,37 @@ public class MenuController {
         }
     }
 
+    @RequestMapping(value = "/changeKeyWord", method = RequestMethod.GET)
+    public String changeKeyWord(Model model, HttpSession session){
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        model.addAttribute(ModelConstants.PROFILE, session.getAttribute(ModelConstants.PROFILE_DATA));
+        return "pages/changeKeyWord";
+    }
+
+    @RequestMapping(value = "/changeKey", method = RequestMethod.GET)
+    public String changeKey(Model model, HttpSession session){
+        model.addAttribute(ModelConstants.PROFILE, session.getAttribute(ModelConstants.PROFILE_DATA));
+        return "pages/changeKeyWord";
+    }
+
+    @RequestMapping(value = "/changeKey", method = RequestMethod.POST)
+    public String changeKey(@ModelAttribute(ModelConstants.PROFILE)@Valid ProfileDTO profileDTO,BindingResult result,
+                            @RequestParam("password") String password,
+                            Model model, HttpSession session){
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        if (password.isEmpty()) result.rejectValue("worker.password","empty.password");
+        if (profileDTO.getKeyWord() == null) result.rejectValue("keyWord","empty.keyWord");
+        if (profileDTO.getAnswerOnKeyWord().isEmpty()) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
+        if (result.hasErrors()) return "pages/changeKeyWord";
+        Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+        if (!password.equals(profile.getWorker().getPassword())) result.rejectValue("worker.password","err.password");
+        if (result.hasErrors()) return "pages/changeKeyWord";
+        profile.setKeyWord(profileDTO.getKeyWord());
+        profile.setAnswerOnKeyWord(profileDTO.getAnswerOnKeyWord());
+        profileService.updateProfile(profile);
+        model.addAttribute("successChangeKeyWord",ModelConstants.TRUE);
+        return "pages/profile";
+    }
 
     @RequestMapping(value = "/findByIdAndShowInfo", method = RequestMethod.POST)
     public String findByIdAndShowInfo(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) {

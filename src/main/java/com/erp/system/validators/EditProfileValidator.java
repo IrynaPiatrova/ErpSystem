@@ -33,8 +33,6 @@ public class EditProfileValidator implements Validator{
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "empty.email", "Please enter worker's email");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "worker.login", "empty.login", "Please enter your login");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "worker.password", "empty.password", "Please enter your password");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "keyWord","empty.keyWord");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "answerOnKeyWord","empty.answerOnKeyWord");
         String emailPattern = "^[A-Za-z0-9-]+([._A-Za-z0-9-])*@([A-Za-z0-9-]+).[a-zа-я]{2,6}";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(profile.getEmail());
