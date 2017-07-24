@@ -31,7 +31,7 @@ import java.util.Date;
  * Created by klinster on 18.06.2017
  */
 @Controller
-public class TicketsController {
+public class TicketsController extends ExceptionsController{
     @Autowired
     ProjectTicketService projectTicketService;
     @Autowired

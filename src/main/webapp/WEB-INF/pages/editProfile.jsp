@@ -20,11 +20,12 @@
     <%@include file="springMessages.jsp" %>
     <%@include file="ScriptListOfPositions.jsp" %>
     <style>
-        #upperLayer{
+        #upperLayer {
             float: left;
             margin-left: 0%;
         }
-        #lowerLayer{
+
+        #lowerLayer {
             margin-top: 8%;
         }
     </style>
@@ -103,7 +104,8 @@
                         <div class="col-md-4">
                             <form:select path="employmentStatus" width="200" id="chooseEmplStatus">
                                 <option value="status" disabled selected>${profileEmploymentStatusChoose}</option>
-                                <option value="dismissed">${profileEmploymentStatus5}</option> // тут остается статус только на увольнение сотрудника - пока не сделаю отдельную страницу увольнения (кнопку на странице allWorkers)
+                                <option value="dismissed">${profileEmploymentStatus5}</option>
+                                // тут остается статус только на увольнение сотрудника - пока не сделаю отдельную страницу увольнения (кнопку на странице allWorkers)
                             </form:select>
                             <div><form:errors path="employmentStatus" style="color:red"/></div>
                         </div>
@@ -146,56 +148,56 @@
             </form>
         </div>
         <div id="lowerLayer">
-        <form:form class="form-horizontal" action="edit" method="post" modelAttribute="profile"
-                   enctype="multipart/form-data">
-        <fieldset>
+            <form:form class="form-horizontal" action="edit" method="post" modelAttribute="profile"
+                       enctype="multipart/form-data">
+                <fieldset>
 
-            <legend>${profileEdition}</legend>
+                    <legend>${profileEdition}</legend>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputLogin">${workerLoginNew}</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="worker.login"
-                                id="inputLogin" name="textinput"/>
-                </div>
-                <div><form:errors path="worker.login" style="color:red"/></div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="inputLogin">${workerLoginNew}</label>
+                        <div class="col-md-4">
+                            <form:input class="form-control input-md" type="text" autocomplete="off" path="worker.login"
+                                        id="inputLogin" name="textinput"/>
+                        </div>
+                        <div><form:errors path="worker.login" style="color:red"/></div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputTelephone">${profileTelephoneNew}</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="telephone"
-                                id="inputTelephone" name="textinput"/>
-                </div>
-                <div><form:errors path="telephone" style="color:red"/></div>
-            </div>
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputEmail">${profileEmailNew}</label>
-                <div class="col-md-4">
-                    <form:input class="form-control input-md" type="text" autocomplete="off" path="email"
-                                id="inputEmail"
-                                name="textinput"/>
-                </div>
-                <div><form:errors path="email" style="color:red"/></div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="inputTelephone">${profileTelephoneNew}</label>
+                        <div class="col-md-4">
+                            <form:input class="form-control input-md" type="text" autocomplete="off" path="telephone"
+                                        id="inputTelephone" name="textinput"/>
+                        </div>
+                        <div><form:errors path="telephone" style="color:red"/></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="inputEmail">${profileEmailNew}</label>
+                        <div class="col-md-4">
+                            <form:input class="form-control input-md" type="text" autocomplete="off" path="email"
+                                        id="inputEmail"
+                                        name="textinput"/>
+                        </div>
+                        <div><form:errors path="email" style="color:red"/></div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="inputPhoto">${profilePhotoNew}</label>
-                <div class="col-md-4">
-                    <form:input id="inputPhoto" name="photo" class="input-file" type="file" path="photo"
-                                accept="image/*"/>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="inputPhoto">${profilePhotoNew}</label>
+                        <div class="col-md-4">
+                            <form:input id="inputPhoto" name="photo" class="input-file" type="file" path="photo"
+                                        accept="image/*"/>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label class="col-md-4 control-label" for="singlebutton"></label>
-                <div class="col-md-4">
-                    <input type="submit" id="singlebutton" class="btn btn-primary" value="${labelComplete}"/>
-                </div>
-            </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="singlebutton"></label>
+                        <div class="col-md-4">
+                            <input type="submit" id="singlebutton" class="btn btn-primary" value="${labelComplete}"/>
+                        </div>
+                    </div>
 
-        </fieldset>
-        </form:form>
+                </fieldset>
+            </form:form>
         </div>
         </c:otherwise>
         </c:choose>

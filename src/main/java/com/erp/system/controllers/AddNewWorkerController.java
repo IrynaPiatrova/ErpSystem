@@ -25,7 +25,7 @@ import java.text.ParseException;
  * Created by Roma on 18.06.2017
  */
 @Controller
-public class AddNewWorkerController {
+public class AddNewWorkerController  extends ExceptionsController{
     @Autowired
     RegistrationNewWorkerValidator registrationNewWorkerValidator;
     @Autowired

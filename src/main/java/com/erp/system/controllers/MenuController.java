@@ -3,8 +3,6 @@ package com.erp.system.controllers;
 import com.erp.system.constants.ModelConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dao.chat.ChatDao;
-import com.erp.system.dao.profile.ProfileDao;
-import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.ChatDTO;
 import com.erp.system.dto.LoginPassword;
 import com.erp.system.dto.ProfileDTO;
@@ -18,7 +16,6 @@ import com.erp.system.services.time.vocation.TimeVocationService;
 import com.erp.system.services.worker.WorkerService;
 import com.erp.system.validators.EditProfileValidator;
 import com.erp.system.validators.TimeVocationValidator;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +36,7 @@ import java.util.List;
  * Created by John on 18.06.2017
  */
 @Controller
-public class MenuController {
+public class MenuController extends ExceptionsController {
     @Autowired
     WorkerService workerService;
     @Autowired
@@ -128,21 +125,22 @@ public class MenuController {
 
 
     @RequestMapping(value = "/isLoginExist", method = RequestMethod.GET)
-    public String isLoginExist(Model model){
+    public String isLoginExist(Model model) {
         model.addAttribute("worker", new Worker());
         return "pages/changePassword";
     }
 
     @RequestMapping(value = "/isLoginExist", method = RequestMethod.POST)
-    public String isLoginExist(@ModelAttribute("worker")@Valid Worker worker, BindingResult result, Model model, HttpSession session){
-        if (worker.getLogin().isEmpty()){
-            result.rejectValue("login","empty.login");
+    public String isLoginExist(@ModelAttribute("worker") @Valid Worker worker, BindingResult result, Model model, HttpSession session) {
+        if (worker.getLogin().isEmpty()) {
+            result.rejectValue("login", "empty.login");
             return "pages/changePassword";
         }
         worker = workerService.getWorkerByLogin(worker.getLogin());
-        if (worker == null) result.rejectValue("login","not.used.login");
+        if (worker == null) result.rejectValue("login", "not.used.login");
         if (result.hasErrors()) return "pages/changePassword";
-        if (worker.getProfile().getKeyWord() == null || worker.getProfile().getAnswerOnKeyWord() == null) result.rejectValue("login","exist.keyWord");
+        if (worker.getProfile().getKeyWord() == null || worker.getProfile().getAnswerOnKeyWord() == null)
+            result.rejectValue("login", "exist.keyWord");
         if (result.hasErrors()) return "pages/changePassword";
         model.addAttribute(ModelConstants.PROFILE, worker.getProfile());
         model.addAttribute("keyWord", worker.getProfile().getKeyWord());
@@ -152,7 +150,7 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
-    public String changePassword(Model model, HttpSession session){
+    public String changePassword(Model model, HttpSession session) {
         Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
         model.addAttribute(ModelConstants.PROFILE, profile);
         model.addAttribute(ModelConstants.LOGED_AS, session.getAttribute(ModelConstants.LOGED_AS));
@@ -161,11 +159,11 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/changePas", method = RequestMethod.GET)
-    public String change(Model model, HttpSession session){
+    public String change(Model model, HttpSession session) {
         Profile profile;
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
-        }else {
+        } else {
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
             profile = worker.getProfile();
         }
@@ -174,65 +172,67 @@ public class MenuController {
     }
 
     @RequestMapping(value = "/changePas", method = RequestMethod.POST)
-    public String change(@ModelAttribute(ModelConstants.PROFILE)@Valid ProfileDTO profileDTO,
+    public String change(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO,
                          BindingResult result, @RequestParam("repeatNewPassword") String repeatNewPassword,
-                         @RequestParam("newPassword") String newPassword, HttpSession session, Model model){
-        if (session.getAttribute(ModelConstants.LOGED_AS) == null) model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
-        if (newPassword.isEmpty())result.rejectValue("worker.password", "empty.password");
-        if (repeatNewPassword.isEmpty())result.rejectValue("worker.password", "empty.newPassword");
-        if (profileDTO.getAnswerOnKeyWord().isEmpty()) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
+                         @RequestParam("newPassword") String newPassword, HttpSession session, Model model) {
+        if (session.getAttribute(ModelConstants.LOGED_AS) == null)
+            model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
+        if (newPassword.isEmpty()) result.rejectValue("worker.password", "empty.password");
+        if (repeatNewPassword.isEmpty()) result.rejectValue("worker.password", "empty.newPassword");
+        if (profileDTO.getAnswerOnKeyWord().isEmpty()) result.rejectValue("answerOnKeyWord", "empty.answerOnKeyWord");
         Profile profile;
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
-        }else {
+        } else {
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
             profile = worker.getProfile();
         }
         model.addAttribute("keyWord", profile.getKeyWord());
         if (result.hasErrors()) return "pages/changePassword";
-        if (!profileDTO.getAnswerOnKeyWord().equals(profile.getAnswerOnKeyWord())) result.rejectValue("answerOnKeyWord", "incorrect.keyWord");
-        if (!newPassword.equals(repeatNewPassword)) result.rejectValue("worker.password","notsame.password");
+        if (!profileDTO.getAnswerOnKeyWord().equals(profile.getAnswerOnKeyWord()))
+            result.rejectValue("answerOnKeyWord", "incorrect.keyWord");
+        if (!newPassword.equals(repeatNewPassword)) result.rejectValue("worker.password", "notsame.password");
         if (result.hasErrors()) return "pages/changePassword";
         profile.getWorker().setPassword(newPassword);
         profileService.updateProfile(profile);
         model.addAttribute("successChangePassword", ModelConstants.TRUE);
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             return "pages/profile";
-        }else {
+        } else {
             model.addAttribute("logPass", new LoginPassword());
             return "pages/index";
         }
     }
 
     @RequestMapping(value = "/changeKeyWord", method = RequestMethod.GET)
-    public String changeKeyWord(Model model, HttpSession session){
+    public String changeKeyWord(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         model.addAttribute(ModelConstants.PROFILE, session.getAttribute(ModelConstants.PROFILE_DATA));
         return "pages/changeKeyWord";
     }
 
     @RequestMapping(value = "/changeKey", method = RequestMethod.GET)
-    public String changeKey(Model model, HttpSession session){
+    public String changeKey(Model model, HttpSession session) {
         model.addAttribute(ModelConstants.PROFILE, session.getAttribute(ModelConstants.PROFILE_DATA));
         return "pages/changeKeyWord";
     }
 
     @RequestMapping(value = "/changeKey", method = RequestMethod.POST)
-    public String changeKey(@ModelAttribute(ModelConstants.PROFILE)@Valid ProfileDTO profileDTO,BindingResult result,
+    public String changeKey(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, BindingResult result,
                             @RequestParam("password") String password,
-                            Model model, HttpSession session){
+                            Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        if (password.isEmpty()) result.rejectValue("worker.password","empty.password");
-        if (profileDTO.getKeyWord() == null) result.rejectValue("keyWord","empty.keyWord");
-        if (profileDTO.getAnswerOnKeyWord().isEmpty()) result.rejectValue("answerOnKeyWord","empty.answerOnKeyWord");
+        if (password.isEmpty()) result.rejectValue("worker.password", "empty.password");
+        if (profileDTO.getKeyWord() == null) result.rejectValue("keyWord", "empty.keyWord");
+        if (profileDTO.getAnswerOnKeyWord().isEmpty()) result.rejectValue("answerOnKeyWord", "empty.answerOnKeyWord");
         if (result.hasErrors()) return "pages/changeKeyWord";
         Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
-        if (!password.equals(profile.getWorker().getPassword())) result.rejectValue("worker.password","err.password");
+        if (!password.equals(profile.getWorker().getPassword())) result.rejectValue("worker.password", "err.password");
         if (result.hasErrors()) return "pages/changeKeyWord";
         profile.setKeyWord(profileDTO.getKeyWord());
         profile.setAnswerOnKeyWord(profileDTO.getAnswerOnKeyWord());
         profileService.updateProfile(profile);
-        model.addAttribute("successChangeKeyWord",ModelConstants.TRUE);
+        model.addAttribute("successChangeKeyWord", ModelConstants.TRUE);
         return "pages/profile";
     }
 

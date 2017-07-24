@@ -1,0 +1,15 @@
+.bodyException {
+    position: absolute;
+    width: auto;
+    height: auto;
+    background-image: url(http://3.bp.blogspot.com/-al5OPtgJx4c/UoSeI7PxjmI/AAAAAAAABQg/WeCB3L8JesQ/s1600/danboo+wallpaper+3.jpg);
+    background-size: cover;
+}
+.error-div {
+    margin-top: 6%;
+    margin-left: 25%;
+    font-family: sans-serif;
+    color: white;
+    width: 40%;
+    padding: 30px;
+}

@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created by John on 16.06.2017
  */
 @Controller
-public class LogInController {
+public class LogInController extends ExceptionsController{
     @Autowired
     WorkerService workerService;
     @Autowired
