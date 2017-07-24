@@ -13,7 +13,9 @@ CREATE TABLE profiles
   employment_status  VARCHAR(50) NOT NULL ,
   telephone  VARCHAR(30) NOT NULL ,
   email      VARCHAR(30) DEFAULT NULL UNIQUE ,
-  photo      MEDIUMBLOB DEFAULT NULL
+  photo      MEDIUMBLOB DEFAULT NULL,
+  key_word   VARCHAR (50) DEFAULT NULL,
+  answer_on_key_word VARCHAR (50) DEFAULT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 
 CREATE TABLE workers

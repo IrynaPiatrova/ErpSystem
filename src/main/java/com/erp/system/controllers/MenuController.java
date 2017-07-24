@@ -82,7 +82,7 @@ public class MenuController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     //это метод для изменения СВОЕГО профиля (или пользователь меняет свой профиль, или админ свой)
-    public String editProfile(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, @RequestParam("photo") MultipartFile photo,@RequestParam("answerOnKeyWord") String answerOnKeyWord, HttpSession session, BindingResult result) {
+    public String editProfile(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, @RequestParam("photo") MultipartFile photo, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
         String profileDTOLogin = profileDTO.getWorker().getLogin();
@@ -102,6 +102,7 @@ public class MenuController {
         profile.setTelephone(profileDTO.getTelephone());
         profile.setEmail(profileDTO.getEmail());
         profile.getWorker().setLogin(profileDTOLogin);
+        profileService.updateProfile(profile);
         session.setAttribute(ModelConstants.LOGED_AS, profile.getWorker().getLogin());
         return "redirect:/profile";
     }
@@ -125,16 +126,6 @@ public class MenuController {
         return "redirect:/allWorkers";
     }
 
-    @RequestMapping(value = "/findByIdAndEditWorker", method = RequestMethod.POST)
-    public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) throws IOException {
-        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        Worker worker = workerService.getWorkerById(idWorker);
-        Profile profile = profileService.getProfileById(worker.getProfile().getIdProfile());
-        session.setAttribute(ModelConstants.PROFILE_DATA, profile);
-        session.setAttribute(ModelConstants.ADMIN_EDIT_PROFILE, true);
-        return "redirect:/edit";
-
-    }
 
     @RequestMapping(value = "/isLoginExist", method = RequestMethod.GET)
     public String isLoginExist(Model model){
@@ -243,6 +234,17 @@ public class MenuController {
         profileService.updateProfile(profile);
         model.addAttribute("successChangeKeyWord",ModelConstants.TRUE);
         return "pages/profile";
+    }
+
+    @RequestMapping(value = "/findByIdAndEditWorker", method = RequestMethod.POST)
+    public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) throws IOException {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        Worker worker = workerService.getWorkerById(idWorker);
+        Profile profile = profileService.getProfileById(worker.getProfile().getIdProfile());
+        session.setAttribute(ModelConstants.PROFILE_DATA, profile);
+        session.setAttribute(ModelConstants.ADMIN_EDIT_PROFILE, true);
+        return "redirect:/edit";
+
     }
 
     @RequestMapping(value = "/findByIdAndShowInfo", method = RequestMethod.POST)
