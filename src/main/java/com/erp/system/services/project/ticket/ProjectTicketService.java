@@ -28,5 +28,9 @@ public interface ProjectTicketService {
 
     void performTicket(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket);
 
+    void finishTicket(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket);
+
+    void rejectFinishingTicket(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket);
+
     void appointWorker(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket);
 }

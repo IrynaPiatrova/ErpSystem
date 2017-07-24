@@ -158,14 +158,28 @@ public class TicketsController {
         return "pages/allTickets";//надо придумать как сделать return на эту же страницу
     }
 
-    @RequestMapping(value = "/workerEndTicket", method = RequestMethod.POST)
+    @RequestMapping(value = "/finishTicket", method = RequestMethod.POST)
     public String endTicket(@RequestParam("idTicket") long idTicket, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
         CommentsTicket commentsTicket = new CommentsTicket();
+        if (MethodsForControllers.isAdmin(session)) {
+            projectTicketService.finishTicket(projectTicket, worker, commentsTicket);
+            return "redirect: /main";
+        }
         projectTicketService.performTicket(projectTicket, worker, commentsTicket);
-        return "pages/main";
+        return "redirect: /main";
     }
 
+
+    @RequestMapping(value = "/rejectFinishingTicket", method = RequestMethod.POST)
+    public String rejectFinishingTicket(@RequestParam("idTicket") long idTicket, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
+        ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
+        CommentsTicket commentsTicket = new CommentsTicket();
+        projectTicketService.rejectFinishingTicket(projectTicket, worker, commentsTicket);
+        return "redirect: /main";
+    }
 }

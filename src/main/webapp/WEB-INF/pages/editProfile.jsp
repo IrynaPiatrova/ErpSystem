@@ -103,11 +103,7 @@
                         <div class="col-md-4">
                             <form:select path="employmentStatus" width="200" id="chooseEmplStatus">
                                 <option value="status" disabled selected>${profileEmploymentStatusChoose}</option>
-                                <option value="involved">${profileEmploymentStatus1}</option>
-                                <option value="not involved">${profileEmploymentStatus2}</option>
-                                <option value="on vacation">${profileEmploymentStatus3}</option>
-                                <option value="on a sick leave">${profileEmploymentStatus4}</option>
-                                <option value="dismissed">${profileEmploymentStatus5}</option>
+                                <option value="dismissed">${profileEmploymentStatus5}</option> // тут остается статус только на увольнение сотрудника - пока не сделаю отдельную страницу увольнения (кнопку на странице allWorkers)
                             </form:select>
                             <div><form:errors path="employmentStatus" style="color:red"/></div>
                         </div>
