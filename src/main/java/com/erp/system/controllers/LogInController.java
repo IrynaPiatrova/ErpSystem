@@ -2,7 +2,7 @@ package com.erp.system.controllers;
 
 import com.erp.system.constants.ModelConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
-import com.erp.system.dto.LoginPassword;
+import com.erp.system.dto.LoginPasswordDTO;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.ProjectTicket;
 import com.erp.system.entity.TimeVocation;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * Created by John on 16.06.2017
  */
 @Controller
-public class LogInController extends ExceptionsController{
+public class LogInController {
     @Autowired
     WorkerService workerService;
     @Autowired
@@ -48,7 +48,7 @@ public class LogInController extends ExceptionsController{
      */
     @RequestMapping(value = {"", "/", "/welcome"}, method = RequestMethod.GET)
     public String indexPage(Model model) {
-        model.addAttribute(ModelConstants.LOG_PASS, new LoginPassword());
+        model.addAttribute(ModelConstants.LOG_PASS, new LoginPasswordDTO());
         return "pages/index";
     }
 
@@ -60,7 +60,7 @@ public class LogInController extends ExceptionsController{
      * @return String
      */
     @RequestMapping(value = "/main", method = RequestMethod.POST)
-    public String checkUserAuthorization(@ModelAttribute(ModelConstants.LOG_PASS) @Valid LoginPassword lp,
+    public String checkUserAuthorization(@ModelAttribute(ModelConstants.LOG_PASS) @Valid LoginPasswordDTO lp,
                                          BindingResult result, Model model, HttpSession session) {
         lpValidator.validate(lp, result);
         if (result.hasErrors()) return "pages/index";
@@ -89,9 +89,6 @@ public class LogInController extends ExceptionsController{
         ArrayList<ProjectTicket> listOfTickets;
         ArrayList<TimeVocation> listOfTimeVacations;
         Worker workerByLogin = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
-        // тут инициализация информации на главной
-        // для админа: список тикетов со статусом opened, ready for testing, с истекающим сроком выполнения (дней 5); список запросов от пользователей,..
-        // для юзера: добавить возможность послать запрос на добавление даты окончания больничного
         if (MethodsForControllers.isAdmin(session)) {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByStatus(ModelConstants.STATUS_READY_FOR_TESTING);
             listOfTickets.addAll(projectTicketService.getTicketsByStatus(ModelConstants.STATUS_OPENED));

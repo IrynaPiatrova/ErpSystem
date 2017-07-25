@@ -2,14 +2,14 @@ package com.erp.system.controllers;
 
 import com.erp.system.constants.ModelConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
-import com.erp.system.dao.chat.ChatDao;
 import com.erp.system.dto.ChatDTO;
-import com.erp.system.dto.LoginPassword;
+import com.erp.system.dto.LoginPasswordDTO;
 import com.erp.system.dto.ProfileDTO;
 import com.erp.system.entity.Chat;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.TimeVocation;
 import com.erp.system.entity.Worker;
+import com.erp.system.services.chat.ChatService;
 import com.erp.system.services.profile.ProfileService;
 import com.erp.system.services.project.ticket.ProjectTicketService;
 import com.erp.system.services.time.vocation.TimeVocationService;
@@ -42,7 +42,7 @@ public class MenuController extends ExceptionsController {
     @Autowired
     ProfileService profileService;
     @Autowired
-    ChatDao chatDao;
+    ChatService chatDao;
     @Autowired
     TimeVocationService timeVocationService;
     @Autowired
@@ -104,8 +104,14 @@ public class MenuController extends ExceptionsController {
         return "redirect:/profile";
     }
 
+    /**
+     * этот метод для изменения других полей профиля - меняет ТОЛЬКО админ после выбора из списка пользователей
+     * @param profileDTO
+     * @param session
+     * @param result
+     * @return
+     */
     @RequestMapping(value = "/editAdmin", method = RequestMethod.POST)
-    //этот метод для изменения других полей профиля - меняет ТОЛЬКО админ после выбора из списка пользователей
     public String editProfileByAdmin(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
@@ -199,7 +205,7 @@ public class MenuController extends ExceptionsController {
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             return "pages/profile";
         } else {
-            model.addAttribute("logPass", new LoginPassword());
+            model.addAttribute("logPass", new LoginPasswordDTO());
             return "pages/index";
         }
     }
@@ -259,7 +265,7 @@ public class MenuController extends ExceptionsController {
     @RequestMapping(value = "/showWorkerInfo", method = RequestMethod.GET)
     public String showWorkerInfo(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session))
-            return "redirect:/";// Надо подумать будет ли доступна обычному пользователю инфо о его успеваемости
+            return "redirect:/";
         model.addAttribute(ModelConstants.COLLECTION_TICKETS, session.getAttribute(ModelConstants.COLLECTION_TICKETS));
         return "pages/workerInfo";
     }
@@ -305,7 +311,6 @@ public class MenuController extends ExceptionsController {
     @RequestMapping(value = "/messages", method = RequestMethod.GET)
     @ResponseBody
     public List<ChatDTO> getAllMessages(HttpSession session) throws IOException {
-//        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/"; надо подумать как установить ограничение на вход в этот метод тем кто не авторизовалсяя
         chatArrayList.clear();
         for (Chat chat : chatDao.getAllComments()) {
             String userLogin = (String) session.getAttribute(ModelConstants.LOGED_AS);

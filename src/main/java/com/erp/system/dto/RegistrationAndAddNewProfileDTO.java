@@ -3,7 +3,7 @@ package com.erp.system.dto;
 /**
  * Created by Roma on 04.07.2017.
  */
-public class RegistrationNewWorkerAndAddNewProfile {
+public class RegistrationAndAddNewProfileDTO {
 
     private String nameWorker;
     private String login;
@@ -16,7 +16,7 @@ public class RegistrationNewWorkerAndAddNewProfile {
     private String email;
     private String photo;
 
-    public RegistrationNewWorkerAndAddNewProfile(String nameWorker, String login, String password, String startDateProfile, String position, String department, String employment_status, String telephone, String email, String photo) {
+    public RegistrationAndAddNewProfileDTO(String nameWorker, String login, String password, String startDateProfile, String position, String department, String employment_status, String telephone, String email, String photo) {
         this.nameWorker = nameWorker;
         this.login = login;
         this.password = password;
