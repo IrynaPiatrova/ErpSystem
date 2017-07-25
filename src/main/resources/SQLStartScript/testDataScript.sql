@@ -1,0 +1,78 @@
+INSERT INTO `erp`.`workers` (`id_worker`, `login`, `password`, `name`, `id_profile`) VALUES ('1', 'admin', 'admin', 'Administrator', '1');
+INSERT INTO `erp`.`workers` (`id_worker`, `login`, `password`, `name`, `id_profile`) VALUES ('2', 'worker1', 'worker1', 'Worker First', '2');
+INSERT INTO `erp`.`workers` (`id_worker`, `login`, `password`, `name`, `id_profile`) VALUES ('3', 'worker2', 'worker2', 'Worker Second', '3');
+INSERT INTO `erp`.`workers` (`id_worker`, `login`, `password`, `name`, `id_profile`) VALUES ('4', 'worker3', 'worker3', 'Worker Third', '4');
+INSERT INTO `erp`.`workers` (`id_worker`, `login`, `password`, `name`, `id_profile`) VALUES ('5', 'worker4', 'worker4', 'Worker Fourth', '5');
+INSERT INTO `erp`.`workers` (`id_worker`, `login`, `password`, `name`, `id_profile`) VALUES ('6', 'worker5', 'worker5', 'Worker Fifth', '6');
+INSERT INTO `erp`.`workers` (`id_worker`, `login`, `password`, `name`, `id_profile`) VALUES ('7', 'worker6', 'worker6', 'Worker Six', '7');
+
+INSERT INTO `erp`.`profiles` (`id_profile`, `start_date`, `position`, `department`, `employment_status`, `telephone`, `email`, `photo`, `key_word`, `answer_on_key_word`) VALUES ('1', '2016-01-01', 'admin', 'admin', 'admin', '+375290000000', 'admin@mail.ru', ?, 'admin', 'admin');
+INSERT INTO `erp`.`profiles` (`id_profile`, `start_date`, `position`, `department`, `employment_status`, `telephone`, `email`, `photo`, `key_word`, `answer_on_key_word`) VALUES ('2', '2017-05-20', 'junior developer', 'development', 'involved', '+375291111111', 'worker1@mail.ru', ?, 'number', '1');
+INSERT INTO `erp`.`profiles` (`id_profile`, `start_date`, `position`, `department`, `employment_status`, `telephone`, `email`, `photo`, `key_word`, `answer_on_key_word`) VALUES ('3', '2017-02-11', 'middle developer', 'development', 'not involved', '+375292222222', 'worker2@mail.ru', ?, 'number', '2');
+INSERT INTO `erp`.`profiles` (`id_profile`, `start_date`, `position`, `department`, `employment_status`, `telephone`, `email`, `photo`, `key_word`, `answer_on_key_word`) VALUES ('4', '2016-09-09', 'senior developer', 'development', 'on vacation', '+375293333333', 'worker3@mail.ru', ?, 'number', '3');
+INSERT INTO `erp`.`profiles` (`id_profile`, `start_date`, `position`, `department`, `employment_status`, `telephone`, `email`, `photo`, `key_word`, `answer_on_key_word`) VALUES ('5', '2017-02-05', 'QAEngineer', 'testing', 'on a sick leave', '+375294444444', 'worker4@mail.ru', ?, 'number', '4');
+INSERT INTO `erp`.`profiles` (`id_profile`, `start_date`, `position`, `department`, `employment_status`, `telephone`, `email`, `photo`, `key_word`, `answer_on_key_word`) VALUES ('6', '2017-04-01', 'designer', 'design', 'dismissed', '+375295555555', 'worker5@mail.ru', ?, 'number', '5');
+INSERT INTO `erp`.`profiles` (`id_profile`, `start_date`, `position`, `department`, `employment_status`, `telephone`, `email`, `photo`, `key_word`, `answer_on_key_word`) VALUES ('7', '2017-05-02', 'designer', 'design', 'involved', '+375296666666', 'worker6@mail.ru', ?, 'number', '6');
+
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `end_ticket_date`, `deadline`, `id_worker`) VALUES ('1', 'Ticket 1', 'Specification for ticket #1', 'finished', '2016-09-10', '2016-10-22', '2016-10-10', '4');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `end_ticket_date`, `deadline`, `id_worker`) VALUES ('2', 'Ticket 2', 'Specification for ticket #2', 'ready for testing', '2017-06-21', '2017-06-30', '2017-07-05', '2');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `end_ticket_date`, `deadline`, `id_worker`) VALUES ('3', 'Ticket 3', 'Specification for ticket #3', 'ready for testing', '2017-06-30', '2017-07-13', '2017-07-10', '2');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `end_ticket_date`, `deadline`, `id_worker`) VALUES ('4', 'Ticket 4', 'Specification for ticket #4', 'finished', '2017-05-25', '2017-06-02', '2017-06-10', '2');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `end_ticket_date`, `deadline`, `id_worker`) VALUES ('5', 'Ticket 5', 'Specification for ticket #5', 'finished', '2017-04-10', '2017-05-15', '2017-04-30', '6');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `end_ticket_date`, `deadline`, `id_worker`) VALUES ('6', 'Ticket 6', 'Specification for ticket #6', 'ready for testing', '2017-02-28', '2017-03-20', '2017-04-01', '3');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `deadline`, `id_worker`) VALUES ('7', 'Ticket 7', 'Specification for ticket #7', 'paused', '2017-06-01', '2017-09-01', '4');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `deadline`, `id_worker`) VALUES ('8', 'Ticket 8', 'Specification for ticket #8', 'paused', '2017-06-05', '2017-08-10', '5');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `deadline`) VALUES ('9', 'Ticket 9', 'Specification for ticket #9', 'opened', '2017-10-15');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `deadline`, `id_worker`) VALUES ('10', 'Ticket 10', 'Specification for ticket #10', 'in progress', '2017-07-13', '2017-07-30', '2');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `deadline`) VALUES ('11', 'Ticket 11', 'Specification for ticket #11', 'opened', '2017-12-31');
+INSERT INTO `erp`.`project_tickets` (`id_project_ticket`, `name`, `specification`, `status`, `start_ticket_date`, `deadline`, `id_worker`) VALUES ('12', 'Ticket 12', 'Specification for ticket #12', 'in progress', '2017-06-02', '2017-07-30', '7');
+
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('1', '1', '4', '2016-09-10', '12');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('2', '2', '2', '2017-06-21', '2');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('3', '2', '2', '2017-06-25', '5');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('4', '3', '2', '2017-06-30', '13');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('5', '4', '2', '2017-05-25', '8');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('6', '5', '6', '2017-04-10', '10');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('7', '5', '6', '2017-04-30', '15');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('8', '6', '3', '2017-02-28', '20');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('9', '7', '4', '2017-06-01', '30');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`, `spent_time`) VALUES ('10', '8', '5', '2017-06-05', '25');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`) VALUES ('11', '10', '2', '2017-07-13');
+INSERT INTO `erp`.`work_log` (`id_work_log`, `id_project_ticket`, `id_worker`, `start_log_date`) VALUES ('12', '12', '7', '2017-06-02');
+
+INSERT INTO `erp`.`time_vocations` (`id_time_vocation`, `id_worker`, `start_voc_date`, `end_voc_date`, `type`, `is_confirmed`) VALUES ('1', '2', '2017-06-23', '2017-06-25', 'sick leave', '1');
+INSERT INTO `erp`.`time_vocations` (`id_time_vocation`, `id_worker`, `start_voc_date`, `end_voc_date`, `type`, `is_confirmed`) VALUES ('2', '6', '2017-04-20', '2017-04-30', 'vacation', '1');
+INSERT INTO `erp`.`time_vocations` (`id_time_vocation`, `id_worker`, `start_voc_date`, `end_voc_date`, `type`, `is_confirmed`) VALUES ('3', '4', '2017-07-02', '2017-08-02', 'vacation', '1');
+INSERT INTO `erp`.`time_vocations` (`id_time_vocation`, `id_worker`, `start_voc_date`, `type`, `is_confirmed`) VALUES ('4', '5', '2017-07-01', 'sick leave', '1');
+INSERT INTO `erp`.`time_vocations` (`id_time_vocation`, `id_worker`, `start_voc_date`, `end_voc_date`, `type`, `is_confirmed`) VALUES ('5', '2', '2017-08-01', '2017-08-20', 'vacation', '0');
+INSERT INTO `erp`.`time_vocations` (`id_time_vocation`, `id_worker`, `start_voc_date`, `type`, `is_confirmed`) VALUES ('6', '7', '2017-07-27', 'sick leave', '0');
+
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('1', '1', '1', 'Ticket 1 is appointed to Worker Third', '2016-09-10 08:10:35');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('2', '1', '4', 'Ticket 1 is ready for testing', '2016-10-22 11:12:40');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('3', '1', '1', 'Ticket 1 is finished', '2016-10-22 13:37:40');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('4', '2', '1', 'Ticket 2 is appointed to Worker First', '2017-06-21 08:05:10');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('5', '2', '2', 'Ticket 2 is ready for testing', '2017-06-30 14:20:00');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('6', '3', '1', 'Ticket 3 is appointed to Worker First', '2017-06-30 08:20:00');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('7', '3', '2', 'Ticket 3 is ready for testing', '2017-07-13 11:01:04');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('8', '4', '1', 'Ticket 4 is appointed to Worker First', '2017-05-25 08:08:10');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('9', '4', '2', 'Ticket 4 is ready for testing', '2017-06-02 10:10:22');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('10', '4', '1', 'Ticket 4 is finished', '2017-06-02 12:18:22');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('11', '5', '1', 'Ticket 4 is appointed to Worker Fifth', '2017-04-10 08:01:20');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('12', '5', '6', 'I can not do it...', '2017-04-10 10:13:35');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('13', '5', '1', 'It is not good(', '2017-04-10 10:19:50');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('14', '5', '6', 'Ticket 5 is ready for testing', '2017-05-15 17:39:20');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('15', '5', '1', 'Ticket 5 is finished', '2017-05-16 08:21:20');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('16', '6', '1', 'Ticket 6 is appointed to Worker Second', '2017-02-28 08:22:45');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('17', '6', '3', 'Ticket 6 is ready for testing', '2017-03-20 16:11:00');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('18', '6', '1', 'Are you sure?', '2017-03-20 16:14:20');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('19', '7', '1', 'Ticket 7 is appointed to Worker Third', '2017-06-01 08:48:47');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('20', '8', '1', 'Ticket 8 is appointed to Worker Fourth', '2017-06-05 08:31:32');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('21', '10', '1', 'Ticket 10 is appointed to Worker First', '2017-07-13 08:28:26');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('22', '12', '1', 'Ticket 12 is appointed to Worker Six', '2017-06-02 08:56:32');
+INSERT INTO `erp`.`comments_ticket` (`id_comment`, `id_project_ticket`, `id_worker`, `comment`, `comment_date`) VALUES ('23', '12', '7', 'I have some problems..', '2017-06-23 14:32:32');
+
+INSERT INTO `erp`.`chat` (`id_comment`, `id_worker`, `comment_date`, `comment`) VALUES ('1', '1', '2017-01-01 00:00:15', 'First comment from admin))');
+INSERT INTO `erp`.`chat` (`id_comment`, `id_worker`, `comment_date`, `comment`) VALUES ('2', '2', '2017-01-21 09:04:15', 'And my comment!');
+INSERT INTO `erp`.`chat` (`id_comment`, `id_worker`, `comment_date`, `comment`) VALUES ('3', '3', '2017-01-22 11:00:28', 'And my, too!');
+INSERT INTO `erp`.`chat` (`id_comment`, `id_worker`, `comment_date`, `comment`) VALUES ('4', '4', '2017-01-22 09:55:22', 'Hi, all!');
+INSERT INTO `erp`.`chat` (`id_comment`, `id_worker`, `comment_date`, `comment`) VALUES ('5', '1', '2017-06-22 15:12:34', 'Some info for all workers..');
