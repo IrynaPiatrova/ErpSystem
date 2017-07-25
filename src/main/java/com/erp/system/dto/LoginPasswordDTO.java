@@ -4,14 +4,14 @@ package com.erp.system.dto;
  * Created by John on 16.06.2017.
  */
 
-public class LoginPassword {
+public class LoginPasswordDTO {
     private String login;
     private String password;
 
-    public LoginPassword() {
+    public LoginPasswordDTO() {
     }
 
-    public LoginPassword(String login, String password) {
+    public LoginPasswordDTO(String login, String password) {
         this.login = login;
         this.password = password;
     }

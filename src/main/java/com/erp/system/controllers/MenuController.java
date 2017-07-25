@@ -2,14 +2,14 @@ package com.erp.system.controllers;
 
 import com.erp.system.constants.ModelConstants;
 import com.erp.system.controllers.methods.MethodsForControllers;
-import com.erp.system.dao.chat.ChatDao;
 import com.erp.system.dto.ChatDTO;
-import com.erp.system.dto.LoginPassword;
+import com.erp.system.dto.LoginPasswordDTO;
 import com.erp.system.dto.ProfileDTO;
 import com.erp.system.entity.Chat;
 import com.erp.system.entity.Profile;
 import com.erp.system.entity.TimeVocation;
 import com.erp.system.entity.Worker;
+import com.erp.system.services.chat.ChatService;
 import com.erp.system.services.profile.ProfileService;
 import com.erp.system.services.project.ticket.ProjectTicketService;
 import com.erp.system.services.time.vocation.TimeVocationService;
@@ -42,7 +42,7 @@ public class MenuController extends ExceptionsController {
     @Autowired
     ProfileService profileService;
     @Autowired
-    ChatDao chatDao;
+    ChatService chatDao;
     @Autowired
     TimeVocationService timeVocationService;
     @Autowired
@@ -199,7 +199,7 @@ public class MenuController extends ExceptionsController {
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             return "pages/profile";
         } else {
-            model.addAttribute("logPass", new LoginPassword());
+            model.addAttribute("logPass", new LoginPasswordDTO());
             return "pages/index";
         }
     }

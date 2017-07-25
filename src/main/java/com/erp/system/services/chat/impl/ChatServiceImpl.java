@@ -31,7 +31,7 @@ public class ChatServiceImpl implements ChatService{
 
     @Override
     @Transactional
-    public List getAllComments() {
+    public List<Chat> getAllComments() {
         return chatDao.getAllComments();
     }
 }

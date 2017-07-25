@@ -25,8 +25,12 @@
     <script language="javascript" type="text/javascript">
         $(document).ready(function () {
             ajaxRequest();
-            /* setInterval("ajaxRequest()",2000);*/
+            setInterval("updatePage()", 2000);
         });
+        function updatePage() {
+            $("#lists").empty();
+            ajaxRequest();
+        };
         function ajaxRequest() {
             $.ajax({
                 type: "get",
@@ -79,7 +83,7 @@
 
                             <div class="clearfix"></div>
                             <div <%--class="chat_bottom"--%> class="chat_time pull-right">
-                               <%-- class="pull-right btn btn-success"--%>
+                                    <%-- class="pull-right btn btn-success"--%>
                                 <input type="submit" value="${submit}" class="btn btn-default">
                             </div>
                         </form:form>
