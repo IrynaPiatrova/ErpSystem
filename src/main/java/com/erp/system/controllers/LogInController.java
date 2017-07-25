@@ -89,9 +89,6 @@ public class LogInController {
         ArrayList<ProjectTicket> listOfTickets;
         ArrayList<TimeVocation> listOfTimeVacations;
         Worker workerByLogin = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
-        // тут инициализация информации на главной
-        // для админа: список тикетов со статусом opened, ready for testing, с истекающим сроком выполнения (дней 5); список запросов от пользователей,..
-        // для юзера: добавить возможность послать запрос на добавление даты окончания больничного
         if (MethodsForControllers.isAdmin(session)) {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByStatus(ModelConstants.STATUS_READY_FOR_TESTING);
             listOfTickets.addAll(projectTicketService.getTicketsByStatus(ModelConstants.STATUS_OPENED));

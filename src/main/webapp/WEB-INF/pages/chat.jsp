@@ -80,10 +80,8 @@
                     <div class="message_write">
                         <form:form action="addMessage" method="GET">
                             <textarea name="textMessage" class="form-control" placeholder="${inputMessage}"></textarea>
-
                             <div class="clearfix"></div>
-                            <div <%--class="chat_bottom"--%> class="chat_time pull-right">
-                                    <%-- class="pull-right btn btn-success"--%>
+                            <div class="chat_time pull-right">
                                 <input type="submit" value="${submit}" class="btn btn-default">
                             </div>
                         </form:form>

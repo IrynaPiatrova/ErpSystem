@@ -31,7 +31,7 @@ import java.util.Date;
  * Created by klinster on 18.06.2017
  */
 @Controller
-public class TicketsController extends ExceptionsController{
+public class TicketsController extends ExceptionsController {
     @Autowired
     ProjectTicketService projectTicketService;
     @Autowired
@@ -63,7 +63,8 @@ public class TicketsController extends ExceptionsController{
         if (deadlineDate.length() == 0) result.rejectValue("deadlineTicket", "empty.ticket.deadlineDate");
         if (result.hasErrors()) return "pages/addNewTicket";
         Date dateOfDeadline = simpleDateFormat.parse(deadlineDate);
-        if (dateOfDeadline.compareTo(todayDate) == -1) result.rejectValue("deadlineTicket", "before.ticket.deadlineDate");
+        if (dateOfDeadline.compareTo(todayDate) == -1)
+            result.rejectValue("deadlineTicket", "before.ticket.deadlineDate");
         if (result.hasErrors()) return "pages/addNewTicket";
         projectTicket.setDeadlineTicket(deadlineDate);
         projectTicketService.createProjectTicket(projectTicket);
@@ -102,16 +103,16 @@ public class TicketsController extends ExceptionsController{
     public String allTickets(Model model, @RequestParam("statusProject") String status, HttpSession session) throws ServletException, IOException {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         ArrayList<ProjectTicket> listOfTickets;
-        if (MethodsForControllers.isAdmin(session)) {//если админ то отобразить все тикеты
-            if (status.equals(ModelConstants.ALL_TICKETS)) {
+        boolean isStatusEquals = status.equals(ModelConstants.ALL_TICKETS);
+        if (MethodsForControllers.isAdmin(session)) {
+            if (isStatusEquals) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getAllProjectTickets();
             } else {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByStatus(status);
             }
-        } else {//если не админ, то через сессию получаем логин,
-            // а через логин получаем все тикеты того кто авторизовался
+        } else {
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
-            if (status.equals(ModelConstants.ALL_TICKETS)) {
+            if (isStatusEquals) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
             } else {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(worker, status);
@@ -124,8 +125,7 @@ public class TicketsController extends ExceptionsController{
     @RequestMapping(value = "/chooseTicket{var}")
     public String chooseTicket(@PathVariable("var") long var, Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        listOfDTOComments.clear();//здесь очищаются список с комментариями,
-        // потому что при обновлении страницы они дублируются
+        listOfDTOComments.clear();
         listOfComments = (ArrayList<CommentsTicket>) commentsTicketService.getCommentsTicketByIdTicket(var);
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(var);
         for (CommentsTicket m : listOfComments) {
