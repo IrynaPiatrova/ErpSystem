@@ -114,6 +114,12 @@ public class LogInController {
         return "pages/addNewProfile";
     }
 
+    /**
+     *
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/addNewTicket", method = RequestMethod.GET)
     public String addNewTicket(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";

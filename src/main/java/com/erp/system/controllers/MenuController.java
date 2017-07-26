@@ -5,10 +5,7 @@ import com.erp.system.controllers.methods.MethodsForControllers;
 import com.erp.system.dto.ChatDTO;
 import com.erp.system.dto.LoginPasswordDTO;
 import com.erp.system.dto.ProfileDTO;
-import com.erp.system.entity.Chat;
-import com.erp.system.entity.Profile;
-import com.erp.system.entity.TimeVocation;
-import com.erp.system.entity.Worker;
+import com.erp.system.entity.*;
 import com.erp.system.services.chat.ChatService;
 import com.erp.system.services.profile.ProfileService;
 import com.erp.system.services.project.ticket.ProjectTicketService;
@@ -64,7 +61,7 @@ public class MenuController extends ExceptionsController {
         session.setAttribute(ModelConstants.PHOTO, photo);
         model.addAttribute(ModelConstants.NAME_USER, workerByLogin.getNameWorker());
         model.addAttribute(ModelConstants.PROFILE, profileById);
-        session.setAttribute(ModelConstants.PROFILE_DATA, profileById);
+        session.setAttribute(ModelConstants.PROFILE_ID, profileById.getIdProfile());
         session.removeAttribute(ModelConstants.ADMIN_EDIT_PROFILE);
         return "pages/profile";
     }
@@ -73,7 +70,7 @@ public class MenuController extends ExceptionsController {
     @RequestMapping(value = {"/edit", "/editAdmin"}, method = RequestMethod.GET)
     public String editProfileInit(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        model.addAttribute(ModelConstants.PROFILE, session.getAttribute(ModelConstants.PROFILE_DATA));
+        model.addAttribute(ModelConstants.PROFILE, profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID)));
         return "pages/editProfile";
     }
 
@@ -81,7 +78,7 @@ public class MenuController extends ExceptionsController {
     //это метод для изменения СВОЕГО профиля (или пользователь меняет свой профиль, или админ свой)
     public String editProfile(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, @RequestParam("photo") MultipartFile photo, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+        Profile profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         String profileDTOLogin = profileDTO.getWorker().getLogin();
         profileDTO.setEmploymentStatus(profile.getEmploymentStatus());
         profileDTO.setPosition(profile.getPosition());
@@ -114,7 +111,7 @@ public class MenuController extends ExceptionsController {
     @RequestMapping(value = "/editAdmin", method = RequestMethod.POST)
     public String editProfileByAdmin(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+        Profile profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         profileDTO.setTelephone(profile.getTelephone());
         profileDTO.setEmail(profile.getEmail());
         profileDTO.getWorker().setLogin(profile.getWorker().getLogin());
@@ -157,7 +154,7 @@ public class MenuController extends ExceptionsController {
 
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
     public String changePassword(Model model, HttpSession session) {
-        Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+        Profile profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         model.addAttribute(ModelConstants.PROFILE, profile);
         model.addAttribute(ModelConstants.LOGED_AS, session.getAttribute(ModelConstants.LOGED_AS));
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) model.addAttribute("keyWord", profile.getKeyWord());
@@ -168,7 +165,7 @@ public class MenuController extends ExceptionsController {
     public String change(Model model, HttpSession session) {
         Profile profile;
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
-            profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+            profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         } else {
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
             profile = worker.getProfile();
@@ -188,7 +185,7 @@ public class MenuController extends ExceptionsController {
         if (profileDTO.getAnswerOnKeyWord().isEmpty()) result.rejectValue("answerOnKeyWord", "empty.answerOnKeyWord");
         Profile profile;
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
-            profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+            profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         } else {
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
             profile = worker.getProfile();
@@ -213,17 +210,11 @@ public class MenuController extends ExceptionsController {
     @RequestMapping(value = "/changeKeyWord", method = RequestMethod.GET)
     public String changeKeyWord(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        model.addAttribute(ModelConstants.PROFILE, session.getAttribute(ModelConstants.PROFILE_DATA));
+        model.addAttribute(ModelConstants.PROFILE, profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID)));
         return "pages/changeKeyWord";
     }
 
-    @RequestMapping(value = "/changeKey", method = RequestMethod.GET)
-    public String changeKey(Model model, HttpSession session) {
-        model.addAttribute(ModelConstants.PROFILE, session.getAttribute(ModelConstants.PROFILE_DATA));
-        return "pages/changeKeyWord";
-    }
-
-    @RequestMapping(value = "/changeKey", method = RequestMethod.POST)
+    @RequestMapping(value = "/changeKeyWord", method = RequestMethod.POST)
     public String changeKey(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, BindingResult result,
                             @RequestParam("password") String password,
                             Model model, HttpSession session) {
@@ -232,7 +223,7 @@ public class MenuController extends ExceptionsController {
         if (profileDTO.getKeyWord() == null) result.rejectValue("keyWord", "empty.keyWord");
         if (profileDTO.getAnswerOnKeyWord().isEmpty()) result.rejectValue("answerOnKeyWord", "empty.answerOnKeyWord");
         if (result.hasErrors()) return "pages/changeKeyWord";
-        Profile profile = (Profile) session.getAttribute(ModelConstants.PROFILE_DATA);
+        Profile profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         if (!password.equals(profile.getWorker().getPassword())) result.rejectValue("worker.password", "err.password");
         if (result.hasErrors()) return "pages/changeKeyWord";
         profile.setKeyWord(profileDTO.getKeyWord());
@@ -243,21 +234,20 @@ public class MenuController extends ExceptionsController {
     }
 
     @RequestMapping(value = "/findByIdAndEditWorker", method = RequestMethod.POST)
-    public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) throws IOException {
+    public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session) throws IOException {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         Worker worker = workerService.getWorkerById(idWorker);
-        Profile profile = profileService.getProfileById(worker.getProfile().getIdProfile());
-        session.setAttribute(ModelConstants.PROFILE_DATA, profile);
+        session.setAttribute(ModelConstants.PROFILE_ID, worker.getProfile().getIdProfile());
         session.setAttribute(ModelConstants.ADMIN_EDIT_PROFILE, true);
         return "redirect:/edit";
 
     }
 
     @RequestMapping(value = "/findByIdAndShowInfo", method = RequestMethod.POST)
-    public String findByIdAndShowInfo(@RequestParam("idWorker") Long idWorker, HttpSession session, Model model) {
+    public String findByIdAndShowInfo(@RequestParam("idWorker") Long idWorker, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         Worker worker = workerService.getWorkerById(idWorker);
-        session.setAttribute(ModelConstants.COLLECTION_TICKETS, projectTicketService.getWorkerProjectTicketsPerfomance(worker));
+        session.setAttribute(ModelConstants.TEMP_WORKER_ID, idWorker);
         session.setAttribute(ModelConstants.TEMP_WORKER, worker.getNameWorker());
         return "redirect:/showWorkerInfo";
     }
@@ -266,7 +256,7 @@ public class MenuController extends ExceptionsController {
     public String showWorkerInfo(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session))
             return "redirect:/";
-        model.addAttribute(ModelConstants.COLLECTION_TICKETS, session.getAttribute(ModelConstants.COLLECTION_TICKETS));
+        model.addAttribute(ModelConstants.COLLECTION_TICKETS, projectTicketService.getWorkerProjectTicketsPerfomance(workerService.getWorkerById((Long) session.getAttribute(ModelConstants.TEMP_WORKER_ID))));
         return "pages/workerInfo";
     }
 
@@ -283,11 +273,10 @@ public class MenuController extends ExceptionsController {
         session.removeAttribute(ModelConstants.LOGED_AS);
         session.removeAttribute(ModelConstants.NAME_USER);
         session.removeAttribute(ModelConstants.PHOTO);
-        session.removeAttribute(ModelConstants.PROFILE_DATA);
+        session.removeAttribute(ModelConstants.PROFILE_ID);
+        session.removeAttribute(ModelConstants.TEMP_WORKER_ID);
         session.removeAttribute(ModelConstants.ADMIN_EDIT_PROFILE);
         session.removeAttribute(ModelConstants.TEMP_WORKER);
-        session.removeAttribute(ModelConstants.COLLECTION_TICKETS);
-
         return "redirect:/";
     }
 

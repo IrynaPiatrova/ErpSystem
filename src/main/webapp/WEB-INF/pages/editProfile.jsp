@@ -39,7 +39,7 @@
                enctype="multipart/form-data">
     <fieldset>
 
-        <legend>${profileEdition} : ${profileData.worker.nameWorker} </legend>
+        <legend>${profileEdition} : ${profile.worker.nameWorker} </legend>
 
         <table>
             <tr>
@@ -77,7 +77,7 @@
                     </div>
                 </td>
                 <td>
-                    <jsp:text> ${profileData.department} </jsp:text>
+                    <jsp:text> ${profile.department} </jsp:text>
                 </td>
             </tr>
             <tr>
@@ -94,7 +94,7 @@
                     </div>
                 </td>
                 <td>
-                    <jsp:text> ${profileData.position} </jsp:text>
+                    <jsp:text> ${profile.position} </jsp:text>
                 </td>
             </tr>
             <tr>
@@ -112,7 +112,7 @@
                     </div>
                 </td>
                 <td>
-                    <jsp:text> ${profileData.employmentStatus} </jsp:text>
+                    <jsp:text> ${profile.employmentStatus} </jsp:text>
                 </td>
             </tr>
         </table>

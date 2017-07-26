@@ -22,7 +22,7 @@
 <body>
 
 <div class="container">
-    <form:form class="form-horizontal" action="changeKey" modelAttribute="profile">
+    <form:form class="form-horizontal" action="changeKeyWord" modelAttribute="profile">
 
         <div class="form-group">
             <label class="col-md-4 control-label">${writePassword}</label>
