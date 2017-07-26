@@ -5,8 +5,8 @@ import com.erp.system.entity.WorkLog;
 import com.erp.system.services.work.log.WorkLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 /**

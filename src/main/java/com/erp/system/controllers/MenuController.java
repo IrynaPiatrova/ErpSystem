@@ -51,6 +51,11 @@ public class MenuController extends ExceptionsController {
 
     private List<ChatDTO> chatArrayList = new ArrayList<>();
 
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String mainPage(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
@@ -66,7 +71,11 @@ public class MenuController extends ExceptionsController {
         return "pages/profile";
     }
 
-
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = {"/edit", "/editAdmin"}, method = RequestMethod.GET)
     public String editProfileInit(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
@@ -74,9 +83,18 @@ public class MenuController extends ExceptionsController {
         return "pages/editProfile";
     }
 
+    /**
+     * это метод для изменения СВОЕГО профиля (или пользователь меняет свой профиль, или админ свой)
+     *
+     * @param profileDTO
+     * @param photo
+     * @param session
+     * @param result
+     * @return
+     */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    //это метод для изменения СВОЕГО профиля (или пользователь меняет свой профиль, или админ свой)
-    public String editProfile(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, @RequestParam("photo") MultipartFile photo, HttpSession session, BindingResult result) {
+    public String editProfile(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO,
+                              @RequestParam(ModelConstants.PHOTO) MultipartFile photo, HttpSession session, BindingResult result) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Profile profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         String profileDTOLogin = profileDTO.getWorker().getLogin();
@@ -91,7 +109,7 @@ public class MenuController extends ExceptionsController {
         try {
             if (photo.getBytes().length > 0) profile.setPhoto(photo.getBytes());
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // залоггировать
         }
         profile.setTelephone(profileDTO.getTelephone());
         profile.setEmail(profileDTO.getEmail());
@@ -103,6 +121,7 @@ public class MenuController extends ExceptionsController {
 
     /**
      * этот метод для изменения других полей профиля - меняет ТОЛЬКО админ после выбора из списка пользователей
+     *
      * @param profileDTO
      * @param session
      * @param result
@@ -126,15 +145,27 @@ public class MenuController extends ExceptionsController {
         return "redirect:/allWorkers";
     }
 
-
+    /**
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/isLoginExist", method = RequestMethod.GET)
-    public String isLoginExist(Model model) {
-        model.addAttribute("worker", new Worker());
+    public String isLoginExist(HttpSession session, Model model) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        model.addAttribute(ModelConstants.WORKER, new Worker());
         return "pages/changePassword";
     }
 
+    /**
+     * @param worker
+     * @param result
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/isLoginExist", method = RequestMethod.POST)
-    public String isLoginExist(@ModelAttribute("worker") @Valid Worker worker, BindingResult result, Model model, HttpSession session) {
+    public String isLoginExist(@ModelAttribute(ModelConstants.WORKER) @Valid Worker worker, BindingResult result, Model model, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         if (worker.getLogin().isEmpty()) {
             result.rejectValue("login", "empty.login");
             return "pages/changePassword";
@@ -146,38 +177,61 @@ public class MenuController extends ExceptionsController {
             result.rejectValue("login", "exist.keyWord");
         if (result.hasErrors()) return "pages/changePassword";
         model.addAttribute(ModelConstants.PROFILE, worker.getProfile());
-        model.addAttribute("keyWord", worker.getProfile().getKeyWord());
+        model.addAttribute(ModelConstants.KEY_WORD, worker.getProfile().getKeyWord());
         model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
-        session.setAttribute("login", worker.getLogin());
+        session.setAttribute(ModelConstants.LOGIN, worker.getLogin());
         return "pages/changePassword";
     }
 
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
-    public String changePassword(Model model, HttpSession session) {
+    public String changePassword(HttpSession session, Model model) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Profile profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         model.addAttribute(ModelConstants.PROFILE, profile);
         model.addAttribute(ModelConstants.LOGED_AS, session.getAttribute(ModelConstants.LOGED_AS));
-        if (session.getAttribute(ModelConstants.LOGED_AS) != null) model.addAttribute("keyWord", profile.getKeyWord());
+        if (session.getAttribute(ModelConstants.LOGED_AS) != null)
+            model.addAttribute(ModelConstants.KEY_WORD, profile.getKeyWord());
         return "pages/changePassword";
     }
 
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/changePas", method = RequestMethod.GET)
-    public String change(Model model, HttpSession session) {
+    public String change(HttpSession session, Model model) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Profile profile;
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         } else {
-            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
+            Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGIN));
             profile = worker.getProfile();
         }
-        model.addAttribute("keyWord", profile.getKeyWord());
+        model.addAttribute(ModelConstants.KEY_WORD, profile.getKeyWord());
         return "pages/changePassword";
     }
 
+    /**
+     * @param profileDTO
+     * @param result
+     * @param repeatNewPassword
+     * @param newPassword
+     * @param session
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/changePas", method = RequestMethod.POST)
     public String change(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO,
-                         BindingResult result, @RequestParam("repeatNewPassword") String repeatNewPassword,
-                         @RequestParam("newPassword") String newPassword, HttpSession session, Model model) {
+                         BindingResult result, @RequestParam(ModelConstants.REPEAT_NEW_PASSWORD) String repeatNewPassword,
+                         @RequestParam(ModelConstants.NEW_PASSWORD) String newPassword, HttpSession session, Model model) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         if (session.getAttribute(ModelConstants.LOGED_AS) == null)
             model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
         if (newPassword.isEmpty()) result.rejectValue("worker.password", "empty.password");
@@ -190,7 +244,7 @@ public class MenuController extends ExceptionsController {
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute("login"));
             profile = worker.getProfile();
         }
-        model.addAttribute("keyWord", profile.getKeyWord());
+        model.addAttribute(ModelConstants.KEY_WORD, profile.getKeyWord());
         if (result.hasErrors()) return "pages/changePassword";
         if (!profileDTO.getAnswerOnKeyWord().equals(profile.getAnswerOnKeyWord()))
             result.rejectValue("answerOnKeyWord", "incorrect.keyWord");
@@ -198,15 +252,20 @@ public class MenuController extends ExceptionsController {
         if (result.hasErrors()) return "pages/changePassword";
         profile.getWorker().setPassword(newPassword);
         profileService.updateProfile(profile);
-        model.addAttribute("successChangePassword", ModelConstants.TRUE);
+        model.addAttribute(ModelConstants.SUCCESS_CHANGE_PASSWORD, ModelConstants.TRUE);
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             return "pages/profile";
         } else {
-            model.addAttribute("logPass", new LoginPasswordDTO());
+            model.addAttribute(ModelConstants.LOG_PASS, new LoginPasswordDTO());
             return "pages/index";
         }
     }
 
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/changeKeyWord", method = RequestMethod.GET)
     public String changeKeyWord(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
@@ -214,10 +273,17 @@ public class MenuController extends ExceptionsController {
         return "pages/changeKeyWord";
     }
 
+    /**
+     * @param profileDTO
+     * @param result
+     * @param password
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/changeKeyWord", method = RequestMethod.POST)
     public String changeKey(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO, BindingResult result,
-                            @RequestParam("password") String password,
-                            Model model, HttpSession session) {
+                            @RequestParam(ModelConstants.PASSWORD) String password, Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         if (password.isEmpty()) result.rejectValue("worker.password", "empty.password");
         if (profileDTO.getKeyWord() == null) result.rejectValue("keyWord", "empty.keyWord");
@@ -229,12 +295,18 @@ public class MenuController extends ExceptionsController {
         profile.setKeyWord(profileDTO.getKeyWord());
         profile.setAnswerOnKeyWord(profileDTO.getAnswerOnKeyWord());
         profileService.updateProfile(profile);
-        model.addAttribute("successChangeKeyWord", ModelConstants.TRUE);
+        model.addAttribute(ModelConstants.SUCCESS_CHANGE_KEY_WORD, ModelConstants.TRUE);
         return "pages/profile";
     }
 
+    /**
+     * @param idWorker
+     * @param session
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/findByIdAndEditWorker", method = RequestMethod.POST)
-    public String findByIdAndEditWorker(@RequestParam("idWorker") Long idWorker, HttpSession session) throws IOException {
+    public String findByIdAndEditWorker(@RequestParam(ModelConstants.WORKER_ID) Long idWorker, HttpSession session) throws IOException {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         Worker worker = workerService.getWorkerById(idWorker);
         session.setAttribute(ModelConstants.PROFILE_ID, worker.getProfile().getIdProfile());
@@ -243,8 +315,13 @@ public class MenuController extends ExceptionsController {
 
     }
 
+    /**
+     * @param idWorker
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/findByIdAndShowInfo", method = RequestMethod.POST)
-    public String findByIdAndShowInfo(@RequestParam("idWorker") Long idWorker, HttpSession session) {
+    public String findByIdAndShowInfo(@RequestParam(ModelConstants.WORKER_ID) Long idWorker, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         Worker worker = workerService.getWorkerById(idWorker);
         session.setAttribute(ModelConstants.TEMP_WORKER_ID, idWorker);
@@ -252,14 +329,23 @@ public class MenuController extends ExceptionsController {
         return "redirect:/showWorkerInfo";
     }
 
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/showWorkerInfo", method = RequestMethod.GET)
     public String showWorkerInfo(Model model, HttpSession session) {
-        if (!MethodsForControllers.isLogedIn(session))
-            return "redirect:/";
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         model.addAttribute(ModelConstants.COLLECTION_TICKETS, projectTicketService.getWorkerProjectTicketsPerfomance(workerService.getWorkerById((Long) session.getAttribute(ModelConstants.TEMP_WORKER_ID))));
         return "pages/workerInfo";
     }
 
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/allWorkers", method = RequestMethod.GET)
     public String getAllWorker(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
@@ -267,16 +353,25 @@ public class MenuController extends ExceptionsController {
         return "pages/allWorkers";
     }
 
+    /**
+     * For log out and clear session
+     *
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/logOut", method = RequestMethod.GET)
     public String logOut(HttpSession session) {
-        session.removeAttribute(ModelConstants.IS_ADMIN);
-        session.removeAttribute(ModelConstants.LOGED_AS);
-        session.removeAttribute(ModelConstants.NAME_USER);
         session.removeAttribute(ModelConstants.PHOTO);
+        session.removeAttribute(ModelConstants.NAME_USER);
+        session.removeAttribute(ModelConstants.LOGED_AS);
+        session.removeAttribute(ModelConstants.IS_ADMIN);
         session.removeAttribute(ModelConstants.PROFILE_ID);
-        session.removeAttribute(ModelConstants.TEMP_WORKER_ID);
+        session.removeAttribute(ModelConstants.LOGIN);
         session.removeAttribute(ModelConstants.ADMIN_EDIT_PROFILE);
+        session.removeAttribute(ModelConstants.TEMP_WORKER_ID);
         session.removeAttribute(ModelConstants.TEMP_WORKER);
+        session.removeAttribute(ModelConstants.VACATION_VALIDATION);
+        session.removeAttribute(ModelConstants.PROFILE);
         return "redirect:/";
     }
 
@@ -299,7 +394,8 @@ public class MenuController extends ExceptionsController {
      */
     @RequestMapping(value = "/messages", method = RequestMethod.GET)
     @ResponseBody
-    public List<ChatDTO> getAllMessages(HttpSession session) throws IOException {
+    public List<ChatDTO> getAllMessages(HttpSession session) throws IOException, SecurityException {
+        if (!MethodsForControllers.isLogedIn(session)) throw new SecurityException();
         chatArrayList.clear();
         for (Chat chat : chatDao.getAllComments()) {
             String userLogin = (String) session.getAttribute(ModelConstants.LOGED_AS);
@@ -322,7 +418,8 @@ public class MenuController extends ExceptionsController {
      * @return String
      */
     @RequestMapping(value = "/addMessage", method = RequestMethod.GET)
-    public String addMessage(@RequestParam("textMessage") String textMessage, Model model, HttpSession session) {
+    public String addMessage(@RequestParam(ModelConstants.TEXT_MESSAGE) String textMessage, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         if (textMessage != null) {
             String userLogin = (String) session.getAttribute(ModelConstants.LOGED_AS);
             chatDao.createComment(new Chat(new Date(), textMessage, workerService.getWorkerByLogin(userLogin)));
@@ -330,8 +427,17 @@ public class MenuController extends ExceptionsController {
         return "redirect:/chat";
     }
 
+    /**
+     * For create vacation/sick leave request
+     *
+     * @param timeVocation
+     * @param result
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/createRequestVacation", method = RequestMethod.POST)
-    public String createRequestVacation(@ModelAttribute(ModelConstants.VACATION) @Valid TimeVocation timeVocation, BindingResult result, HttpSession session) {
+    public String createRequestVacation(@ModelAttribute(ModelConstants.VACATION) @Valid TimeVocation timeVocation, BindingResult result,
+                                        HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         timeVocationValidator.validate(timeVocation, result);
         if (result.hasErrors()) {
@@ -349,8 +455,17 @@ public class MenuController extends ExceptionsController {
         return "redirect: /main";
     }
 
+    /**
+     * For response to request by admin
+     *
+     * @param choice
+     * @param idTimeVacation
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/vacationResponse", method = RequestMethod.POST)
-    public String vacationResponse(@RequestParam("choice") String choice, @RequestParam("idTimeVacation") long idTimeVacation, HttpSession session) {
+    public String vacationResponse(@RequestParam(ModelConstants.CHOICE) String choice,
+                                   @RequestParam(ModelConstants.TIME_VACATION_ID) long idTimeVacation, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         TimeVocation timeVocation = timeVocationService.getTimeVacationById(idTimeVacation);
         if ("accept".equals(choice)) {

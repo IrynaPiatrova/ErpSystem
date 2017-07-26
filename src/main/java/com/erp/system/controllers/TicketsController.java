@@ -43,67 +43,99 @@ public class TicketsController extends ExceptionsController {
     @Autowired
     NewTicketValidator newTicketValidator;
 
-    private ArrayList<CommentsTicket> listOfComments = new ArrayList<>();
-    private ArrayList<CommentDTO> listOfDTOComments = new ArrayList<>();
-
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.GET)
     public String isSuccessAddNewTicket(Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
-        model.addAttribute("ticket", new ProjectTicket());
+        model.addAttribute(ModelConstants.TICKET, new ProjectTicket());
         return "pages/addNewTicket";
     }
 
+    /**
+     * For creating new ticket
+     *
+     * @param projectTicket
+     * @param result
+     * @param deadlineDate
+     * @param session
+     * @return
+     * @throws ParseException
+     */
     @RequestMapping(value = "/isSuccessAddNewTicket", method = RequestMethod.POST)
-    public String isSuccessAddNewTicket(@ModelAttribute("ticket") @Valid ProjectTicket projectTicket,
-                                        BindingResult result, @RequestParam("deadlineDate") String deadlineDate, HttpSession session) throws ParseException {
+    public String isSuccessAddNewTicket(@ModelAttribute(ModelConstants.TICKET) @Valid ProjectTicket projectTicket, BindingResult result,
+                                        @RequestParam(ModelConstants.DEADLINE_DATE) String deadlineDate, HttpSession session) throws ParseException {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         newTicketValidator.validate(projectTicket, result);
-        Date todayDate = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         if (deadlineDate.length() == 0) result.rejectValue("deadlineTicket", "empty.ticket.deadlineDate");
         if (result.hasErrors()) return "pages/addNewTicket";
+        Date todayDate = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dateOfDeadline = simpleDateFormat.parse(deadlineDate);
-        if (dateOfDeadline.compareTo(todayDate) == -1)
-            result.rejectValue("deadlineTicket", "before.ticket.deadlineDate");
+        if (dateOfDeadline.compareTo(todayDate) == -1) result.rejectValue("deadlineTicket", "before.ticket.deadlineDate");
         if (result.hasErrors()) return "pages/addNewTicket";
         projectTicket.setDeadlineTicket(deadlineDate);
         projectTicketService.createProjectTicket(projectTicket);
-        return "pages/main";
+        return "redirect: /main";
     }
 
+    /**
+     * For appointing worker to choosen ticket
+     *
+     * @param nameWorker
+     * @param idTicket
+     * @return
+     * @throws ParseException
+     */
     @RequestMapping(value = "/chooseWorkerOnTicket", method = RequestMethod.POST)
-    public String chooseWorkerOnTicket(@RequestParam("nameWorker") String nameWorker,
-                                       @RequestParam("idTicket") long idTicket) throws ParseException {
-        Worker worker = workerService.getWorkerByLogin(nameWorker);
-        ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
-        CommentsTicket commentsTicket = new CommentsTicket();
-        projectTicketService.appointWorker(projectTicket, worker, commentsTicket);
-        return "pages/main";
+    public String chooseWorkerOnTicket(@RequestParam(ModelConstants.WORKER_NAME) String nameWorker,
+                                       @RequestParam(ModelConstants.TICKET_ID) long idTicket, HttpSession session) {
+        if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
+        projectTicketService.appointWorker(idTicket, nameWorker);
+        return "redirect: /main";
     }
 
+    /**
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/allTickets", method = RequestMethod.GET)
-    public String allTickets(Model model, HttpSession session) {
+    public String allTickets(HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         ArrayList<ProjectTicket> listOfTickets;
         if (MethodsForControllers.isAdmin(session)) {
-            model.addAttribute("ticket", new ProjectTicket());
+            model.addAttribute(ModelConstants.TICKET, new ProjectTicket());
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getAllProjectTickets();
-            model.addAttribute("collectionTickets", listOfTickets);
+            model.addAttribute(ModelConstants.COLLECTION_TICKETS, listOfTickets);
             return "pages/allTickets";
         } else {
             Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
             model.addAttribute(ModelConstants.COLLECTION_TICKETS, listOfTickets);
-            model.addAttribute("ticket", new ProjectTicket());
+            model.addAttribute(ModelConstants.TICKET, new ProjectTicket());
             return "pages/allTickets";
         }
     }
 
+    /**
+     * For initialization list of tickets
+     *
+     * @param model
+     * @param status
+     * @param session
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
     @RequestMapping(value = "/allTickets", method = RequestMethod.POST)
-    public String allTickets(Model model, @RequestParam("statusProject") String status, HttpSession session) throws ServletException, IOException {
+    public String allTickets(Model model, @RequestParam(ModelConstants.STATUS_PROJECT_TICKET) String status, HttpSession session) throws ServletException, IOException {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         ArrayList<ProjectTicket> listOfTickets;
-        boolean isStatusEquals = status.equals(ModelConstants.ALL_TICKETS);
+        boolean isStatusEquals = ModelConstants.ALL_TICKETS.equals(status);
         if (MethodsForControllers.isAdmin(session)) {
             if (isStatusEquals) {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getAllProjectTickets();
@@ -118,15 +150,23 @@ public class TicketsController extends ExceptionsController {
                 listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorkerAndStatus(worker, status);
             }
         }
-        model.addAttribute("collectionTickets", listOfTickets);
+        model.addAttribute(ModelConstants.COLLECTION_TICKETS, listOfTickets);
         return "pages/allTickets";
     }
 
+    /**
+     * For redirect to page of choosen ticket
+     *
+     * @param var
+     * @param model
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/chooseTicket{var}")
     public String chooseTicket(@PathVariable("var") long var, Model model, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        listOfDTOComments.clear();
-        listOfComments = (ArrayList<CommentsTicket>) commentsTicketService.getCommentsTicketByIdTicket(var);
+        ArrayList<CommentDTO> listOfDTOComments = new ArrayList<>();
+        ArrayList<CommentsTicket> listOfComments = (ArrayList<CommentsTicket>) commentsTicketService.getCommentsTicketByIdTicket(var);
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(var);
         for (CommentsTicket m : listOfComments) {
             Profile profile = profileService.getProfileById(m.getIdWorker().getProfile().getIdProfile());
@@ -134,38 +174,46 @@ public class TicketsController extends ExceptionsController {
         }
         model.addAttribute(ModelConstants.IS_WORKER_ON_TICKET_NOT_CHOOSEN, MethodsForControllers.isWorkerNotChosen(projectTicket.getWorker()));
         model.addAttribute(ModelConstants.IS_TICKET_NOT_FINISHED, MethodsForControllers.isStatusNotFinish(projectTicket.getStatusProjectTicket()));
-        model.addAttribute("collectionWorkers", workerService.getWorkersNotInvolved());
-        model.addAttribute("chosenTicket", projectTicket);
-        model.addAttribute("workerPhoto", session.getAttribute(ModelConstants.PHOTO));
-        model.addAttribute("collectionOfComments", listOfDTOComments);
+        model.addAttribute(ModelConstants.COLLECTION_WORKERS, workerService.getWorkersNotInvolved());
+        model.addAttribute(ModelConstants.CHOOSEN_TICKET, projectTicket);
+        model.addAttribute(ModelConstants.COLLECTION_COMMENTS, listOfDTOComments);
         return "pages/chooseTicket";
     }
 
+    /**
+     * For writing comment for choosen ticket
+     *
+     * @param comment
+     * @param idTicket
+     * @param session
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/writeComment", method = RequestMethod.POST)
-    public String writeComment(@RequestParam("text_comment") String comment,
-                               @RequestParam("idTicket") long idTicket, HttpSession session, Model model) {
+    public String writeComment(@RequestParam(ModelConstants.COMMENT_TEXT) String comment,
+                               @RequestParam(ModelConstants.TICKET_ID) long idTicket, HttpSession session, Model model) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
-        Date date = new Date();
         Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
-        ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
-        CommentsTicket commentsTicket = new CommentsTicket();
-        commentsTicket.setComment(comment);
-        commentsTicket.setCommentDate(date);
-        commentsTicket.setIdProjectTicket(projectTicket);
-        commentsTicket.setIdWorker(worker);
-        commentsTicketService.createCommentsTicket(commentsTicket);
+        commentsTicketService.createCommentsTicket(idTicket, comment, worker);
         ArrayList<ProjectTicket> listOfTickets;
         if (MethodsForControllers.isAdmin(session)) {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getAllProjectTickets();
         } else {
             listOfTickets = (ArrayList<ProjectTicket>) projectTicketService.getTicketsByIdWorker(worker);
         }
-        model.addAttribute("collectionTickets", listOfTickets);
-        return "pages/allTickets";//надо придумать как сделать return на эту же страницу
+        model.addAttribute(ModelConstants.COLLECTION_TICKETS, listOfTickets);
+        return "pages/allTickets";
     }
 
+    /**
+     * For finishing of ticket
+     *
+     * @param idTicket
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/finishTicket", method = RequestMethod.POST)
-    public String endTicket(@RequestParam("idTicket") long idTicket, HttpSession session) {
+    public String endTicket(@RequestParam(ModelConstants.TICKET_ID) long idTicket, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);
@@ -178,9 +226,15 @@ public class TicketsController extends ExceptionsController {
         return "redirect: /main";
     }
 
-
+    /**
+     * For rejecting finishing of ticket by admin
+     *
+     * @param idTicket
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/rejectFinishingTicket", method = RequestMethod.POST)
-    public String rejectFinishingTicket(@RequestParam("idTicket") long idTicket, HttpSession session) {
+    public String rejectFinishingTicket(@RequestParam(ModelConstants.TICKET_ID) long idTicket, HttpSession session) {
         if (!MethodsForControllers.isLogedIn(session) || !MethodsForControllers.isAdmin(session)) return "redirect:/";
         Worker worker = workerService.getWorkerByLogin((String) session.getAttribute(ModelConstants.LOGED_AS));
         ProjectTicket projectTicket = projectTicketService.getProjectTicketById(idTicket);

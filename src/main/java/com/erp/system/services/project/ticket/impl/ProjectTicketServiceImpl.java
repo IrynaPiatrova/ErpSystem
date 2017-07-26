@@ -5,6 +5,7 @@ import com.erp.system.dao.comments.ticket.CommentsTicketDao;
 import com.erp.system.dao.profile.ProfileDao;
 import com.erp.system.dao.project.ticket.ProjectTicketDao;
 import com.erp.system.dao.work.log.WorkLogDao;
+import com.erp.system.dao.worker.WorkerDao;
 import com.erp.system.dto.ProjectTicketDTO;
 import com.erp.system.entity.CommentsTicket;
 import com.erp.system.entity.ProjectTicket;
@@ -13,8 +14,8 @@ import com.erp.system.entity.Worker;
 import com.erp.system.services.project.ticket.ProjectTicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     ProfileDao profileDao;
     @Autowired
     WorkLogDao workLogDao;
+    @Autowired
+    WorkerDao workerDao;
 
     SimpleDateFormat oldDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -133,6 +136,7 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     }
 
     @Override // метод окончательного завершения тикета админом
+    @Transactional
     public void finishTicket(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket) {
         Date now = Calendar.getInstance().getTime();
         projectTicket.setStatusProjectTicket(ModelConstants.STATUS_FINISHED);
@@ -145,6 +149,7 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
     }
 
     @Override // метод отклонения завершения тикета аадмином
+    @Transactional
     public void rejectFinishingTicket(ProjectTicket projectTicket, Worker admin, CommentsTicket commentsTicket) {
         Date now = Calendar.getInstance().getTime();
         projectTicket.setStatusProjectTicket(ModelConstants.STATUS_IN_PROGRESS);
@@ -166,8 +171,11 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
 
     @Override
     @Transactional // метод назначения на тикет сотрудника
-    public void appointWorker(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket) {
+    public void appointWorker(Long idTicket, String nameWorker) {
         Date now = Calendar.getInstance().getTime();
+        Worker worker = workerDao.getWorkerByLogin(nameWorker);
+        ProjectTicket projectTicket = projectTicketDao.getProjectTicketById(idTicket);
+        CommentsTicket commentsTicket = new CommentsTicket();
         projectTicket.setStatusProjectTicket(ModelConstants.STATUS_IN_PROGRESS);
         projectTicket.setStartTicketDate(oldDateFormat.format(now));
         projectTicket.setWorker(worker);
@@ -175,7 +183,7 @@ public class ProjectTicketServiceImpl implements ProjectTicketService {
         commentsTicket.setComment(projectTicket.getNameProjectTicket() + " is appointed to " + worker.getNameWorker());
         commentsTicket.setCommentDate(now);
         commentsTicket.setIdProjectTicket(projectTicket);
-        commentsTicket.setIdWorker(worker);
+        commentsTicket.setIdWorker(workerDao.getWorkerById(1));
         WorkLog workLog = new WorkLog();
         workLog.setProjectTicket(projectTicket);
         workLog.setWorker(worker);

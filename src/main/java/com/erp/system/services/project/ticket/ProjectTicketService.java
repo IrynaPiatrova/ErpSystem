@@ -32,5 +32,5 @@ public interface ProjectTicketService {
 
     void rejectFinishingTicket(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket);
 
-    void appointWorker(ProjectTicket projectTicket, Worker worker, CommentsTicket commentsTicket);
+    void appointWorker(Long idTicket, String nameWorker);
 }

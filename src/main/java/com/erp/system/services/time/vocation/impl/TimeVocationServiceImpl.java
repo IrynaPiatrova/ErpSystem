@@ -9,8 +9,8 @@ import com.erp.system.entity.*;
 import com.erp.system.services.time.vocation.TimeVocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -116,11 +116,13 @@ public class TimeVocationServiceImpl implements TimeVocationService {
     }
 
     @Override
+    @Transactional
     public List getAllNotConfirmedTimeVocations() {
         return timeVocationDao.getAllNotConfirmedTimeVocations();
     }
 
     @Override
+    @Transactional
     public TimeVocation getTimeVacationById(long idTimeVacation) {
         return timeVocationDao.getTimeVacationById(idTimeVacation);
     }

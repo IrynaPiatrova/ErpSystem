@@ -67,7 +67,7 @@
             </tr>
         </table>
     </form:form>
-    <form action="/addNewWorker" method="get">
+    <form action="${pageContext.request.contextPath}/addNewWorker" method="get">
         <input type="submit" value="${labelBack}" width="100">
     </form>
 </div>

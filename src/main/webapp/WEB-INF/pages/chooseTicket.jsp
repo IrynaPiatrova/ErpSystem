@@ -108,19 +108,19 @@
             <div id="writeComment">
                 <div id="comment_photo">
                     <%--<c:choose>--%>
-                    <%--<c:when test="${workerPhoto == null}">--%>
+                    <%--<c:when test="${photo == null}">--%>
                     <%--<img src="https://lut.im/7JCpw12uUT/mY0Mb78SvSIcjvkf.png" class="img-responsive img-circle"--%>
                     <%--width="50px" height="50px">--%>
                     <%--</c:when>--%>
                     <%--<c:otherwise>--%>
-                    <img src="<mytag:convertImage imageByte="${workerPhoto}"/>" class="img-responsive img-circle"
+                    <img src="<mytag:convertImage imageByte="${photo}"/>" class="img-responsive img-circle"
                          width="50px" height="50px">
                     <%--</c:otherwise>--%>
                     <%--</c:choose>--%>
                 </div>
                 <div id="comment_comment">
                     <input type="text" name="idTicket" hidden="true" value="${chosenTicket.idProjectTicket}">
-                    <textarea id="commentMessage" name="text_comment" cols="70" rows="2"
+                    <textarea id="commentMessage" name="commentText" cols="70" rows="2"
                               placeholder="${writeComments}"></textarea>
                 </div>
                 <div id="comment_submit">

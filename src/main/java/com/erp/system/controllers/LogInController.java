@@ -115,7 +115,6 @@ public class LogInController {
     }
 
     /**
-     *
      * @param model
      * @param session
      * @return

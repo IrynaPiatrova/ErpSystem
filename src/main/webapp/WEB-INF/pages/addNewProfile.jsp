@@ -101,7 +101,7 @@
 
             <tr height="40">
                 <td>${profileStartDate}</td>
-                <td><input type="date" name="Date" path="startDateProfile" height="30"/>
+                <td><form:input type="date" name="startDateProfile" path="startDateProfile" height="30"/>
                     <div><form:errors path="startDateProfile" style="color:red"/></div>
                 </td>
             </tr>

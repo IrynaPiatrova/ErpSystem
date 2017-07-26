@@ -31,6 +31,7 @@ public class RegistrationNewProfileValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "department", "empty.department", "Please enter worker's department");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "telephone", "empty.telephone", "Please enter worker's telephone");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "empty.email", "Please enter worker's email");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDateProfile", "empty.date");
         String emailPattern = "^[A-Za-z0-9-]+([._A-Za-z0-9-])*@([A-Za-z0-9-]+).[a-zа-я]{2,6}";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(profile.getEmail());
