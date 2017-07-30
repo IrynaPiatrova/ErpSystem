@@ -1,4 +1,18 @@
-<script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('click', '.rowLink', function () {
+            var choosedId = $(this).find('td.choosedId').html();
+            var choosedNumber = $(this).find('td.choosedNumber').html();
+            document.getElementById("idWorker").value = choosedId;
+            document.getElementById("editButton").type = "submit";
+            document.getElementById("editButton").value = "${labelEditWorkerButton}" + choosedNumber;
+            document.getElementById("idWorkerToShow").value = choosedId;
+            document.getElementById("editButtonToShow").type = "submit";
+            document.getElementById("editButtonToShow").value = "${labelShowWorkerButton}" + choosedNumber;
+            highlight_Table_Rows("dev-table", "hover_Row", "clicked_Row");
+        });
+    })
+
     (function () {
         'use strict';
         var $ = jQuery;

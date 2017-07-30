@@ -10,32 +10,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
+    <%@include file="../resources/springMessages.jsp" %>
     <meta charset="UTF-8">
-    <title>Создание новой задачи</title>
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
+    <title>${addTicket}</title>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
-    <%@include file="springMessages.jsp" %>
     <style>
-        #centerLayer {
-            position: absolute;
-            margin-left: 30%;
-            margin-top: 10%;
-            padding: 10px;
-            overflow: auto;
-        }
-
-        body {
-            background: #D3D3D3;
-        }
-
-        input, select {
-            border-radius: 10px
-        }
-
-        #textzone {
-            border-radius: 10px;
-        }
+        <%@include file="../css/style_for_new_worker_ticket.css"%>
     </style>
 </head>
 
@@ -63,7 +45,6 @@
                 <form:select path="statusProjectTicket">
                 <option value="opened" selected>${statusTicketOpened}</option>
                 </form:select>
-                    <%--<div><form:errors path="statusProjectTicket" style="color:red"/></div></td>--%>
         </tr>
         <tr height="40">
             <td>${deadlineTicket}</td>

@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
-<%@include file="springMessages.jsp" %>
+<%@include file="../resources/springMessages.jsp" %>
 
 <nav class="navbar navbar-inverse">
     <div class="container">

@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>404 Error page</title>
-    <%@include file="/WEB-INF/pages/springMessages.jsp" %>
+    <%@include file="/WEB-INF/resources/springMessages.jsp" %>
     <style>
         <%@include file="/WEB-INF/css/style_for_errors.css"%>
     </style>

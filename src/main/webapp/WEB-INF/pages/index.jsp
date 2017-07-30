@@ -11,10 +11,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+    <%@include file="../resources/springMessages.jsp" %>
     <meta charset="UTF-8">
-    <title>Main Page</title>
-    <%@include file="head.jsp" %>
-    <%@include file="springMessages.jsp" %>
+    <title>${titleAuthorization}</title>
+    <%@include file="../resources/head.jsp" %>
     <style>
         <%@include file='../css/style_for_authorization.css' %>
     </style>

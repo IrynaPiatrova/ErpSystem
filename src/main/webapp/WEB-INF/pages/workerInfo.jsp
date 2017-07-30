@@ -11,12 +11,12 @@
 
 <html>
 <head>
-    <title>Информация о пользователе</title>
+    <%@include file="../resources/springMessages.jsp" %>
+    <title>${titleWorkerPerfomance}</title>
     <meta charset="UTF-8">
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
-    <%@include file="springMessages.jsp" %>
     <style>
         <%@include file='../css/table.css' %>
     </style>

@@ -10,14 +10,14 @@
 
 <html>
 <head>
-    <title>AllWorkers</title>
+    <%@include file="../resources/springMessages.jsp" %>
+    <title>${titleAllWorkers}</title>
     <meta charset="UTF-8">
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
-    <%@include file="springMessages.jsp" %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <%@include file="scriptTableWorkers.jsp" %>
+    <%@include file="../resources/scriptTableWorkers.jsp" %>
     <style>
         <%@include file='../css/table.css' %>
     </style>
@@ -98,21 +98,6 @@
         </div>
     </div>
 </div>
-
-<script type="text/javascript"> // этот скрипт должен быть после формы чтобы видеть элемент с id=login$(document).ready(function(){
-
-$(document).on('click', '.rowLink', function () {
-    var choosedId = $(this).find('td.choosedId').html(); // получаем значение со строки "td"
-    var choosedNumber = $(this).find('td.choosedNumber').html();
-    document.getElementById("idWorker").value = choosedId;
-    document.getElementById("editButton").type = "submit";
-    document.getElementById("editButton").value = "${labelEditWorkerButton}" + choosedNumber;
-    document.getElementById("idWorkerToShow").value = choosedId;
-    document.getElementById("editButtonToShow").type = "submit";
-    document.getElementById("editButtonToShow").value = "${labelShowWorkerButton}" + choosedNumber;
-    highlight_Table_Rows("dev-table", "hover_Row", "clicked_Row");
-});
-</script>
 
 </body>
 </html>

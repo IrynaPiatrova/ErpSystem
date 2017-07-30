@@ -12,12 +12,12 @@
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
 <html>
 <head>
+    <%@include file="../resources/springMessages.jsp" %>
     <meta charset="UTF-8">
-    <title>Профиль</title>
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
+    <title>${labelProfile}</title>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
-    <%@include file="springMessages.jsp" %>
 </head>
 
 <body>
@@ -41,8 +41,6 @@
             </td>
             <%--</c:otherwise>--%>
             <%--</c:choose>--%>
-
-
             <td></td>
         </tr>
         <tr>

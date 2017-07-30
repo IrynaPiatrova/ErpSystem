@@ -11,11 +11,11 @@
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
 <html>
 <head>
+    <%@include file="../resources/springMessages.jsp" %>
     <meta charset="UTF-8">
-    <title>Все тикеты</title>
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
-    <%@include file="springMessages.jsp" %>
+    <title>${titleAllTickets}</title>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
     <style>
         <%@include file='../css/table.css' %>

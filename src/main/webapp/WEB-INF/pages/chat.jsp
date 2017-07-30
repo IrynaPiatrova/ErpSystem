@@ -12,12 +12,12 @@
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
 <html>
 <head>
+    <%@include file="../resources/springMessages.jsp" %>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
+    <title>${titleChat}</title>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
-    <%@include file="springMessages.jsp" %>
     <style>
         <%@include file='../css/chat.css' %>
     </style>
@@ -25,7 +25,7 @@
     <script language="javascript" type="text/javascript">
         $(document).ready(function () {
             ajaxRequest();
-            setInterval("updatePage()", 2000);
+            setInterval("updatePage()", 5000);
         });
         function updatePage() {
             $("#lists").empty();

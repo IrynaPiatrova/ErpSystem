@@ -12,12 +12,12 @@
 <%@ taglib prefix="mytag" uri="/WEB-INF/taglib/tags.tld" %>
 <html>
 <head>
+    <%@include file="../resources/springMessages.jsp" %>
     <title>${chosenTicket.nameProjectTicket}</title>
     <meta charset="UTF-8">
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
-    <%@include file="springMessages.jsp" %>
     <script type="text/javascript"></script>
     <style>
         <%@include file='../css/style_for_ticket_comments.css' %>
@@ -26,7 +26,7 @@
         function empty_form() {
             var txt = document.getElementById('msg').value;
             if (txt == '') {
-                alert('Выберите сотрудника.');
+                alert('${alertChooseWorker}');
                 return false;
             }
             return true;
@@ -36,7 +36,7 @@
         function empty_comment() {
             var txt = document.getElementById('commentMessage').value;
             if (txt == '') {
-                alert('Напишите сообщение.');
+                alert('${alertWriteComment}');
                 return false;
             }
             return true;
@@ -69,7 +69,6 @@
         </tr>
     </table>
     <c:choose>
-        <%--Проверяет есть ли у тикета комменты--%>
         <c:when test="${collectionOfComments.size() == 0}">
             <div>
                 <h4>${noComments}</h4>
@@ -129,13 +128,6 @@
             </div>
         </form>
     </div>
-
-    <%--Ниже идет проверка - если зашел админ, то отобразить кнопку назначения сотрудника,--%>
-    <%--если работник, то отобразить кнопку завершить тикет--%>
-    <%--Внутри еще 2 choose, которые проверяют:--%>
-    <%---для админа - если назначен сотрудник, то повторно назначить нельзя--%>
-    <%---для работника - если статус тикета "готов к проверке" или "завершен",--%>
-    <%--то у него не будет кнопки завершить тикет--%>
 
     <c:choose>
         <c:when test="${isAdmin}">

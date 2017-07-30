@@ -1,0 +1,28 @@
+#centerLayer {
+    position: absolute;
+    margin-left: 30%;
+    margin-top: 10%;
+    padding: 10px;
+    overflow: auto;
+}
+
+body {
+    background: #D3D3D3;
+}
+
+input {
+    width: 300px;
+    border-radius: 10px;
+}
+
+input, select {
+    border-radius: 10px;
+}
+
+option {
+    width: 200px;
+}
+
+#textzone {
+    border-radius: 10px;
+}

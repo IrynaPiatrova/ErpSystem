@@ -12,23 +12,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Профиль</title>
+    <%@include file="../resources/springMessages.jsp" %>
+    <title>${profileEdition}</title>
     <meta charset="UTF-8">
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
-    <%@include file="springMessages.jsp" %>
-    <%@include file="ScriptListOfPositions.jsp" %>
-    <style>
-        #upperLayer {
-            float: left;
-            margin-left: 0%;
-        }
-
-        #lowerLayer {
-            margin-top: 8%;
-        }
-    </style>
+    <%@include file="../resources/scriptListOfPositions.jsp" %>
 </head>
 <body>
 
@@ -127,27 +117,27 @@
 
         <c:otherwise>
 
-        <div id="upperLayer" class="form-horizontal">
+        <div id="upperLayer" class="form-horizontal" style="float: left; margin-left: 0">
 
             <form action="changePassword">
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="singlebutton"></label>
+                    <label class="col-md-4 control-label" for="singlebutton0"></label>
                     <div class="col-md-4">
-                        <input type="submit" id="singlebutton" class="btn btn-primary" value="${changePassword}"/>
+                        <input type="submit" id="singlebutton0" class="btn btn-primary" value="${changePassword}"/>
                     </div>
                 </div>
             </form>
 
             <form action="changeKeyWord">
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="singlebutton"></label>
+                    <label class="col-md-4 control-label" for="singlebutton1"></label>
                     <div class="col-md-4">
-                        <input type="submit" id="singlebutton" class="btn btn-primary" value="${changeKeyWord}"/>
+                        <input type="submit" id="singlebutton1" class="btn btn-primary" value="${changeKeyWord}"/>
                     </div>
                 </div>
             </form>
         </div>
-        <div id="lowerLayer">
+        <div id="lowerLayer" style="margin-top: 8%">
             <form:form class="form-horizontal" action="edit" method="post" modelAttribute="profile"
                        enctype="multipart/form-data">
                 <fieldset>
@@ -190,9 +180,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-4 control-label" for="singlebutton"></label>
+                        <label class="col-md-4 control-label" for="singlebutton2"></label>
                         <div class="col-md-4">
-                            <input type="submit" id="singlebutton" class="btn btn-primary" value="${labelComplete}"/>
+                            <input type="submit" id="singlebutton2" class="btn btn-primary" value="${labelComplete}"/>
                         </div>
                     </div>
 

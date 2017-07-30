@@ -10,38 +10,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
+    <%@include file="../resources/springMessages.jsp" %>
     <meta charset="UTF-8">
-    <title>Добавление нового сотрудника</title>
-    <%@include file="head.jsp" %>
-    <%@include file="bootstrapLinks.jsp" %>
+    <title>${addNewWorker}</title>
+    <%@include file="../resources/head.jsp" %>
+    <%@include file="../resources/bootstrapLinks.jsp" %>
     <%@include file="menu.jsp" %>
-    <%@include file="springMessages.jsp" %>
-    <%@include file="ScriptListOfPositions.jsp" %>
+    <%@include file="../resources/scriptListOfPositions.jsp" %>
     <style>
-        #centerLayer {
-            position: absolute;
-            margin-left: 30%;
-            margin-top: 10%;
-            padding: 10px;
-            overflow: auto;
-        }
-
-        body {
-            background: #FAEBD7;
-        }
-
-        input {
-            width: 300px;
-            border-radius: 10px;
-        }
-
-        select {
-            border-radius: 10px;
-        }
-
-        option {
-            width: 200px;
-        }
+        <%@include file="../css/style_for_new_worker_ticket.css"%>
     </style>
 </head>
 
