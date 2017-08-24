@@ -151,7 +151,7 @@ public class MenuController extends ExceptionsController {
      */
     @RequestMapping(value = "/isLoginExist", method = RequestMethod.GET)
     public String isLoginExist(HttpSession session, Model model) {
-        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        //if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         model.addAttribute(ModelConstants.WORKER, new Worker());
         return "pages/changePassword";
     }
@@ -165,7 +165,7 @@ public class MenuController extends ExceptionsController {
      */
     @RequestMapping(value = "/isLoginExist", method = RequestMethod.POST)
     public String isLoginExist(@ModelAttribute(ModelConstants.WORKER) @Valid Worker worker, BindingResult result, Model model, HttpSession session) {
-        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        //if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         if (worker.getLogin().isEmpty()) {
             result.rejectValue("login", "empty.login");
             return "pages/changePassword";
@@ -190,7 +190,7 @@ public class MenuController extends ExceptionsController {
      */
     @RequestMapping(value = "/changePassword", method = RequestMethod.GET)
     public String changePassword(HttpSession session, Model model) {
-        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+       // if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Profile profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
         model.addAttribute(ModelConstants.PROFILE, profile);
         model.addAttribute(ModelConstants.LOGED_AS, session.getAttribute(ModelConstants.LOGED_AS));
@@ -206,7 +206,7 @@ public class MenuController extends ExceptionsController {
      */
     @RequestMapping(value = "/changePas", method = RequestMethod.GET)
     public String change(HttpSession session, Model model) {
-        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        //if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         Profile profile;
         if (session.getAttribute(ModelConstants.LOGED_AS) != null) {
             profile = profileService.getProfileById((Long) session.getAttribute(ModelConstants.PROFILE_ID));
@@ -231,7 +231,7 @@ public class MenuController extends ExceptionsController {
     public String change(@ModelAttribute(ModelConstants.PROFILE) @Valid ProfileDTO profileDTO,
                          BindingResult result, @RequestParam(ModelConstants.REPEAT_NEW_PASSWORD) String repeatNewPassword,
                          @RequestParam(ModelConstants.NEW_PASSWORD) String newPassword, HttpSession session, Model model) {
-        if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
+        //if (!MethodsForControllers.isLogedIn(session)) return "redirect:/";
         if (session.getAttribute(ModelConstants.LOGED_AS) == null)
             model.addAttribute(ModelConstants.LOGED_AS, ModelConstants.TRUE);
         if (newPassword.isEmpty()) result.rejectValue("worker.password", "empty.password");
